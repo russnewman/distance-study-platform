@@ -9,5 +9,4 @@ public class DistanceStudyPlatformApplication {
     public static void main(String[] args) {
         SpringApplication.run(DistanceStudyPlatformApplication.class, args);
     }
-
 }
