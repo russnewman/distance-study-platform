@@ -2,14 +2,18 @@ spring:
   datasource:
     username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${SPRING_DATASOURCE_PASSWORD:password}
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/distanceStudyPlatform}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/distance_study_platform}
+
   profiles:
     active: disable-security
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         id:
           new_generator_mappings: true
         dialect: org.hibernate.dialect.MySQLDialect
+  liquibase:
+    change-log: classpath:db/liquibase/changelog/db.changelog-master.xml
+    enabled: true
