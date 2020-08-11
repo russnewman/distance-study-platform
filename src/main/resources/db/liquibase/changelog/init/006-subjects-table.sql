@@ -4,10 +4,10 @@
 -- precondition-sql-check expectedResult:0 SELECT count(*) FROM information_schema.tables where TABLE_NAME = 'subjects' and TABLE_SCHEMA = 'distance_study_platform'
 
 CREATE TABLE distance_study_platform.subjects (
-    subjects_id BIGINT         NOT NULL AUTO_INCREMENT,
+    subject_id BIGINT         NOT NULL AUTO_INCREMENT,
     name        VARCHAR(45) NOT NULL,
     description VARCHAR(500) NULL,
-    PRIMARY KEY (subjects_id)
+    PRIMARY KEY (subject_id)
 )
 
 -- rollback drop table distance_study_platform.subjects;
