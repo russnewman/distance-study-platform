@@ -8,7 +8,7 @@ CREATE TABLE distance_study_platform.teachers_2_subjects (
     teacher_id BIGINT NOT NULL,
     CONSTRAINT fk_teachers_2_subjects__subjects
         FOREIGN KEY (subject_id)
-            REFERENCES distance_study_platform.subjects (subjects_id)
+            REFERENCES distance_study_platform.subjects (subject_id)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
     CONSTRAINT fk_teachers_2_subjects__teachers

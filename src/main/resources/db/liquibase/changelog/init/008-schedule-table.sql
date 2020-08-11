@@ -4,10 +4,10 @@
 -- precondition-sql-check expectedResult:0 SELECT count(*) FROM information_schema.tables where TABLE_NAME = 'schedule' and TABLE_SCHEMA = 'distance_study_platform'
 
 CREATE TABLE distance_study_platform.schedule (
-    schedule_id   BIGINT         NOT NULL,
+    schedule_id   BIGINT         NOT NULL AUTO_INCREMENT,
     subject_id    BIGINT         NOT NULL,
     odd_week      boolean     NOT NULL,
-    group_id      BIGINT         NOT NULL AUTO_INCREMENT,
+    group_id      BIGINT         NOT NULL,
     class_time_id BIGINT         NOT NULL,
     class_type    VARCHAR(45) NOT NULL,
     day_name      VARCHAR(45) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE distance_study_platform.schedule (
     INDEX fk_SCHEDULE_TEACHERS1_idx (teacher_id ASC) VISIBLE,
     CONSTRAINT group_id_schedule
         FOREIGN KEY (group_id)
-            REFERENCES distance_study_platform.student_group (group_id)
+            REFERENCES distance_study_platform.student_groups (group_id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT class_time_id_schedule
@@ -29,7 +29,7 @@ CREATE TABLE distance_study_platform.schedule (
             ON UPDATE NO ACTION,
     CONSTRAINT subject_id_schedule
         FOREIGN KEY (subject_id)
-            REFERENCES distance_study_platform.subjects (subjects_id)
+            REFERENCES distance_study_platform.subjects (subject_id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT fk_SCHEDULE_TEACHERS1

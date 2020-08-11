@@ -12,7 +12,7 @@ CREATE TABLE distance_study_platform.students (
     UNIQUE INDEX user_id_UNIQUE (user_id ASC) VISIBLE,
     CONSTRAINT group_id_students
         FOREIGN KEY (group_id)
-            REFERENCES distance_study_platform.student_group (group_id)
+            REFERENCES distance_study_platform.student_groups (group_id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT user_id_students

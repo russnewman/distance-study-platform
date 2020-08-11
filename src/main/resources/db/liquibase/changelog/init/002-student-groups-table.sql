@@ -1,9 +1,9 @@
 -- liquibase formatted sql
 -- changeset Sharipov:0.0.2 endDelimiter:\n/
 -- preconditions onFail:MARK_RAN
--- precondition-sql-check expectedResult:0 SELECT count(*) FROM information_schema.tables where TABLE_NAME = 'student_group' and TABLE_SCHEMA = 'distance_study_platform'
+-- precondition-sql-check expectedResult:0 SELECT count(*) FROM information_schema.tables where TABLE_NAME = 'student_groups' and TABLE_SCHEMA = 'distance_study_platform'
 
-CREATE TABLE distance_study_platform.student_group (
+CREATE TABLE distance_study_platform.student_groups (
     group_id   BIGINT NOT NULL AUTO_INCREMENT,
     faculty_id BIGINT NOT NULL,
     group_name VARCHAR(45) NOT NULL,
@@ -16,4 +16,4 @@ CREATE TABLE distance_study_platform.student_group (
             ON UPDATE NO ACTION
 )
 
--- rollback drop table distance_study_platform.teams;
+-- rollback drop table distance_study_platform.student_groups;
