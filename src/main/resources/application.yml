@@ -4,8 +4,6 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD:password}
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/distance_study_platform}
 
-  profiles:
-    active: disable-security
   jpa:
     hibernate:
       ddl-auto: validate
@@ -17,3 +15,8 @@ spring:
   liquibase:
     change-log: classpath:db/liquibase/changelog/db.changelog-master.xml
     enabled: true
+
+jwt:
+  token:
+    expired: 43200000
+    secret: secret

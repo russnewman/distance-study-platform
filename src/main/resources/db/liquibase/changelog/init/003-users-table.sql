@@ -5,11 +5,13 @@
 
 CREATE TABLE distance_study_platform.users (
     user_id  BIGINT         NOT NULL AUTO_INCREMENT,
-    email    VARCHAR(45) NOT NULL,
+    email    VARCHAR(45) NOT NULL unique ,
     name     VARCHAR(45) NOT NULL,
     surname  VARCHAR(45) NULL,
     login    VARCHAR(45) NOT NULL,
     password VARCHAR(45) NOT NULL,
+    active boolean not null default true,
+    role varchar(45) not null,
     INDEX email_idx (email ASC) VISIBLE,
     INDEX login_idx (login ASC) VISIBLE,
     PRIMARY KEY (user_id)

@@ -3,6 +3,7 @@ package com.netcracker.edu.distancestudyplatform.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +33,12 @@ public class Schedule {
     private Teacher teacher;
 
     @Column(name = "class_type")
-    private String classType;
+    @Enumerated(EnumType.STRING)
+    private ClassType classType;
 
     @Column(name = "day_name")
-    private String dayName;
+    @Enumerated(EnumType.STRING)
+    private DayOfWeek dayName;
 
     @Column(name = "odd_week")
     private Boolean weekIsOdd;

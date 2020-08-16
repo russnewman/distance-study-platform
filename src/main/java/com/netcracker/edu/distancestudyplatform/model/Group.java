@@ -16,7 +16,7 @@ public class Group {
     private Long id;
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
-    private List<Student> student;
+    private List<Student> students;
 
     @ManyToOne
     @JoinColumn(name = "faculty_id")

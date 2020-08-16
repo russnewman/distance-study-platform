@@ -14,9 +14,9 @@ SET @sGroupId = (select group_id from distance_study_platform.student_groups whe
 SET @mGroupId = (select group_id from distance_study_platform.student_groups where group_name = 'M14-609');
 
 -- USERS, STUDENTS
-insert into distance_study_platform.users(email, name, surname, login, password) values ('GenaSharpTeeth@gmail.com', 'Gena', 'Crocodile', 'gena', 'qwerty123');
-insert into distance_study_platform.users(email, name, surname, login, password) values ('Cheburashka@gmail.com', 'Cheburashka', 'Morozov', 'Cheba', 'qwerty123');
-insert into distance_study_platform.users(email, name, surname, login, password) values ('SuperGalya@gmail.com', 'Galya', 'Girl', 'galya', 'qwerty123');
+insert into distance_study_platform.users(email, name, surname, login, password, role) values ('GenaSharpTeeth@gmail.com', 'Gena', 'Crocodile', 'gena', 'qwerty123', 'ROLE_STUDENT');
+insert into distance_study_platform.users(email, name, surname, login, password, role) values ('Cheburashka@gmail.com', 'Cheburashka', 'Morozov', 'Cheba', 'qwerty123', 'ROLE_STUDENT');
+insert into distance_study_platform.users(email, name, surname, login, password, role) values ('SuperGalya@gmail.com', 'Galya', 'Girl', 'galya', 'qwerty123', 'ROLE_STUDENT');
 
 SET @genaUser = (select user_id from distance_study_platform.users where email = 'GenaSharpTeeth@gmail.com');
 SET @ChebaUser = (select user_id from distance_study_platform.users where email = 'Cheburashka@gmail.com');
@@ -27,9 +27,9 @@ insert into distance_study_platform.students(group_id, user_id) values (@sGroupI
 insert into distance_study_platform.students(group_id, user_id) values (@sGroupId, @ChebaUser);
 insert into distance_study_platform.students(group_id, user_id) values (@sGroupId, @galyaUser);
 
-insert into distance_study_platform.users(email, name, surname, login, password) values ('SpongeBob@gmail.com', 'SpongeBob', 'SquarePants', 'sponge', 'qwerty123');
-insert into distance_study_platform.users(email, name, surname, login, password) values ('Patrik@gmail.com', 'Patrick', 'Star', 'star', 'qwerty123');
-insert into distance_study_platform.users(email, name, surname, login, password) values ('Maestro@gmail.com', 'Squidward', 'Tentacles', 'squidward', 'qwerty123');
+insert into distance_study_platform.users(email, name, surname, login, password, role) values ('SpongeBob@gmail.com', 'SpongeBob', 'SquarePants', 'sponge', 'qwerty123', 'ROLE_STUDENT');
+insert into distance_study_platform.users(email, name, surname, login, password, role) values ('Patrik@gmail.com', 'Patrick', 'Star', 'star', 'qwerty123', 'ROLE_STUDENT');
+insert into distance_study_platform.users(email, name, surname, login, password, role) values ('Maestro@gmail.com', 'Squidward', 'Tentacles', 'squidward', 'qwerty123', 'ROLE_STUDENT');
 
 SET @spongeUser = (select user_id from distance_study_platform.users where email = 'SpongeBob@gmail.com');
 SET @patrikUser = (select user_id from distance_study_platform.users where email = 'Patrik@gmail.com');
@@ -40,10 +40,10 @@ insert into distance_study_platform.students(group_id, user_id) values (@mGroupI
 insert into distance_study_platform.students(group_id, user_id) values (@mGroupId, @squidwarUser);
 
 -- USERS, TEACHERS
-insert into distance_study_platform.users(email, name, surname, login, password) values ('Shapoklyak@gmail.com', 'Shapoklyak', 'OldWoman', 'shapoklyak', 'qwerty123');
-insert into distance_study_platform.users(email, name, surname, login, password) values ('RatLariska@gmail.com', 'Lariska', 'rat', 'lariska', 'qwerty123');
-insert into distance_study_platform.users(email, name, surname, login, password) values ('RacerPuff@gmail.com', 'Puff', 'Mrs', 'Puff', 'qwerty123');
-insert into distance_study_platform.users(email, name, surname, login, password) values ('Thinker@gmail.com', 'Karen', 'Plankton', 'karen', 'qwerty123');
+insert into distance_study_platform.users(email, name, surname, login, password, role) values ('Shapoklyak@gmail.com', 'Shapoklyak', 'OldWoman', 'shapoklyak', 'qwerty123', 'ROLE_TEACHER');
+insert into distance_study_platform.users(email, name, surname, login, password, role) values ('RatLariska@gmail.com', 'Lariska', 'rat', 'lariska', 'qwerty123', 'ROLE_TEACHER');
+insert into distance_study_platform.users(email, name, surname, login, password, role) values ('RacerPuff@gmail.com', 'Puff', 'Mrs', 'Puff', 'qwerty123', 'ROLE_TEACHER');
+insert into distance_study_platform.users(email, name, surname, login, password, role) values ('Thinker@gmail.com', 'Karen', 'Plankton', 'karen', 'qwerty123', 'ROLE_TEACHER');
 
 SET @shapoklyakTeacher = (select user_id from distance_study_platform.users where email = 'Shapoklyak@gmail.com');
 SET @lariskaTeacher = (select user_id from distance_study_platform.users where email = 'RatLariska@gmail.com');
@@ -107,103 +107,103 @@ insert into teachers_2_subjects(subject_id, teacher_id) VALUES (@driving, @puffT
 -- GROUP S
 -- MONDAY
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@diffCalcus, 0, @sGroupId, @firstLesson, 'SEMINAR', 'MONDAY', @shapoklyakTeacher);
+values(@diffCalcus, false, @sGroupId, @firstLesson, 'SEMINAR', 'MONDAY', @shapoklyakTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@diffCalcus, 0, @sGroupId, @secondLesson, 'LECTURE', 'MONDAY', @shapoklyakTeacher);
+values(@diffCalcus, false, @sGroupId, @secondLesson, 'LECTURE', 'MONDAY', @shapoklyakTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@analGeam, 0, @sGroupId, @thirdLesson, 'LECTURE', 'MONDAY', @shapoklyakTeacher);
+values(@analGeam, false, @sGroupId, @thirdLesson, 'LECTURE', 'MONDAY', @shapoklyakTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@driving, 0, @sGroupId, @fourthLesson, 'LECTURE', 'MONDAY', @puffTeacher);
+values(@driving, false, @sGroupId, @fourthLesson, 'LECTURE', 'MONDAY', @puffTeacher);
 
 -- TUESDAY
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@quantum, 1, @sGroupId, @firstLesson, 'SEMINAR', 'TUESDAY', @lariskaTeacher);
+values(@quantum, true, @sGroupId, @firstLesson, 'SEMINAR', 'TUESDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@quantum, 1, @sGroupId, @secondLesson, 'LECTURE', 'TUESDAY', @lariskaTeacher);
+values(@quantum, true, @sGroupId, @secondLesson, 'LECTURE', 'TUESDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@compArch, 1, @sGroupId, @thirdLesson, 'LECTURE', 'TUESDAY', @karenTeacher);
+values(@compArch, true, @sGroupId, @thirdLesson, 'LECTURE', 'TUESDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@dataStructure, 1, @sGroupId, @fourthLesson, 'LECTURE', 'TUESDAY', @karenTeacher);
+values(@dataStructure, true, @sGroupId, @fourthLesson, 'LECTURE', 'TUESDAY', @karenTeacher);
 
 -- WEDNESDAY
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@quantum, 0, @sGroupId, @firstLesson, 'SEMINAR', 'WEDNESDAY', @lariskaTeacher);
+values(@quantum, false, @sGroupId, @firstLesson, 'SEMINAR', 'WEDNESDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@quantum, 0, @sGroupId, @secondLesson, 'SEMINAR', 'WEDNESDAY', @lariskaTeacher);
+values(@quantum, false, @sGroupId, @secondLesson, 'SEMINAR', 'WEDNESDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@compArch, 0, @sGroupId, @thirdLesson, 'LECTURE', 'WEDNESDAY', @karenTeacher);
+values(@compArch, false, @sGroupId, @thirdLesson, 'LECTURE', 'WEDNESDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@dataStructure, 0, @sGroupId, @fourthLesson, 'LECTURE', 'WEDNESDAY', @karenTeacher);
+values(@dataStructure, false, @sGroupId, @fourthLesson, 'LECTURE', 'WEDNESDAY', @karenTeacher);
 
 -- THURSDAY
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@quantum, 1, @sGroupId, @firstLesson, 'LAB', 'THURSDAY', @lariskaTeacher);
+values(@quantum, true, @sGroupId, @firstLesson, 'LAB', 'THURSDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@compArch, 1, @sGroupId, @secondLesson, 'SEMINAR', 'THURSDAY', @karenTeacher);
+values(@compArch, true, @sGroupId, @secondLesson, 'SEMINAR', 'THURSDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@compArch, 1, @sGroupId, @thirdLesson, 'LECTURE', 'THURSDAY', @karenTeacher);
+values(@compArch, true, @sGroupId, @thirdLesson, 'LECTURE', 'THURSDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@driving, 1, @sGroupId, @fourthLesson, 'SEMINAR', 'THURSDAY', @puffTeacher);
+values(@driving, true, @sGroupId, @fourthLesson, 'SEMINAR', 'THURSDAY', @puffTeacher);
 
 -- FRIDAY
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@compArch, 1, @sGroupId, @firstLesson, 'LAB', 'FRIDAY', @lariskaTeacher);
+values(@compArch, false, @sGroupId, @firstLesson, 'LAB', 'FRIDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@trafficLaws, 1, @sGroupId, @secondLesson, 'LECTURE', 'FRIDAY', @karenTeacher);
+values(@trafficLaws, false, @sGroupId, @secondLesson, 'LECTURE', 'FRIDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@mechanics, 1, @sGroupId, @thirdLesson, 'LAB', 'FRIDAY', @karenTeacher);
+values(@mechanics, false, @sGroupId, @thirdLesson, 'LAB', 'FRIDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@mechanics, 1, @sGroupId, @fourthLesson, 'LECTURE', 'FRIDAY', @puffTeacher);
+values(@mechanics, false, @sGroupId, @fourthLesson, 'LECTURE', 'FRIDAY', @puffTeacher);
 
 
 
 -- MONDAY
 -- GROUP M
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@diffCalcus, 0, @mGroupId, @firstLesson, 'SEMINAR', 'MONDAY', @shapoklyakTeacher);
+values(@diffCalcus, false, @mGroupId, @firstLesson, 'SEMINAR', 'MONDAY', @shapoklyakTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@diffCalcus, 0, @mGroupId, @secondLesson, 'LECTURE', 'MONDAY', @shapoklyakTeacher);
+values(@diffCalcus, false, @mGroupId, @secondLesson, 'LECTURE', 'MONDAY', @shapoklyakTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@analGeam, 0, @mGroupId, @thirdLesson, 'LECTURE', 'MONDAY', @shapoklyakTeacher);
+values(@analGeam, false, @mGroupId, @thirdLesson, 'LECTURE', 'MONDAY', @shapoklyakTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@driving, 0, @mGroupId, @fourthLesson, 'LECTURE', 'MONDAY', @puffTeacher);
+values(@driving, false, @mGroupId, @fourthLesson, 'LECTURE', 'MONDAY', @puffTeacher);
 
 -- TUESDAY
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@quantum, 1, @mGroupId, @firstLesson, 'SEMINAR', 'TUESDAY', @lariskaTeacher);
+values(@quantum, true, @mGroupId, @firstLesson, 'SEMINAR', 'TUESDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@quantum, 1, @mGroupId, @secondLesson, 'LECTURE', 'TUESDAY', @lariskaTeacher);
+values(@quantum, true, @mGroupId, @secondLesson, 'LECTURE', 'TUESDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@compArch, 1, @mGroupId, @thirdLesson, 'LECTURE', 'TUESDAY', @karenTeacher);
+values(@compArch, true, @mGroupId, @thirdLesson, 'LECTURE', 'TUESDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@dataStructure, 1, @mGroupId, @fourthLesson, 'LECTURE', 'TUESDAY', @karenTeacher);
+values(@dataStructure, true, @mGroupId, @fourthLesson, 'LECTURE', 'TUESDAY', @karenTeacher);
 
 -- WEDNESDAY
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@quantum, 0, @mGroupId, @firstLesson, 'SEMINAR', 'WEDNESDAY', @lariskaTeacher);
+values(@quantum, false, @mGroupId, @firstLesson, 'SEMINAR', 'WEDNESDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@quantum, 0, @mGroupId, @secondLesson, 'SEMINAR', 'WEDNESDAY', @lariskaTeacher);
+values(@quantum, false, @mGroupId, @secondLesson, 'SEMINAR', 'WEDNESDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@compArch, 0, @mGroupId, @thirdLesson, 'LECTURE', 'WEDNESDAY', @karenTeacher);
+values(@compArch, false, @mGroupId, @thirdLesson, 'LECTURE', 'WEDNESDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@dataStructure, 0, @mGroupId, @fourthLesson, 'LECTURE', 'WEDNESDAY', @karenTeacher);
+values(@dataStructure, false, @mGroupId, @fourthLesson, 'LECTURE', 'WEDNESDAY', @karenTeacher);
 
 -- THURSDAY
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@quantum, 1, @mGroupId, @firstLesson, 'LAB', 'THURSDAY', @lariskaTeacher);
+values(@quantum, true, @mGroupId, @firstLesson, 'LAB', 'THURSDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@compArch, 1, @mGroupId, @secondLesson, 'SEMINAR', 'THURSDAY', @karenTeacher);
+values(@compArch, true, @mGroupId, @secondLesson, 'SEMINAR', 'THURSDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@compArch, 1, @mGroupId, @thirdLesson, 'LECTURE', 'THURSDAY', @karenTeacher);
+values(@compArch, true, @mGroupId, @thirdLesson, 'LECTURE', 'THURSDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@driving, 1, @mGroupId, @fourthLesson, 'SEMINAR', 'THURSDAY', @puffTeacher);
+values(@driving, true, @mGroupId, @fourthLesson, 'SEMINAR', 'THURSDAY', @puffTeacher);
 
 -- FRIDAY
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@compArch, 1, @mGroupId, @firstLesson, 'LAB', 'FRIDAY', @lariskaTeacher);
+values(@compArch, false, @mGroupId, @firstLesson, 'LAB', 'FRIDAY', @lariskaTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@trafficLaws, 1, @mGroupId, @secondLesson, 'LECTURE', 'FRIDAY', @karenTeacher);
+values(@trafficLaws, false, @mGroupId, @secondLesson, 'LECTURE', 'FRIDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@mechanics, 1, @mGroupId, @thirdLesson, 'LAB', 'FRIDAY', @karenTeacher);
+values(@mechanics, false, @mGroupId, @thirdLesson, 'LAB', 'FRIDAY', @karenTeacher);
 insert into distance_study_platform.schedule(subject_id, odd_week, group_id, class_time_id, class_type, day_name, teacher_id)
-values(@mechanics, 1, @mGroupId, @fourthLesson, 'LECTURE', 'FRIDAY', @puffTeacher);
+values(@mechanics, false, @mGroupId, @fourthLesson, 'LECTURE', 'FRIDAY', @puffTeacher);
