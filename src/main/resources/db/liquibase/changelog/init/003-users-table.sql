@@ -14,6 +14,7 @@ CREATE TABLE distance_study_platform.users (
     role varchar(45) not null,
     INDEX email_idx (email ASC) VISIBLE,
     INDEX login_idx (login ASC) VISIBLE,
+    INDEX user_id_idx (user_id ASC) VISIBLE,
     PRIMARY KEY (user_id)
 )
 

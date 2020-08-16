@@ -7,6 +7,8 @@ CREATE TABLE distance_study_platform.subjects (
     subject_id BIGINT         NOT NULL AUTO_INCREMENT,
     name        VARCHAR(45) NOT NULL,
     description VARCHAR(500) NULL,
+    INDEX name_idx (name ASC) VISIBLE,
+    INDEX subject_id_idx (subject_id ASC) VISIBLE,
     PRIMARY KEY (subject_id)
 )
 
