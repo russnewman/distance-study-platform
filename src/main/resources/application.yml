@@ -2,13 +2,12 @@ spring:
   datasource:
     username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${SPRING_DATASOURCE_PASSWORD:password}
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/distance_study_platform}
-
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/distanceStudyPlatform?useUnicode=true&serverTimezone=UTC}
   profiles:
     active: disable-security
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         id:
@@ -17,3 +16,6 @@ spring:
   liquibase:
     change-log: classpath:db/liquibase/changelog/db.changelog-master.xml
     enabled: true
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
