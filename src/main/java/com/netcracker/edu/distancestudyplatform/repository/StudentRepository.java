@@ -9,4 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepo extends UserRepo<Student> {
+public interface StudentRepository extends JpaRepository<Student, Long> {
+    Optional<Student> findById(Long id);
 }
