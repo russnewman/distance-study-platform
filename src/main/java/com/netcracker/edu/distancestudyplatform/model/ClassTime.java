@@ -5,9 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Table(name = "class_time")
