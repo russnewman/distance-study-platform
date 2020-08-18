@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.netcracker.edu.distancestudyplatform.security.jwt.SecurityConstants.INVALID_TOKEN_MESSAGE;
+
 @Component
 public class BearerAuthFilter extends OncePerRequestFilter {
 
@@ -33,7 +35,7 @@ public class BearerAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         } catch (JwtAuthenticationException e) {
-            httpServletResponse.sendError(HttpStatus.FORBIDDEN.value());
+            httpServletResponse.sendError(HttpStatus.FORBIDDEN.ordinal(), INVALID_TOKEN_MESSAGE);
             return;
         }
 

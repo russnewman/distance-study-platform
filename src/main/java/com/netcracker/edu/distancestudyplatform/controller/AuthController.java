@@ -47,7 +47,7 @@ public class AuthController {
 
     //TODO delete it. For Testing
     @GetMapping("/students/{id}")
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PreAuthorize("hasRole('STUDENT') and hasAuthority('CHANGE_TIME')")
     public ResponseEntity<?> getStudent(@PathVariable Long id) {
         return new ResponseEntity<>(studentService.findById(id), OK);
     }

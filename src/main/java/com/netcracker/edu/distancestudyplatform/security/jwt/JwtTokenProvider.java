@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 import static com.netcracker.edu.distancestudyplatform.security.jwt.SecurityConstants.AUTHORITY_STRING;
 import static com.netcracker.edu.distancestudyplatform.security.jwt.SecurityConstants.HEADER_STRING;
+import static com.netcracker.edu.distancestudyplatform.security.jwt.SecurityConstants.INVALID_TOKEN_MESSAGE;
 import static com.netcracker.edu.distancestudyplatform.security.jwt.SecurityConstants.TOKEN_PREFIX;
 
 @Component
@@ -84,7 +85,7 @@ public class JwtTokenProvider {
 
             return !claims.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
-            throw new JwtAuthenticationException("JWT token is expired or invalid");
+            throw new JwtAuthenticationException(INVALID_TOKEN_MESSAGE);
         }
     }
 
