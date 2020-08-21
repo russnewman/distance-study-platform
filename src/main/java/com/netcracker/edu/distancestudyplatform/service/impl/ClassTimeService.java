@@ -1,4 +1,4 @@
-package com.netcracker.edu.distancestudyplatform.services;
+package com.netcracker.edu.distancestudyplatform.service.impl;
 
 import com.netcracker.edu.distancestudyplatform.model.ClassTime;
 import com.netcracker.edu.distancestudyplatform.repository.ClassTimeRepository;

@@ -34,11 +34,11 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest request) {
-        AuthenticationResponse response = null;
+        AuthenticationResponse response;
         try {
             response = authService.authenticate(request);
-        } catch (BadCredentialsException | EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (BadCredentialsException | UsernameNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

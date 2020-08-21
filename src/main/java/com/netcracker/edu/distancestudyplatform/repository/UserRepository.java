@@ -7,7 +7,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.Optional;
 
 @NoRepositoryBean
-public interface UserRepo<T extends AbstractUser> extends JpaRepository<T, Long> {
+public interface UserRepository<T extends AbstractUser> extends JpaRepository<T, Long> {
     Optional<T> findByEmail(String email);
     Optional<T> findByLogin(String login);
 }

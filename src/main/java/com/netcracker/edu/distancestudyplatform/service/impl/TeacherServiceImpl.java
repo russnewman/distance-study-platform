@@ -1,7 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
 import com.netcracker.edu.distancestudyplatform.model.Teacher;
-import com.netcracker.edu.distancestudyplatform.repository.TeacherRepo;
+import com.netcracker.edu.distancestudyplatform.repository.TeacherRepository;
 import com.netcracker.edu.distancestudyplatform.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
@@ -12,9 +12,9 @@ import java.util.List;
 @Service
 @Slf4j
 public class TeacherServiceImpl implements TeacherService {
-    private TeacherRepo teacherRepo;
+    private TeacherRepository teacherRepo;
 
-    public TeacherServiceImpl(TeacherRepo teacherRepo) {
+    public TeacherServiceImpl(TeacherRepository teacherRepo) {
         this.teacherRepo = teacherRepo;
     }
 

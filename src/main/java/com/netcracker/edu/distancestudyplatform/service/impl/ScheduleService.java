@@ -1,10 +1,11 @@
-package com.netcracker.edu.distancestudyplatform.services;
+package com.netcracker.edu.distancestudyplatform.service.impl;
 
 import com.netcracker.edu.distancestudyplatform.dto.ScheduleDTO;
 import com.netcracker.edu.distancestudyplatform.mappers.ScheduleMapper;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;
 import com.netcracker.edu.distancestudyplatform.model.Group;
 import com.netcracker.edu.distancestudyplatform.repository.ScheduleRepository;
+import com.netcracker.edu.distancestudyplatform.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ScheduleService {
-    private final
-    ScheduleRepository scheduleRepository;
-
-    private final
-    StudentService studentService;
+    private final ScheduleRepository scheduleRepository;
+    private final StudentService studentService;
 
     @Autowired
     public ScheduleService(ScheduleRepository scheduleRepository, StudentService studentService) {

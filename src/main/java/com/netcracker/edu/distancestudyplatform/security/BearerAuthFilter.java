@@ -1,11 +1,10 @@
-package com.netcracker.edu.distancestudyplatform.security.jwt;
+package com.netcracker.edu.distancestudyplatform.security;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
+import com.netcracker.edu.distancestudyplatform.security.jwt.InvalidTokenException;
+import com.netcracker.edu.distancestudyplatform.security.jwt.JwtTokenProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -34,8 +33,8 @@ public class BearerAuthFilter extends OncePerRequestFilter {
                 Authentication auth =  new UsernamePasswordAuthenticationToken(jwtTokenProvider.getUsername(token), "", jwtTokenProvider.getAuthorities(token));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-        } catch (JwtAuthenticationException e) {
-            httpServletResponse.sendError(HttpStatus.FORBIDDEN.ordinal(), INVALID_TOKEN_MESSAGE);
+        } catch (InvalidTokenException e) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 

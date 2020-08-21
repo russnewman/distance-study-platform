@@ -32,8 +32,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try {
             authentication = authenticationManager.authenticate(authentication);
         } catch (BadCredentialsException e) {
-            log.trace("Authentication failed. Incorrect password for email: " + email);
-            throw e;
+            String errMessage = "Authentication failed. Incorrect password for email: " + email;
+            log.trace(errMessage);
+            throw new UsernameNotFoundException(errMessage);
         } catch (EntityNotFoundException e) {
             log.trace("Authentication failed. Email: " + email + " is not found");
             throw e;
@@ -44,7 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         final String jwt = jwtTokenProvider.createToken(userDetails);
-        log.trace("A token has been created " + jwt + " for user " + userDetails.getUsername());
+        log.trace("A token has been created " + jwt + " for user with email: " + userDetails.getUsername());
         return new AuthenticationResponse(jwt);
     }
 }
