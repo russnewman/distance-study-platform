@@ -6,6 +6,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,12 +21,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.netcracker.edu.distancestudyplatform.security.jwt.SecurityConstants.AUTHORITY_STRING;
-import static com.netcracker.edu.distancestudyplatform.security.jwt.SecurityConstants.HEADER_STRING;
-import static com.netcracker.edu.distancestudyplatform.security.jwt.SecurityConstants.INVALID_TOKEN_MESSAGE;
-import static com.netcracker.edu.distancestudyplatform.security.jwt.SecurityConstants.TOKEN_PREFIX;
+import static com.netcracker.edu.distancestudyplatform.security.SecurityConstants.AUTHORITY_STRING;
+import static com.netcracker.edu.distancestudyplatform.security.SecurityConstants.HEADER_STRING;
+import static com.netcracker.edu.distancestudyplatform.security.SecurityConstants.INVALID_TOKEN_MESSAGE;
+import static com.netcracker.edu.distancestudyplatform.security.SecurityConstants.TOKEN_PREFIX;
 
 @Component
+@Profile("security")
 public class JwtTokenProvider {
 
     @Value("${jwt.token.secret}")

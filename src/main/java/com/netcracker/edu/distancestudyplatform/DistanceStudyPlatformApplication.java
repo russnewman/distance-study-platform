@@ -19,4 +19,5 @@ public class DistanceStudyPlatformApplication {
     public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+
 }

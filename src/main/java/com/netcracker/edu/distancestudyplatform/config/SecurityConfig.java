@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -14,21 +15,26 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Profile("security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String AUTH_ENDPOINT = "/auth";
     private @Getter BearerAuthFilter tokenFilter;
     private @Getter UserDetailsService userDetailsService;
     private @Getter PasswordEncoder passwordEncoder;
+    private @Getter AuthenticationEntryPoint authenticationEntryPoint;
 
-    public SecurityConfig(BearerAuthFilter tokenFilter, @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public SecurityConfig(BearerAuthFilter tokenFilter, @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService,
+                          PasswordEncoder passwordEncoder, AuthenticationEntryPoint authenticationEntryPoint) {
         this.tokenFilter = tokenFilter;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Override
@@ -41,9 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers(AUTH_ENDPOINT).permitAll()
             .anyRequest().authenticated()
-        /*.and()
+        .and()
             .exceptionHandling()
-            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))*/
+            .authenticationEntryPoint(getAuthenticationEntryPoint())
         .and()
             .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
     }

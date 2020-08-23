@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RestController("/schedule")
+@RestController
+@RequestMapping("/schedule")
 public class StudentTimetableController {
     private final ScheduleService scheduleService;
 

@@ -5,6 +5,7 @@ import com.netcracker.edu.distancestudyplatform.dto.authentication.Authenticatio
 import com.netcracker.edu.distancestudyplatform.security.jwt.JwtTokenProvider;
 import com.netcracker.edu.distancestudyplatform.service.AuthenticationService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,7 @@ import javax.persistence.EntityNotFoundException;
 
 @Service
 @Slf4j
+@Profile("security")
 public class AuthenticationServiceImpl implements AuthenticationService {
     private AuthenticationManager authenticationManager;
     private JwtTokenProvider jwtTokenProvider;

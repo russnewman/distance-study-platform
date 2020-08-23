@@ -3,6 +3,7 @@ package com.netcracker.edu.distancestudyplatform.security.jwt;
 import com.netcracker.edu.distancestudyplatform.model.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

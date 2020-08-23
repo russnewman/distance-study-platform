@@ -31,6 +31,4 @@ public class StudentServiceIml implements StudentService {
     public Group getStudentGroup(Long userId) {
         return findById(userId).getGroup();
     }
-
-
 }

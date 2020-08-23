@@ -18,7 +18,5 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
-jwt:
-  token:
-    expired: 43200000
-    secret: secret
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:default}

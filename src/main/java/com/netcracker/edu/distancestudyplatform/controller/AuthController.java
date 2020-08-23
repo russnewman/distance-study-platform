@@ -5,6 +5,7 @@ import com.netcracker.edu.distancestudyplatform.dto.authentication.Authenticatio
 import com.netcracker.edu.distancestudyplatform.model.Student;
 import com.netcracker.edu.distancestudyplatform.service.AuthenticationService;
 import com.netcracker.edu.distancestudyplatform.service.StudentService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/auth")
+@Profile("security")
 public class AuthController {
     private AuthenticationService authService;
     private StudentService studentService;
@@ -47,7 +49,7 @@ public class AuthController {
 
     //TODO delete it. For Testing
     @GetMapping("/students/{id}")
-    @PreAuthorize("hasRole('STUDENT') and hasAuthority('CHANGE_TIME')")
+    @PreAuthorize("hasRole('STUDENT') and hasAuthority('change_time')")
     public ResponseEntity<?> getStudent(@PathVariable Long id) {
         return new ResponseEntity<>(studentService.findById(id), OK);
     }
