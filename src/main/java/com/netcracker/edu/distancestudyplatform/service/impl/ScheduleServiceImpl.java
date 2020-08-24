@@ -5,22 +5,25 @@ import com.netcracker.edu.distancestudyplatform.mappers.ScheduleMapper;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;
 import com.netcracker.edu.distancestudyplatform.model.Group;
 import com.netcracker.edu.distancestudyplatform.repository.ScheduleRepository;
+import com.netcracker.edu.distancestudyplatform.service.ScheduleService;
 import com.netcracker.edu.distancestudyplatform.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.io.*;
 
 @Service
-public class ScheduleService {
+public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final StudentService studentService;
 
     @Autowired
-    public ScheduleService(ScheduleRepository scheduleRepository, StudentService studentService) {
+    public ScheduleServiceImpl(ScheduleRepository scheduleRepository, StudentService studentService) {
         this.scheduleRepository = scheduleRepository;
         this.studentService = studentService;
     }
@@ -37,16 +40,16 @@ public class ScheduleService {
         );
     }
 
-    public List<ScheduleDTO> getAnyDaySchedule(Long studentId, String dayName, Optional<Boolean> weekIsOdd){
+    public List<ScheduleDTO> getAnyDaySchedule(Long studentId, String weekDay, Optional<Boolean> weekIsOdd){
         return castOptionalSchedulesToDTO(
                     weekIsOdd.map(wIsOdd -> scheduleRepository
                             .findByDayNameAndGroupIdAndWeekIsOdd(
-                                    dayName, studentService.getStudentGroup(studentId).getId(), wIsOdd
+                                    DayOfWeek.valueOf(weekDay.toUpperCase()), studentService.getStudentGroup(studentId).getId(), wIsOdd
                             )
                     )
                     .orElseGet(() -> scheduleRepository
                             .findByDayNameAndGroupId(
-                                    dayName, studentService.getStudentGroup(studentId).getId())
+                                    DayOfWeek.valueOf(weekDay.toUpperCase()), studentService.getStudentGroup(studentId).getId())
                     )
                 );
     }
@@ -59,10 +62,10 @@ public class ScheduleService {
         return getDayTimeEvent(studentId, getTodayName(), weekIsOdd, LocalTime.now());
     }
 
-    public ScheduleDTO getDayTimeEvent(Long studentId, String dayName, Boolean weekIsOdd, LocalTime time){
+    public ScheduleDTO getDayTimeEvent(Long studentId, String weekDay, Boolean weekIsOdd, LocalTime time){
         return castOptionalScheduleToDTO(
                 scheduleRepository.findByClassTime_StartTimeLessThanEqualAndClassTime_EndTimeGreaterThanEqualAndDayNameAndGroupIdAndWeekIsOdd(
-                        time, time, dayName, studentService.getStudentGroup(studentId).getId(), weekIsOdd
+                        time, time, DayOfWeek.valueOf(weekDay.toUpperCase()), studentService.getStudentGroup(studentId).getId(), weekIsOdd
                 )
         );
     }
@@ -79,11 +82,12 @@ public class ScheduleService {
     }
 
     private String getTodayName(){
-        return new SimpleDateFormat("EE", Locale.ENGLISH)
+        return new SimpleDateFormat("EEEE", Locale.ENGLISH)
                 .format(
                         Calendar.getInstance()
                                 .getTime()
                                 .getTime()
                 );
     }
+
 }

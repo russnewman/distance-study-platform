@@ -9,12 +9,12 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Service
-public class ClassTimeService {
+public class ClassTimeServiceImpl {
     private final
     ClassTimeRepository classTimeRepository;
 
     @Autowired
-    public ClassTimeService(ClassTimeRepository classTimeRepository) {
+    public ClassTimeServiceImpl(ClassTimeRepository classTimeRepository) {
         this.classTimeRepository = classTimeRepository;
     }
 

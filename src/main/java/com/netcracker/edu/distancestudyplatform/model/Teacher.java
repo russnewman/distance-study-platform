@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -13,12 +14,4 @@ import java.util.List;
 public class Teacher extends AbstractUser {
     @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
     private List<Schedule> schedules;
-
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "teachers_2_subjects",
-            joinColumns = {@JoinColumn(name = "teacher_id")},
-            inverseJoinColumns = {@JoinColumn(name = "subject_id")}
-    )
-    private List<Subject> subjects;
 }

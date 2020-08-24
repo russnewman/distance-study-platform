@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class StudentServiceIml implements StudentService {
+public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepo;
 
-    public StudentServiceIml(StudentRepository studentRepo) {
+    public StudentServiceImpl(StudentRepository studentRepo) {
         this.studentRepo = studentRepo;
     }
 

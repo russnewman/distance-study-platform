@@ -1,10 +1,14 @@
 package com.netcracker.edu.distancestudyplatform.model;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
