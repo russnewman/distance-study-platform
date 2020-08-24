@@ -37,7 +37,7 @@ public class ScheduleService {
         );
     }
 
-    public List<ScheduleDTO> getAnyDaySchedule(Long studentId, String dayName, Optional<Boolean> weekIsOdd){
+    public List<ScheduleDTO> getAnyDaySchedule(Long studentId, String dayName, Optional<Boolean> weekIsOdd) {
         return castOptionalSchedulesToDTO(
                     weekIsOdd.map(wIsOdd -> scheduleRepository
                             .findByDayNameAndGroupIdAndWeekIsOdd(
@@ -51,15 +51,15 @@ public class ScheduleService {
                 );
     }
 
-    public List<ScheduleDTO> getTodaySchedule(Long studentId, Optional<Boolean> weekIsOdd){
+    public List<ScheduleDTO> getTodaySchedule(Long studentId, Optional<Boolean> weekIsOdd) {
         return getAnyDaySchedule(studentId, getTodayName(), weekIsOdd);
     }
 
-    public ScheduleDTO getCurrentEvent(Long studentId, Boolean weekIsOdd){
+    public ScheduleDTO getCurrentEvent(Long studentId, Boolean weekIsOdd) {
         return getDayTimeEvent(studentId, getTodayName(), weekIsOdd, LocalTime.now());
     }
 
-    public ScheduleDTO getDayTimeEvent(Long studentId, String dayName, Boolean weekIsOdd, LocalTime time){
+    public ScheduleDTO getDayTimeEvent(Long studentId, String dayName, Boolean weekIsOdd, LocalTime time) {
         return castOptionalScheduleToDTO(
                 scheduleRepository.findByClassTime_StartTimeLessThanEqualAndClassTime_EndTimeGreaterThanEqualAndDayNameAndGroupIdAndWeekIsOdd(
                         time, time, dayName, studentService.getStudentGroup(studentId).getId(), weekIsOdd
@@ -67,18 +67,18 @@ public class ScheduleService {
         );
     }
 
-    private List<ScheduleDTO> castOptionalSchedulesToDTO(Optional<List<Schedule>> schedules){
+    private List<ScheduleDTO> castOptionalSchedulesToDTO(Optional<List<Schedule>> schedules) {
         return schedules.orElseGet(ArrayList::new)
                 .stream()
                 .map(ScheduleMapper.INSTANCE::toDTO)
                 .collect(Collectors.toList());
     }
 
-    private ScheduleDTO castOptionalScheduleToDTO(Optional<Schedule> schedule){
+    private ScheduleDTO castOptionalScheduleToDTO(Optional<Schedule> schedule) {
         return ScheduleMapper.INSTANCE.toDTO(schedule.orElseGet(Schedule::new));
     }
 
-    private String getTodayName(){
+    private String getTodayName() {
         return new SimpleDateFormat("EE", Locale.ENGLISH)
                 .format(
                         Calendar.getInstance()
