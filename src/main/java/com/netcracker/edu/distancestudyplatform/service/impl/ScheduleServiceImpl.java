@@ -1,6 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.ScheduleDTO;
+import com.netcracker.edu.distancestudyplatform.dto.ScheduleDto;
 import com.netcracker.edu.distancestudyplatform.mappers.ScheduleMapper;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;
 import com.netcracker.edu.distancestudyplatform.model.Group;
@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.io.*;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -28,19 +30,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         this.studentService = studentService;
     }
 
-    public List<ScheduleDTO> getGroupSchedule(Group studentGroup) {
+    public List<ScheduleDto> getGroupSchedule(Group studentGroup) {
         return castOptionalSchedulesToDTO(
                 scheduleRepository.findByGroupId(studentGroup.getId())
         );
     }
 
-    public List<ScheduleDTO> getStudentSchedule(Long studentId) {
+    public List<ScheduleDto> getStudentSchedule(Long studentId) {
         return getGroupSchedule(
                 studentService.getStudentGroup(studentId)
         );
     }
 
-    public List<ScheduleDTO> getAnyDaySchedule(Long studentId, String weekDay, Optional<Boolean> weekIsOdd){
+    public List<ScheduleDto> getAnyDaySchedule(Long studentId, String weekDay, Optional<Boolean> weekIsOdd){
         return castOptionalSchedulesToDTO(
                     weekIsOdd.map(wIsOdd -> scheduleRepository
                             .findByDayNameAndGroupIdAndWeekIsOdd(
@@ -54,15 +56,15 @@ public class ScheduleServiceImpl implements ScheduleService {
                 );
     }
 
-    public List<ScheduleDTO> getTodaySchedule(Long studentId, Optional<Boolean> weekIsOdd){
+    public List<ScheduleDto> getTodaySchedule(Long studentId, Optional<Boolean> weekIsOdd){
         return getAnyDaySchedule(studentId, getTodayName(), weekIsOdd);
     }
 
-    public ScheduleDTO getCurrentEvent(Long studentId, Boolean weekIsOdd){
+    public ScheduleDto getCurrentEvent(Long studentId, Boolean weekIsOdd){
         return getDayTimeEvent(studentId, getTodayName(), weekIsOdd, LocalTime.now());
     }
 
-    public ScheduleDTO getDayTimeEvent(Long studentId, String weekDay, Boolean weekIsOdd, LocalTime time){
+    public ScheduleDto getDayTimeEvent(Long studentId, String weekDay, Boolean weekIsOdd, LocalTime time){
         return castOptionalScheduleToDTO(
                 scheduleRepository.findByClassTime_StartTimeLessThanEqualAndClassTime_EndTimeGreaterThanEqualAndDayNameAndGroupIdAndWeekIsOdd(
                         time, time, DayOfWeek.valueOf(weekDay.toUpperCase()), studentService.getStudentGroup(studentId).getId(), weekIsOdd
@@ -70,14 +72,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         );
     }
 
-    private List<ScheduleDTO> castOptionalSchedulesToDTO(Optional<List<Schedule>> schedules){
+    private List<ScheduleDto> castOptionalSchedulesToDTO(Optional<List<Schedule>> schedules){
         return schedules.orElseGet(ArrayList::new)
                 .stream()
                 .map(ScheduleMapper.INSTANCE::toDTO)
                 .collect(Collectors.toList());
     }
 
-    private ScheduleDTO castOptionalScheduleToDTO(Optional<Schedule> schedule){
+    private ScheduleDto castOptionalScheduleToDTO(Optional<Schedule> schedule){
         return ScheduleMapper.INSTANCE.toDTO(schedule.orElseGet(Schedule::new));
     }
 
@@ -88,6 +90,27 @@ public class ScheduleServiceImpl implements ScheduleService {
                                 .getTime()
                                 .getTime()
                 );
+    }
+
+    private static Boolean getWeekIsOdd(){
+        final int curYear = 2020;
+        LocalDate startDate = LocalDate.of(curYear, 9, 1)
+                .with(
+                        TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)
+                );
+        LocalDate curDate = LocalDate.now();
+        if(curDate.isBefore(startDate)) return true;
+        long diff = ChronoUnit.DAYS.between(startDate, curDate);
+        System.out.println(curDate);
+        System.out.println(diff);
+        long fullWeeks = diff/7 + 1;
+        if(fullWeeks % 2 == 0){
+            return diff % 7 == 0;
+        }
+        else return diff % 7 != 0;
+    }
+
+    public static void main(String... args){
     }
 
 }

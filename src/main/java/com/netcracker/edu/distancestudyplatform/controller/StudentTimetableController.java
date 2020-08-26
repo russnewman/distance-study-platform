@@ -1,13 +1,12 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
 
-import com.netcracker.edu.distancestudyplatform.dto.ScheduleDTO;
-import com.netcracker.edu.distancestudyplatform.dto.SubjectDTO;
+import com.netcracker.edu.distancestudyplatform.dto.ScheduleDto;
+import com.netcracker.edu.distancestudyplatform.dto.SubjectDto;
 import com.netcracker.edu.distancestudyplatform.service.impl.ScheduleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,12 +21,12 @@ public class StudentTimetableController {
     }
 
     @GetMapping("/full/{studentId}")
-    public List<ScheduleDTO> getFullSchedule(@PathVariable(value = "studentId") Long studentId) {
+    public List<ScheduleDto> getFullSchedule(@PathVariable(value = "studentId") Long studentId) {
         return scheduleServiceImpl.getStudentSchedule(studentId);
     }
 
     @GetMapping({"/full/{studentId}/{day}", "/full/{studentId}/{day}/{weekIsOdd}"})
-    public List<ScheduleDTO> getAnyDaySchedule(
+    public List<ScheduleDto> getAnyDaySchedule(
             @PathVariable(value = "studentId") Long studentId,
             @PathVariable(value = "day") String weekDay,
             @PathVariable(value = "weekIsOdd", required = false) Optional<Boolean> weekIsOdd) {
@@ -35,16 +34,16 @@ public class StudentTimetableController {
     }
 
     @GetMapping("/today/{studentId}/{weekIsOdd}")
-    public List<ScheduleDTO> getTodaySchedule(
+    public List<ScheduleDto> getTodaySchedule(
             @PathVariable(value = "studentId") Long studentId,
             @PathVariable(value = "weekIsOdd", required = false) Optional<Boolean> weekIsOdd) {
         return scheduleServiceImpl.getTodaySchedule(studentId, weekIsOdd);
     }
 
-    @GetMapping("/current_event/{studentId}/{weekIsOdd}")
-    public SubjectDTO getCurrentSubject(
+    @GetMapping("/currentEvent/{studentId}/{weekIsOdd}")
+    public SubjectDto getCurrentSubject(
             @PathVariable(value = "studentId") Long studentId,
             @PathVariable(value = "weekIsOdd") Boolean weekIsOdd) {
-        return scheduleServiceImpl.getCurrentEvent(studentId, weekIsOdd).getSubjectDTO();
+        return scheduleServiceImpl.getCurrentEvent(studentId, weekIsOdd).getSubjectDto();
     }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalTime;
 
 @Data
-public class ClassTimeDTO {
+public class ClassTimeDto {
     private LocalTime startTime;
     private LocalTime endTime;
 }

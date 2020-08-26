@@ -3,12 +3,12 @@ package com.netcracker.edu.distancestudyplatform.dto;
 import lombok.Data;
 
 @Data
-public class ScheduleDTO {
+public class ScheduleDto {
     private Long id;
-    private SubjectDTO subjectDTO;
-    private TeacherDTO teacher;
+    private SubjectDto subjectDto;
+    private TeacherDto teacher;
     private String classType;
     private String dayName;
-    private ClassTimeDTO classTimeDTO;
+    private ClassTimeDto classTimeDto;
     private boolean weekIsOdd;
 }
