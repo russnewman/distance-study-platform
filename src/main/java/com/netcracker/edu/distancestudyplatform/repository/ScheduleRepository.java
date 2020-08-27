@@ -17,4 +17,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Optional<Schedule> findByClassTime_StartTimeLessThanEqualAndClassTime_EndTimeGreaterThanEqualAndDayNameAndGroupIdAndWeekIsOdd(
             LocalTime time1, LocalTime time2, DayOfWeek weekDay, Long groupId, Boolean weekIsOdd
     );
+    Optional<Schedule> findByClassTime_StartTimeGreaterThanAndDayNameAndGroupIdAndWeekIsOdd(
+            LocalTime time, DayOfWeek weekDay, Long groupId, Boolean weekIsOdd
+    );
 }

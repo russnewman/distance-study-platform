@@ -30,20 +30,24 @@ public class StudentTimetableController {
             @PathVariable(value = "studentId") Long studentId,
             @PathVariable(value = "day") String weekDay,
             @PathVariable(value = "weekIsOdd", required = false) Optional<Boolean> weekIsOdd) {
-            return scheduleServiceImpl.getAnyDaySchedule(studentId, weekDay, weekIsOdd);
+        if(weekIsOdd.isPresent()) return scheduleServiceImpl.getAnyDaySchedule(studentId, weekDay, weekIsOdd.get());
+            return scheduleServiceImpl.getAnyDaySchedule(studentId, weekDay);
     }
 
-    @GetMapping("/today/{studentId}/{weekIsOdd}")
+    @GetMapping("/today/{studentId}")
     public List<ScheduleDto> getTodaySchedule(
-            @PathVariable(value = "studentId") Long studentId,
-            @PathVariable(value = "weekIsOdd", required = false) Optional<Boolean> weekIsOdd) {
-        return scheduleServiceImpl.getTodaySchedule(studentId, weekIsOdd);
+            @PathVariable(value = "studentId") Long studentId) {
+        return scheduleServiceImpl.getTodaySchedule(studentId);
     }
 
-    @GetMapping("/currentEvent/{studentId}/{weekIsOdd}")
+    @GetMapping("/currentEvent/{studentId}")
     public SubjectDto getCurrentSubject(
-            @PathVariable(value = "studentId") Long studentId,
-            @PathVariable(value = "weekIsOdd") Boolean weekIsOdd) {
-        return scheduleServiceImpl.getCurrentEvent(studentId, weekIsOdd).getSubjectDto();
+            @PathVariable(value = "studentId") Long studentId) {
+        return scheduleServiceImpl.getCurrentEvent(studentId).getSubjectDto();
+    }
+
+    @GetMapping("/nextEvent/{studentId}")
+    public SubjectDto getNextSubject(@PathVariable(value = "studentId") Long studentId){
+        return scheduleServiceImpl.getNextEvent(studentId).getSubjectDto();
     }
 }

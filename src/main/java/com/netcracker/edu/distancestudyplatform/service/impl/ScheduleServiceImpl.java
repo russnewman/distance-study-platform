@@ -42,32 +42,53 @@ public class ScheduleServiceImpl implements ScheduleService {
         );
     }
 
-    public List<ScheduleDto> getAnyDaySchedule(Long studentId, String weekDay, Optional<Boolean> weekIsOdd){
+    public List<ScheduleDto> getAnyDaySchedule(Long studentId, String weekDay, Boolean weekIsOdd){
         return castOptionalSchedulesToDTO(
-                    weekIsOdd.map(wIsOdd -> scheduleRepository
-                            .findByDayNameAndGroupIdAndWeekIsOdd(
-                                    DayOfWeek.valueOf(weekDay.toUpperCase()), studentService.getStudentGroup(studentId).getId(), wIsOdd
-                            )
-                    )
-                    .orElseGet(() -> scheduleRepository
-                            .findByDayNameAndGroupId(
-                                    DayOfWeek.valueOf(weekDay.toUpperCase()), studentService.getStudentGroup(studentId).getId())
-                    )
-                );
+                scheduleRepository.findByDayNameAndGroupIdAndWeekIsOdd(
+                        DayOfWeek.valueOf(weekDay.toUpperCase()),
+                        studentService.getStudentGroup(studentId).getId(),
+                        weekIsOdd
+                )
+        );
     }
 
-    public List<ScheduleDto> getTodaySchedule(Long studentId, Optional<Boolean> weekIsOdd){
-        return getAnyDaySchedule(studentId, getTodayName(), weekIsOdd);
+    public List<ScheduleDto> getAnyDaySchedule(Long studentId, String weekDay){
+        return castOptionalSchedulesToDTO(
+                scheduleRepository.findByDayNameAndGroupId(
+                        DayOfWeek.valueOf(weekDay.toUpperCase()),
+                        studentService.getStudentGroup(studentId).getId()
+                )
+        );
     }
 
-    public ScheduleDto getCurrentEvent(Long studentId, Boolean weekIsOdd){
-        return getDayTimeEvent(studentId, getTodayName(), weekIsOdd, LocalTime.now());
+    public List<ScheduleDto> getTodaySchedule(Long studentId){
+        return getAnyDaySchedule(studentId, getTodayName(), getWeekIsOdd());
+    }
+
+    public ScheduleDto getCurrentEvent(Long studentId){
+        return getDayTimeEvent(studentId, getTodayName(), getWeekIsOdd(), LocalTime.now());
     }
 
     public ScheduleDto getDayTimeEvent(Long studentId, String weekDay, Boolean weekIsOdd, LocalTime time){
         return castOptionalScheduleToDTO(
-                scheduleRepository.findByClassTime_StartTimeLessThanEqualAndClassTime_EndTimeGreaterThanEqualAndDayNameAndGroupIdAndWeekIsOdd(
-                        time, time, DayOfWeek.valueOf(weekDay.toUpperCase()), studentService.getStudentGroup(studentId).getId(), weekIsOdd
+                scheduleRepository
+                        .findByClassTime_StartTimeLessThanEqualAndClassTime_EndTimeGreaterThanEqualAndDayNameAndGroupIdAndWeekIsOdd(
+                            time,
+                            time,
+                            DayOfWeek.valueOf(weekDay.toUpperCase()),
+                            studentService.getStudentGroup(studentId).getId(),
+                            weekIsOdd
+                )
+        );
+    }
+
+    public ScheduleDto getNextEvent(Long studentId){
+        return castOptionalScheduleToDTO(
+                scheduleRepository.findByClassTime_StartTimeGreaterThanAndDayNameAndGroupIdAndWeekIsOdd(
+                        LocalTime.now(),
+                        DayOfWeek.valueOf(getTodayName().toUpperCase()),
+                        studentService.getStudentGroup(studentId).getId(),
+                        getWeekIsOdd()
                 )
         );
     }
@@ -101,16 +122,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         LocalDate curDate = LocalDate.now();
         if(curDate.isBefore(startDate)) return true;
         long diff = ChronoUnit.DAYS.between(startDate, curDate);
-        System.out.println(curDate);
-        System.out.println(diff);
-        long fullWeeks = diff/7 + 1;
-        if(fullWeeks % 2 == 0){
+        if((diff/7 + 1) % 2 == 0){
             return diff % 7 == 0;
         }
         else return diff % 7 != 0;
     }
-
-    public static void main(String... args){
-    }
-
 }
