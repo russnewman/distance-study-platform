@@ -1,6 +1,8 @@
 package com.netcracker.edu.distancestudyplatform.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
 @Entity
 @Table(name = "subjects")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +25,8 @@ public class Subject {
     private String description;
 
     @OneToMany(mappedBy = "subject")
-    private List<Schedule> schedule;
+    private List<Schedule> schedules;
+
+    @OneToMany(mappedBy = "subject")
+    private List<Event> events;
 }
