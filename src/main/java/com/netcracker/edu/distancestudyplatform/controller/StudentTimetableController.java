@@ -1,17 +1,15 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
 
-import com.netcracker.edu.distancestudyplatform.dto.ScheduleDto;
 import com.netcracker.edu.distancestudyplatform.dto.SubjectDto;
 import com.netcracker.edu.distancestudyplatform.service.impl.ScheduleServiceImpl;
+import com.netcracker.edu.distancestudyplatform.dto.ScheduleDtoList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/schedule")
+@RestController("/schedule")
 public class StudentTimetableController {
     private final ScheduleServiceImpl scheduleServiceImpl;
 
@@ -20,24 +18,36 @@ public class StudentTimetableController {
         this.scheduleServiceImpl = scheduleServiceImpl;
     }
 
-    @GetMapping("/full/{studentId}")
-    public List<ScheduleDto> getFullSchedule(@PathVariable(value = "studentId") Long studentId) {
-        return scheduleServiceImpl.getStudentSchedule(studentId);
+    @GetMapping("/full")
+    public ScheduleDtoList getFullSchedule(@RequestParam(value = "studentId") Long studentId) {
+        return new ScheduleDtoList(scheduleServiceImpl.getStudentSchedule(studentId));
     }
 
     @GetMapping({"/full/{studentId}/{day}", "/full/{studentId}/{day}/{weekIsOdd}"})
-    public List<ScheduleDto> getAnyDaySchedule(
+    public ScheduleDtoList getAnyDaySchedule(
             @PathVariable(value = "studentId") Long studentId,
             @PathVariable(value = "day") String weekDay,
             @PathVariable(value = "weekIsOdd", required = false) Optional<Boolean> weekIsOdd) {
-        if(weekIsOdd.isPresent()) return scheduleServiceImpl.getAnyDaySchedule(studentId, weekDay, weekIsOdd.get());
-            return scheduleServiceImpl.getAnyDaySchedule(studentId, weekDay);
+        return weekIsOdd.map(
+                oddWeek ->
+                        new ScheduleDtoList(
+                                scheduleServiceImpl.getAnyDaySchedule(studentId, weekDay, oddWeek)))
+                .orElseGet(() ->
+                        new ScheduleDtoList(
+                                scheduleServiceImpl.getAnyDaySchedule(studentId, weekDay))
+                );
     }
 
     @GetMapping("/today/{studentId}")
-    public List<ScheduleDto> getTodaySchedule(
+    public ScheduleDtoList getTodaySchedule(
             @PathVariable(value = "studentId") Long studentId) {
-        return scheduleServiceImpl.getTodaySchedule(studentId);
+        return new ScheduleDtoList(scheduleServiceImpl.getTodaySchedule(studentId));
+    }
+
+    @GetMapping("/tomorrow/{studentId}")
+    public ScheduleDtoList getNextDaySchedule(
+            @PathVariable(value = "studentId") Long studentId) {
+        return new ScheduleDtoList(scheduleServiceImpl.getNextDaySchedule(studentId));
     }
 
     @GetMapping("/currentEvent/{studentId}")
@@ -49,5 +59,10 @@ public class StudentTimetableController {
     @GetMapping("/nextEvent/{studentId}")
     public SubjectDto getNextSubject(@PathVariable(value = "studentId") Long studentId){
         return scheduleServiceImpl.getNextEvent(studentId).getSubjectDto();
+    }
+
+    @PostMapping("/scheduleByDate")
+    public SubjectDto searchScheduleWithParameters(){
+        return null;
     }
 }
