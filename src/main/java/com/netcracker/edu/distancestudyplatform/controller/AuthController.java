@@ -2,6 +2,7 @@ package com.netcracker.edu.distancestudyplatform.controller;
 
 import com.netcracker.edu.distancestudyplatform.dto.authentication.AuthenticationRequest;
 import com.netcracker.edu.distancestudyplatform.dto.authentication.AuthenticationResponse;
+import com.netcracker.edu.distancestudyplatform.exception.UserNotFoundException;
 import com.netcracker.edu.distancestudyplatform.model.Student;
 import com.netcracker.edu.distancestudyplatform.service.AuthenticationService;
 import com.netcracker.edu.distancestudyplatform.service.StudentService;
@@ -39,19 +40,11 @@ public class AuthController {
         AuthenticationResponse response;
         try {
             response = authService.authenticate(request);
-        } catch (BadCredentialsException | UsernameNotFoundException e) {
+        } catch (BadCredentialsException | UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(response, OK);
     }
-
-    //TODO delete it. For Testing
-    @GetMapping("/students/{id}")
-    @PreAuthorize("hasRole('STUDENT') and hasAuthority('change_time')")
-    public ResponseEntity<?> getStudent(@PathVariable Long id) {
-        return new ResponseEntity<>(studentService.findById(id), OK);
-    }
-
 }
