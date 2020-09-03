@@ -31,6 +31,20 @@ public class ScheduleUtils {
                 );
     }
 
+
+    public static String getTomorrowName(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 1);
+        return new SimpleDateFormat("EEEE", Locale.ENGLISH)
+                .format(
+                        cal
+                        .getTime()
+                        .getTime()
+                );
+    }
+
+
+
     public static Boolean getWeekIsOdd(){
         LocalDate startDate = LocalDate.of(curYear, 9, 1)
                 .with(

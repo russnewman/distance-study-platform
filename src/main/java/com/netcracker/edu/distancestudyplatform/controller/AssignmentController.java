@@ -18,9 +18,9 @@ public class AssignmentController {
     private final AssignmentServiceImpl assignmentService;
     private final AssignmentRepository assignmentRepository;
     private final StudentServiceImpl studentService;
-
-    @Value("${upload.path}")
-    private String uploadPath;
+//
+//    @Value("${upload.path}")
+//    private String uploadPath;
 
     @Autowired
     public AssignmentController(AssignmentServiceImpl assignmentService, AssignmentRepository assignmentRepository, StudentServiceImpl studentService) {

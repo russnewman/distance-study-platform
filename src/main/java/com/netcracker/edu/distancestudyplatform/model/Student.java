@@ -1,5 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +15,10 @@ import java.util.List;
 @Entity
 @Table(name = "students")
 @NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id",
+        scope = Student.class)
 public class Student extends AbstractUser {
     @ManyToOne
     @JoinColumn(name = "group_id")

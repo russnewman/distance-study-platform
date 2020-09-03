@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface TeacherService {
     Teacher findByEmail(String email);
-    List<Teacher> findAll();
+    Teacher findById(Long teacherId);
+
 }

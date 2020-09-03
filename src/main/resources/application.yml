@@ -1,8 +1,8 @@
 spring:
   datasource:
     username: ${SPRING_DATASOURCE_USERNAME:root}
-    password: ${SPRING_DATASOURCE_PASSWORD:password}
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/distanceStudyPlatform?useUnicode=true&serverTimezone=UTC}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/distance_study_platform?serverTimezone=UTC}
   jpa:
     hibernate:
       ddl-auto: validate

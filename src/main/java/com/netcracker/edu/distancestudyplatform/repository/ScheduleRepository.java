@@ -20,4 +20,13 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Optional<Schedule> findByClassTime_StartTimeGreaterThanAndDayNameAndGroupIdAndWeekIsOdd(
             LocalTime time, DayOfWeek weekDay, Long groupId, Boolean weekIsOdd
     );
+
+
+    //----------------------------------------------------------//
+    //Methods need for teacherTT functionality//
+
+    Optional<List<Schedule>> findAllByTeacherId(Long teacherId);
+    Optional<List<Schedule>> findAllByTeacherIdAndDayName(Long teacherId, DayOfWeek dayName);
+    Optional<List<Schedule>> findAllByTeacherIdAndWeekIsOdd(Long teacherId, Boolean weekIsOdd);
+    Optional<List<Schedule>> findAllByTeacherIdAndWeekIsOddAndDayName(Long teacherId, Boolean weekIsOdd, DayOfWeek dayName);
 }

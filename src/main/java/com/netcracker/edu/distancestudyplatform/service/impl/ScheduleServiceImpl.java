@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -95,4 +97,48 @@ public class ScheduleServiceImpl implements ScheduleService {
                 ).orElseGet(Schedule::new)
         );
     }
+
+
+
+    //----------------------------------------------------------//
+    //Methods need for teacherTT functionality//
+
+
+    @Override
+    public List<Schedule> getTeacherSchedule(Long teacherId) {
+        return scheduleRepository.findAllByTeacherId(teacherId).orElseGet(ArrayList::new);
+    }
+
+
+    @Override
+    public List<Schedule> getTomorrowTeacherSchedule(Long teacherId) {
+
+        String tomorrowDayName = ScheduleUtils.getTomorrowName();
+        return scheduleRepository.findAllByTeacherIdAndDayName(teacherId, DayOfWeek.valueOf(tomorrowDayName.toUpperCase())).orElseGet(ArrayList::new);
+    }
+
+
+    @Override
+    public List<Schedule> getTeacherSchedule(Long teacherId, Boolean weekIsOdd) {
+        return scheduleRepository.findAllByTeacherIdAndWeekIsOdd(teacherId, weekIsOdd).orElseGet(ArrayList::new);
+    }
+
+
+    @Override
+    public List<Schedule> getTomorrowTeacherSchedule(Long teacherId, Boolean weekIsOdd) {
+
+        String tomorrowDayName = ScheduleUtils.getTomorrowName();
+        return  scheduleRepository.findAllByTeacherIdAndWeekIsOddAndDayName(teacherId, weekIsOdd, DayOfWeek.valueOf(tomorrowDayName.toUpperCase())).orElseGet(ArrayList::new);
+    }
+
+
+
+    @Override
+    public List<Schedule> getSubjectTeacherSchedule(List<Schedule> list, Long subjectId) {
+        return  list
+                .stream()
+                .filter(x -> x.getSubject().getId().equals(subjectId))
+                .collect(Collectors.toList());
+    }
+
 }
