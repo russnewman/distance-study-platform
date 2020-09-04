@@ -21,7 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Profile("security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String AUTH_ENDPOINT = "/auth";
     private @Getter BearerAuthFilter tokenFilter;

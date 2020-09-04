@@ -67,9 +67,4 @@ public class StudentTimetableController {
                                                      ){
         return new ScheduleDtoList(scheduleServiceImpl.getSubjectStudentSchedule(studentId, subjectId));
     }
-
-    @PostMapping("/scheduleByDate")
-    public SubjectDto searchScheduleWithParameters(){
-        return null;
-    }//fixme
 }

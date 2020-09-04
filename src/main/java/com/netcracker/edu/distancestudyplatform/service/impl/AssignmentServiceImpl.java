@@ -43,9 +43,4 @@ public class AssignmentServiceImpl implements AssignmentService {
     public List<Assignment> getUnassessedAssignments(Long studentId) {
         return assignmentRepository.findAllByStudent_IdAndGradeIsNull(studentId);
     }
-
-    @Override
-    public Assignment storeFile(MultipartFile file) {
-        return null;//fixme
-    }
 }

@@ -27,7 +27,6 @@ import static com.netcracker.edu.distancestudyplatform.security.SecurityConstant
 import static com.netcracker.edu.distancestudyplatform.security.SecurityConstants.TOKEN_PREFIX;
 
 @Component
-@Profile("security")
 public class JwtTokenProvider {
 
     @Value("${jwt.token.secret}")

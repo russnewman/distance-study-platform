@@ -1,5 +1,5 @@
 -- liquibase formatted sql
--- changeset Sharipov:0.0.8 endDelimiter:\n/
+-- changeset Sharipov:0.1.3 endDelimiter:\n/
 -- preconditions onFail:MARK_RAN
 -- precondition-sql-check expectedResult:0 SELECT count(*) FROM information_schema.tables where TABLE_NAME = 'events' and TABLE_SCHEMA = 'distance_study_platform'
 
@@ -24,3 +24,5 @@ create table events
     constraint events_teachers_user_id_fk
         foreign key (teacher_id) references teachers (user_id)
 );
+
+-- rollback drop table distance_study_platform.events;

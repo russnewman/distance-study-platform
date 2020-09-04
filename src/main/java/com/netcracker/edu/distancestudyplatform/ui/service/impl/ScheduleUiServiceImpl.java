@@ -73,7 +73,6 @@ public class ScheduleUiServiceImpl implements ScheduleUiService {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL)
                 .queryParam("studentId", studentId)
                 .queryParam("subjectId", subjectId);
-        System.out.println(studentId + " " + subjectId);//fixme: debug purpose
         ResponseEntity<ScheduleDtoList> response
                 = restTemplate.getForEntity(builder.toUriString(), ScheduleDtoList.class);
 

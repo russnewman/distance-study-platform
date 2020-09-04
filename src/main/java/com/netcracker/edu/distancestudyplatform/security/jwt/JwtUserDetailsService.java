@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-@Profile("security")
 public class JwtUserDetailsService implements UserDetailsService {
     private UserService userService;
 

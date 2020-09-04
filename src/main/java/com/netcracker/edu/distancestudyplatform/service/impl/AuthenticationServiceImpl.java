@@ -19,7 +19,6 @@ import javax.persistence.EntityNotFoundException;
 
 @Service
 @Slf4j
-@Profile("security")
 public class AuthenticationServiceImpl implements AuthenticationService {
     private AuthenticationManager authenticationManager;
     private JwtTokenProvider jwtTokenProvider;

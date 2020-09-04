@@ -25,7 +25,6 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/auth")
-@Profile("security")
 public class AuthController {
     private AuthenticationService authService;
     private StudentService studentService;

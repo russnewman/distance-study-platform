@@ -1,4 +1,0 @@
-jwt:
-  token:
-    expired: 43200000
-    secret: secret

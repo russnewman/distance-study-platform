@@ -12,5 +12,4 @@ public interface AssignmentService {
     List<Assignment> getAssignmentByStudent(Long studentId);
     List<Assignment> getAssessedAssignments(Long studentId);
     List<Assignment> getUnassessedAssignments(Long studentId);
-    Assignment storeFile(MultipartFile file);
 }

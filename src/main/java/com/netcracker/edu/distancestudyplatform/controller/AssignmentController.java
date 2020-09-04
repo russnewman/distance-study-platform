@@ -17,16 +17,10 @@ import java.util.UUID;
 public class AssignmentController {
     private final AssignmentServiceImpl assignmentService;
     private final AssignmentRepository assignmentRepository;
-    private final StudentServiceImpl studentService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
-    @Autowired
-    public AssignmentController(AssignmentServiceImpl assignmentService, AssignmentRepository assignmentRepository, StudentServiceImpl studentService) {
+    public AssignmentController(AssignmentServiceImpl assignmentService, AssignmentRepository assignmentRepository) {
         this.assignmentService = assignmentService;
         this.assignmentRepository = assignmentRepository;
-        this.studentService = studentService;
     }
 
     @GetMapping("/studentAssignments")
@@ -34,13 +28,5 @@ public class AssignmentController {
             @RequestParam(name = "studentId") Long studentId
     ){
       return assignmentService.getAssignmentByStudent(studentId);
-    }
-
-    @PostMapping("/addAssignment")
-    public Assignment add(
-            @RequestBody Assignment newAssignment,
-            @RequestParam MultipartFile file
-    ) {
-        return assignmentRepository.save(newAssignment);//fixme
     }
 }
