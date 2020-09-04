@@ -12,19 +12,21 @@ import java.util.List;
 @Service
 @Slf4j
 public class TeacherServiceImpl implements TeacherService {
-    private TeacherRepository teacherRepo;
+    private TeacherRepository teacherRepository;
 
-    public TeacherServiceImpl(TeacherRepository teacherRepo) {
-        this.teacherRepo = teacherRepo;
+    public TeacherServiceImpl(TeacherRepository teacherRepository) {
+        this.teacherRepository = teacherRepository;
     }
 
     @Override
     public @Nullable Teacher findByEmail(String email) {
-        return teacherRepo.findByEmail(email).orElse(null);
+        return teacherRepository.findByEmail(email).orElse(null);
     }
 
     @Override
-    public List<Teacher> findAll() {
-        return teacherRepo.findAll();
+    public Teacher findById(Long teacherId) {
+        return teacherRepository.findById(teacherId).orElseGet(() -> new Teacher());
     }
+
+
 }

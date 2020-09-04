@@ -1,7 +1,8 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
 import com.netcracker.edu.distancestudyplatform.dto.SubjectDtoList;
-import com.netcracker.edu.distancestudyplatform.service.impl.ScheduleServiceImpl;
+import com.netcracker.edu.distancestudyplatform.service.SubjectList;
+import com.netcracker.edu.distancestudyplatform.service.SubjectService;
 import com.netcracker.edu.distancestudyplatform.service.impl.SubjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SubjectController {
     private final SubjectServiceImpl subjectServiceImpl;
+    private final SubjectService subjectService;
 
     @Autowired
-    public SubjectController(SubjectServiceImpl subjectServiceImpl) {
+    public SubjectController(SubjectServiceImpl subjectServiceImpl, SubjectService subjectService) {
         this.subjectServiceImpl = subjectServiceImpl;
+        this.subjectService = subjectService;
     }
 
     @GetMapping("/allSubjects")
@@ -25,6 +28,11 @@ public class SubjectController {
     @GetMapping("/subject")
     public SubjectDtoList getAllSubjects(@RequestParam(value = "id") Long subjectId){
         return subjectServiceImpl.getAllById(subjectId);
+    }
+
+    @GetMapping("/subjectsByTeacher")
+    public SubjectList getSubjectsByTeacher(@RequestParam("teacherId") Long teacherId){
+        return new SubjectList(subjectService.getSubjectsByTeacherId(teacherId));
     }
 
 }
