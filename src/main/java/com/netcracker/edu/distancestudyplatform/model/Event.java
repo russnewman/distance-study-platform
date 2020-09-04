@@ -51,7 +51,9 @@ public class Event {
     @Column(name="description")
     private String description;
 
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "file_id")
     DatabaseFile dbFile;
+
 }

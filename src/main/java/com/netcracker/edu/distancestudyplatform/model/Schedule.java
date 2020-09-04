@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ import java.util.Objects;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
         scope = Schedule.class)
+
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,17 +50,15 @@ public class Schedule {
     private ClassType classType;
 
 
+
     @Column(name = "day_name")
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayName;
 
-//
-//    @Column(name = "day_name")
-//    private String dayName;
+
 
     @Column(name = "odd_week")
     private Boolean weekIsOdd;
-
 
 
     @Override
@@ -66,7 +66,8 @@ public class Schedule {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Schedule schedule = (Schedule) o;
-        return classTime.getStartTime().equals(schedule.classTime.getStartTime()) &&
+        return teacher.equals(schedule.teacher) &&
+                classTime.getStartTime().equals(schedule.classTime.getStartTime()) &&
                 dayName.equals(schedule.dayName) &&
                 weekIsOdd.equals(schedule.weekIsOdd)&&
                 subject.equals(schedule.subject);
@@ -75,7 +76,7 @@ public class Schedule {
 
     @Override
     public int hashCode() {
-        return Objects.hash(classTime.getStartTime(), dayName, weekIsOdd);
+        return Objects.hash(teacher,classTime.getStartTime(), dayName, weekIsOdd, subject);
     }
 
 }

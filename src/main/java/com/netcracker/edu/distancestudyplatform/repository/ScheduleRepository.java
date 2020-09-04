@@ -29,4 +29,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Optional<List<Schedule>> findAllByTeacherIdAndDayName(Long teacherId, DayOfWeek dayName);
     Optional<List<Schedule>> findAllByTeacherIdAndWeekIsOdd(Long teacherId, Boolean weekIsOdd);
     Optional<List<Schedule>> findAllByTeacherIdAndWeekIsOddAndDayName(Long teacherId, Boolean weekIsOdd, DayOfWeek dayName);
+
+    Optional<List<Schedule>> findAllByTeacherIdAndSubjectName(Long TeacherId, String subjectName);
 }

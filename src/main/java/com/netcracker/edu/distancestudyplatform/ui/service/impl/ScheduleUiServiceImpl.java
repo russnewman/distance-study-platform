@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ScheduleUiServiceImpl implements ScheduleUiService {
@@ -77,11 +78,8 @@ public class ScheduleUiServiceImpl implements ScheduleUiService {
     public List<Schedule> getSubjectTeacherSchedule(List<Schedule> schedules, Long subjectId){
 
         RestTemplate restTemplate = new RestTemplate();
-//        ScheduleList scheduleList = new ScheduleList(schedules);
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUri + "subjectTeacherSchedule")
                 .queryParam("subjectId", subjectId);
-
-
 
 
         HttpHeaders headers = new HttpHeaders();
@@ -124,8 +122,10 @@ public class ScheduleUiServiceImpl implements ScheduleUiService {
 
 
     //Redefined hashCode and equals of the Schedule
+
     @Override
     public Map<Schedule, List<Group>> mapScheduleToGroups(List<Schedule> schedules) {
+
         Map<Schedule, List<Group>> res = new LinkedHashMap<>();
         for (int i = 0; i < schedules.size(); i++) {
             Schedule sch = schedules.get(i);
@@ -145,17 +145,6 @@ public class ScheduleUiServiceImpl implements ScheduleUiService {
 
     @Override
     public List<Schedule> mapKeysList(Map<Schedule, List<Group>> map){
-        List<Schedule> res = new ArrayList<>();
-        for (Map.Entry<Schedule, List<Group>> entry: map.entrySet()){
-            res.add(entry.getKey());
-        }
-        return res;
+        return map.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList());
     }
-
-
-
-
-
-
-
 }

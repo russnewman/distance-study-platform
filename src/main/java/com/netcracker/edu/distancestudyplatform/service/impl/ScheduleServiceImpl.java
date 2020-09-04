@@ -141,4 +141,10 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.toList());
     }
 
+
+
+    public List<Schedule> getSubjectTeacherSchedule(Long teacherId, String subjectName) {
+        return scheduleRepository.findAllByTeacherIdAndSubjectName(teacherId, subjectName).orElseGet(ArrayList::new);
+    }
+
 }

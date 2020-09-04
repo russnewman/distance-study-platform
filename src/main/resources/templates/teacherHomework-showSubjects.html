@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <th:block th:fragment="links" >
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    </th:block>
+
+</head>
+<body>
+<th:block th:insert="fragments/navbar.html :: navbar" />
+
+
+<div align="center">
+        <form  align="center" th:action="'/teacherHomework/addEvent/' + ${teacherId}"  method='GET'>
+            <div>
+                <p>
+                    <select name = "subjectName">
+                        <option th:each="subject: ${subjects}" th:utext="${subject.getName()}"></option>
+                    </select>
+                </p>
+            </div>
+            <p><input  type="submit" value="Показать"/></p>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

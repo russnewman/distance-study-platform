@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "teachers")
-@EqualsAndHashCode(callSuper = true)
+//@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIdentityInfo(
@@ -37,4 +37,6 @@ public class Teacher extends AbstractUser {
             inverseJoinColumns = {@JoinColumn(name = "subject_id")}
     )
     private List<Subject> subjects;
+
+
 }

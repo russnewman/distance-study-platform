@@ -28,5 +28,6 @@ public interface ScheduleService {
     List<Schedule> getTeacherSchedule(Long teacherId, Boolean weekIsOdd);
     List<Schedule> getTomorrowTeacherSchedule(Long teacherId, Boolean weekIsOdd);
     List<Schedule> getSubjectTeacherSchedule(List<Schedule> list, Long subjectId);
+    List<Schedule> getSubjectTeacherSchedule(Long teacherId, String subjectName);
 
 }

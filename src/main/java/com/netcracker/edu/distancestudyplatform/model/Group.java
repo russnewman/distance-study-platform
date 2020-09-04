@@ -29,13 +29,13 @@ public class Group {
     @Column(name = "group_name")
     private String groupName;
 
-
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<Student> students;
 
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
+
 
     @OneToMany(mappedBy = "group")
     private List<Schedule> schedule;

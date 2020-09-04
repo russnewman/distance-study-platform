@@ -32,7 +32,6 @@ public class SubjectController {
 
     @GetMapping("/subjectsByTeacher")
     public SubjectList getSubjectsByTeacher(@RequestParam("teacherId") Long teacherId){
-        System.out.println("RESTCONTROLLER");
         return new SubjectList(subjectService.getSubjectsByTeacherId(teacherId));
     }
 
