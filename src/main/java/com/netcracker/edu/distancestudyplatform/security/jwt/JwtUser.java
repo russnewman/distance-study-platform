@@ -1,9 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.security.jwt;
 
 import com.netcracker.edu.distancestudyplatform.model.User;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.context.annotation.Profile;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,8 +9,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Data
 public class JwtUser implements UserDetails {
-    private @Getter @Setter User user;
+    private User user;
 
     public JwtUser(User user) {
         this.user = user;

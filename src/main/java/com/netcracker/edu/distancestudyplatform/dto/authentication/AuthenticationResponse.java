@@ -1,11 +1,11 @@
 package com.netcracker.edu.distancestudyplatform.dto.authentication;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class AuthenticationResponse {
-    private @Getter @Setter String jwtToken;
+    private String jwtToken;
 
     public AuthenticationResponse(String jwtToken) {
         this.jwtToken = jwtToken;

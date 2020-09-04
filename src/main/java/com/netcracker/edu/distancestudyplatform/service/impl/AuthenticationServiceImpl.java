@@ -2,6 +2,7 @@ package com.netcracker.edu.distancestudyplatform.service.impl;
 
 import com.netcracker.edu.distancestudyplatform.dto.authentication.AuthenticationRequest;
 import com.netcracker.edu.distancestudyplatform.dto.authentication.AuthenticationResponse;
+import com.netcracker.edu.distancestudyplatform.exception.UserNotFoundException;
 import com.netcracker.edu.distancestudyplatform.security.jwt.JwtTokenProvider;
 import com.netcracker.edu.distancestudyplatform.service.AuthenticationService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +37,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         } catch (BadCredentialsException e) {
             String errMessage = "Authentication failed. Incorrect password for email: " + email;
             log.trace(errMessage);
-            throw new UsernameNotFoundException(errMessage);
-        } catch (EntityNotFoundException e) {
-            log.trace("Authentication failed. Email: " + email + " is not found");
+            throw e;
+        } catch (UserNotFoundException e) {
+            String errMessage = "Authentication failed. Email: " + email + " is not found";
+            log.trace(errMessage, e);
             throw e;
         } catch (Exception e) {
             log.error("An unexpected exception has occurred while authenticating user " + email, e);
