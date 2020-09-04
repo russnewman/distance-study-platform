@@ -14,8 +14,7 @@ create table events
     start_date  datetime     null,
     end_date    datetime     null,
     group_id    bigint       not null,
---     file_id     varchar(45)  not null,
-    file_id     varchar(45)  null,
+    file_id     varchar(45)  not null,
 
     constraint events_files_id_fk
         foreign key (file_id) references files (id),

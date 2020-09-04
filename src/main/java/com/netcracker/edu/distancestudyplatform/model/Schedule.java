@@ -63,17 +63,15 @@ public class Schedule {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Schedule schedule = (Schedule) o;
-        return teacher.equals(schedule.teacher) &&
-                classTime.getStartTime().equals(schedule.classTime.getStartTime()) &&
+        return classTime.getStartTime().equals(schedule.classTime.getStartTime()) &&
                 dayName.equals(schedule.dayName) &&
-                weekIsOdd.equals(schedule.weekIsOdd)&&
-                subject.equals(schedule.subject);
+                weekIsOdd.equals(schedule.weekIsOdd);
     }
 
 
     @Override
     public int hashCode() {
-        return Objects.hash(teacher,classTime.getStartTime(), dayName, weekIsOdd, subject);
+        return Objects.hash(classTime.getStartTime(), dayName, weekIsOdd);
     }
 
 }

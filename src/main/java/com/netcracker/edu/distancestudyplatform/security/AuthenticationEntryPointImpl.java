@@ -15,6 +15,7 @@ import static com.netcracker.edu.distancestudyplatform.security.SecurityConstant
 
 
 @Component
+@Profile("security")
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {

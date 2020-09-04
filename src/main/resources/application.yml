@@ -18,6 +18,9 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+  profiles:
+    active: default
+
 jwt:
   token:
     expired: 43200000

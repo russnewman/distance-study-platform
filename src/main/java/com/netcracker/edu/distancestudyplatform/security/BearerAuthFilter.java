@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@Profile("security")
 public class BearerAuthFilter extends OncePerRequestFilter {
 
     private JwtTokenProvider jwtTokenProvider;
