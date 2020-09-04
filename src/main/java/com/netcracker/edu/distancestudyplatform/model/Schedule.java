@@ -3,6 +3,7 @@ package com.netcracker.edu.distancestudyplatform.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
@@ -44,6 +45,6 @@ public class Schedule {
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayName;
 
-    @Column(name = "odd_week")
+    @Column(name = "odd_week", columnDefinition = "BIT")
     private Boolean weekIsOdd;
 }

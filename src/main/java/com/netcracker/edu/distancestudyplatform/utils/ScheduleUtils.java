@@ -4,9 +4,12 @@ import com.netcracker.edu.distancestudyplatform.dto.ScheduleDto;
 import com.netcracker.edu.distancestudyplatform.mappers.ScheduleMapper;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
@@ -28,6 +31,15 @@ public class ScheduleUtils {
                         Calendar.getInstance()
                                 .getTime()
                                 .getTime()
+                );
+    }
+
+    public static String getNextDayName(){
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, 1);
+        return new SimpleDateFormat("EEEE", Locale.ENGLISH)
+                .format(
+                        c.getTime().getTime()
                 );
     }
 

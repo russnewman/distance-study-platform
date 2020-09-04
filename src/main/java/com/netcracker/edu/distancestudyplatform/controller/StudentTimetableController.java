@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RestController("/schedule")
+@RestController
 public class StudentTimetableController {
     private final ScheduleServiceImpl scheduleServiceImpl;
 
@@ -38,31 +38,38 @@ public class StudentTimetableController {
                 );
     }
 
-    @GetMapping("/today/{studentId}")
+    @GetMapping("/todayStudentSchedule")
     public ScheduleDtoList getTodaySchedule(
-            @PathVariable(value = "studentId") Long studentId) {
+            @RequestParam(value = "studentId") Long studentId) {
         return new ScheduleDtoList(scheduleServiceImpl.getTodaySchedule(studentId));
     }
 
-    @GetMapping("/tomorrow/{studentId}")
+    @GetMapping("/tomorrowStudentSchedule")
     public ScheduleDtoList getNextDaySchedule(
-            @PathVariable(value = "studentId") Long studentId) {
+            @RequestParam(value = "studentId") Long studentId) {
         return new ScheduleDtoList(scheduleServiceImpl.getNextDaySchedule(studentId));
     }
 
-    @GetMapping("/currentEvent/{studentId}")
+    @GetMapping("/currentStudentSubject")
     public SubjectDto getCurrentSubject(
-            @PathVariable(value = "studentId") Long studentId) {
+            @RequestParam(value = "studentId") Long studentId) {
         return scheduleServiceImpl.getCurrentEvent(studentId).getSubjectDto();
     }
 
-    @GetMapping("/nextEvent/{studentId}")
-    public SubjectDto getNextSubject(@PathVariable(value = "studentId") Long studentId){
+    @GetMapping("/nextStudentSubject")
+    public SubjectDto getNextSubject(@RequestParam(value = "studentId") Long studentId){
         return scheduleServiceImpl.getNextEvent(studentId).getSubjectDto();
+    }
+
+    @GetMapping("/getSubjectStudentSchedule")
+    public ScheduleDtoList getSubjectStudentSchedule(@RequestParam(name = "studentId") Long studentId,
+                                                     @RequestParam(name = "subjectId") Long subjectId
+                                                     ){
+        return new ScheduleDtoList(scheduleServiceImpl.getSubjectStudentSchedule(studentId, subjectId));
     }
 
     @PostMapping("/scheduleByDate")
     public SubjectDto searchScheduleWithParameters(){
         return null;
-    }
+    }//fixme
 }

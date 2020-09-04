@@ -62,7 +62,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     public List<ScheduleDto> getNextDaySchedule(Long studentId){
-        return getAnyDaySchedule(studentId, ScheduleUtils.getTodayName(), ScheduleUtils.getWeekIsOdd());
+        return getAnyDaySchedule(studentId, ScheduleUtils.getNextDayName(), ScheduleUtils.getWeekIsOdd());
     }
     public List<ScheduleDto> getTodaySchedule(Long studentId){
         return getAnyDaySchedule(studentId, ScheduleUtils.getTodayName(), ScheduleUtils.getWeekIsOdd());
@@ -72,10 +72,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         return getDayTimeEvent(studentId, ScheduleUtils.getTodayName(), ScheduleUtils.getWeekIsOdd(), LocalTime.now());
     }
 
+    public List<ScheduleDto> getSubjectStudentSchedule(Long studentId, Long subjectId){
+        return ScheduleUtils.castSchedulesToDTO(
+                scheduleRepository.findBySubject_IdAndGroup_Id(
+                        subjectId, studentService.getStudentGroup(studentId).getId()
+                )
+                        .orElseGet(ArrayList::new)
+        );
+    }
+
     public ScheduleDto getDayTimeEvent(Long studentId, String weekDay, Boolean weekIsOdd, LocalTime time){
         return ScheduleMapper.INSTANCE.toDTO(
                 scheduleRepository
-                        .findByClassTime_StartTimeLessThanEqualAndClassTime_EndTimeGreaterThanEqualAndDayNameAndGroupIdAndWeekIsOdd(
+                        .findFirstByClassTime_StartTimeLessThanEqualAndClassTime_EndTimeGreaterThanEqualAndDayNameAndGroupIdAndWeekIsOdd(
                             time,
                             time,
                             DayOfWeek.valueOf(weekDay.toUpperCase()),
@@ -87,7 +96,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     public ScheduleDto getNextEvent(Long studentId){
         return ScheduleMapper.INSTANCE.toDTO(
-                scheduleRepository.findByClassTime_StartTimeGreaterThanAndDayNameAndGroupIdAndWeekIsOdd(
+                scheduleRepository.findFirstByClassTime_StartTimeGreaterThanAndDayNameAndGroupIdAndWeekIsOdd(
                         LocalTime.now(),
                         DayOfWeek.valueOf(ScheduleUtils.getTodayName().toUpperCase()),
                         studentService.getStudentGroup(studentId).getId(),
