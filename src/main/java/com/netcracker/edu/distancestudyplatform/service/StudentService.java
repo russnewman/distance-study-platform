@@ -7,4 +7,5 @@ public interface StudentService {
     Student findByEmail(String email);
     Student findById(Long id);
     Group getStudentGroup(Long userId);
+    Student save(Student s);
 }

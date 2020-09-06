@@ -28,5 +28,10 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherRepository.findById(teacherId).orElseGet(() -> new Teacher());
     }
 
+    @Override
+    public Teacher save(Teacher t) {
+        return teacherRepository.save(t);
+    }
+
 
 }

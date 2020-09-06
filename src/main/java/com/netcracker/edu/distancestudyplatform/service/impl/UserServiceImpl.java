@@ -1,9 +1,10 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
+import com.netcracker.edu.distancestudyplatform.dto.ChangePasswordRequest;
 import com.netcracker.edu.distancestudyplatform.dto.UserDto;
+import com.netcracker.edu.distancestudyplatform.exception.DifferentPasswordsException;
 import com.netcracker.edu.distancestudyplatform.exception.UserNotFoundException;
 import com.netcracker.edu.distancestudyplatform.mappers.UserMapper;
-import com.netcracker.edu.distancestudyplatform.model.Role;
 import com.netcracker.edu.distancestudyplatform.model.Student;
 import com.netcracker.edu.distancestudyplatform.model.Teacher;
 import com.netcracker.edu.distancestudyplatform.model.User;
@@ -14,25 +15,22 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.Optional;
-
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-    private @Getter StudentService studentRepo;
-    private @Getter TeacherService teacherRepo;
+    private @Getter StudentService studentService;
+    private @Getter TeacherService teacherService;
     private @Getter UserMapper userMapper;
 
-    public UserServiceImpl(StudentService studentRepo, TeacherService teacherRepo) {
-        this.studentRepo = studentRepo;
-        this.teacherRepo = teacherRepo;
+    public UserServiceImpl(StudentService studentService, TeacherService teacherService) {
+        this.studentService = studentService;
+        this.teacherService = teacherService;
         this.userMapper = UserMapper.INSTANCE;
     }
 
     public User findByEmail(String email) {
-        Student student = getStudentRepo().findByEmail(email);
-        Teacher teacher = getTeacherRepo().findByEmail(email);
+        Student student = getStudentService().findByEmail(email);
+        Teacher teacher = getTeacherService().findByEmail(email);
 
         if (student != null && teacher != null) {
             throw new IllegalStateException("Student and Teacher can't have the same email address");
@@ -50,5 +48,27 @@ public class UserServiceImpl implements UserService {
     public UserDto getInfoByEmail(String email) {
         User user = findByEmail(email);
         return getUserMapper().toDto(user);
+    }
+
+    @Override
+    public User changePassword(String email, ChangePasswordRequest request) throws DifferentPasswordsException {
+        User user = findByEmail(email);
+        if (!user.getPassword().equals(request.getOldPassword())) {
+            log.trace("Incorrect password was entered for user: " + user.getEmail());
+            throw new DifferentPasswordsException();
+        }
+        if (user.getClass().equals(Student.class)) {
+            Student s = (Student) user;
+            s.setPassword(request.getNewPassword());
+            getStudentService().save(s);
+        } else if (user.getClass().equals(Teacher.class)) {
+            Teacher t = (Teacher) user;
+            t.setPassword(request.getNewPassword());
+            getTeacherService().save(t);
+        } else {
+            throw new UnsupportedOperationException("Can't change password for user with class: " + user.getClass());
+        }
+        log.trace("Password has been changed for user: " + user.getEmail());
+        return user;
     }
 }

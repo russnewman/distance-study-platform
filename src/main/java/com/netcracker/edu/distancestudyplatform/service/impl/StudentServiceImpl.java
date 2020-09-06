@@ -31,4 +31,9 @@ public class StudentServiceImpl implements StudentService {
     public Group getStudentGroup(Long userId) {
         return findById(userId).getGroup();
     }
+
+    @Override
+    public Student save(Student s) {
+        return studentRepo.save(s);
+    }
 }
