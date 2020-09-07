@@ -19,7 +19,7 @@ spring:
       fail-on-empty-beans: false
 
   profiles:
-    active: default
+    active: ${SPRING_PROFILES:default}
 
 jwt:
   token:
