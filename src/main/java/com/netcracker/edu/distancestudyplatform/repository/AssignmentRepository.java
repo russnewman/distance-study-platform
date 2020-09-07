@@ -11,11 +11,12 @@ import java.util.Optional;
 @Repository
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     List<Assignment> findAll();
-    List<Assignment> findAllByStudent_Id(Long studentId);
-    List<Assignment> findByEvent_Id(Long eventId);
+    Optional<List<Assignment>> findAllByStudent_Id(Long studentId);
+    Optional<List<Assignment>> findByEvent_Id(Long eventId);
     Optional<Assignment> findById(Long eventId);
-    List<Assignment> findAllByStudent_IdAndGradeIsNull(Long studentId);
-    List<Assignment> findAllByStudent_IdAndGradeIsNotNull(Long studentId);
-    List<Assignment> findAllByStudent_IdAndEvent_StartDateLessThanEqualAndEvent_EndDateGreaterThanEqual(
+    Optional<List<Assignment>> findAllByStudent_IdAndGradeIsNull(Long studentId);
+    Optional<List<Assignment>> findAllByStudent_IdAndGradeIsNotNull(Long studentId);
+    Optional<List<Assignment>> findAllByStudent_IdAndEvent_StartDateLessThanEqualAndEvent_EndDateGreaterThanEqual(
             Long studentId, LocalDateTime time1,LocalDateTime time2);
+    Optional<List<Assignment>> findByStudent_IdAndEvent_Subject_Id(Long studentId, Long subjectId);
 }
