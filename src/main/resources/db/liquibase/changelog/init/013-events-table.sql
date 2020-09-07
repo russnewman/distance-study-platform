@@ -10,7 +10,7 @@ create table events
         primary key,
     teacher_id  bigint       not null,
     subject_id  bigint       not null,
-    description varchar(500) null,
+    description varchar(5000) null,
     start_date  datetime     null,
     end_date    datetime     null,
     group_id    bigint       not null,

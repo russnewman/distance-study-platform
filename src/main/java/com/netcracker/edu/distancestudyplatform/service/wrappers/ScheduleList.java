@@ -1,4 +1,4 @@
-package com.netcracker.edu.distancestudyplatform.service;
+package com.netcracker.edu.distancestudyplatform.service.wrappers;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;

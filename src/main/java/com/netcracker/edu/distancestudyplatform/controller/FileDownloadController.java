@@ -22,9 +22,9 @@ public class FileDownloadController {
     @Autowired
     private DatabaseFileService dbFileService;
 
-    @GetMapping("/downloadFile/{fileName:.+}")
-    public ResponseEntity<Resource> download(@PathVariable String fileName, HttpServletRequest request){
-        DatabaseFile dbFile = dbFileService.getFile(fileName);
+    @GetMapping("/downloadFile/{fileId:.+}")
+    public ResponseEntity<Resource> download(@PathVariable String fileId, HttpServletRequest request){
+        DatabaseFile dbFile = dbFileService.getFile(fileId);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(dbFile.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")

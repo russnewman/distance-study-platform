@@ -1,7 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
 import com.netcracker.edu.distancestudyplatform.dto.SubjectDtoList;
-import com.netcracker.edu.distancestudyplatform.service.SubjectList;
+import com.netcracker.edu.distancestudyplatform.service.wrappers.SubjectList;
 import com.netcracker.edu.distancestudyplatform.service.SubjectService;
 import com.netcracker.edu.distancestudyplatform.service.impl.SubjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,7 +4,7 @@ import com.netcracker.edu.distancestudyplatform.dto.ScheduleDtoList;
 import com.netcracker.edu.distancestudyplatform.dto.SubjectDto;
 import com.netcracker.edu.distancestudyplatform.model.Group;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;
-import com.netcracker.edu.distancestudyplatform.ui.service.ScheduleList;
+import com.netcracker.edu.distancestudyplatform.ui.service.wrappers.ScheduleList;
 import com.netcracker.edu.distancestudyplatform.ui.service.ScheduleUiService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -190,7 +190,6 @@ public class ScheduleUiServiceImpl implements ScheduleUiService {
         }
         return res;
     }
-
 
     @Override
     public List<Schedule> mapKeysList(Map<Schedule, List<Group>> map){

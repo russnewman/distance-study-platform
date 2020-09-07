@@ -30,19 +30,9 @@
     <input type="hidden" name="subjectName" th:value="${subjectName}">
     <table align= "center" class="table table-dark">
 
-
-<!--        <tr align = "center">-->
-<!--            <td width="35%">Предмет</td>-->
-<!--            <td width="65%"><select name="subjectName" class="form-control">-->
-<!--                <option th:value="null"></option>-->
-<!--                <option th:each="subject: ${subjects}" th:utext="${subject.getName()}"></option>-->
-<!--            </select></td>-->
-<!--        </tr>-->
-
-
         <tr>
             <td width="35%">Группа</td>
-            <td width="65%"><select name="subjectName" class="form-control">
+            <td width="65%"><select name="groupName" class="form-control" required>
                         <option th:value="null"></option>
                         <option th:each="group: ${groups}" th:utext="${group.getGroupName()}"></option>
                         </select></td>
@@ -51,7 +41,7 @@
             <td width="35%">Описание</td>
             <td width="65%">
 
-                <input type="text" name="description" class="form-control"><td>
+                <input type="text" name="description" class="form-control" required><td>
         </tr>
 
 

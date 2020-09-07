@@ -1,4 +1,4 @@
-package com.netcracker.edu.distancestudyplatform.ui.service;
+package com.netcracker.edu.distancestudyplatform.ui.service.wrappers;
 
 
 import com.netcracker.edu.distancestudyplatform.model.Subject;

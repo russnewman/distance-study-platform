@@ -22,7 +22,6 @@ public class DatabaseFileServiceImpl implements DatabaseFileService {
     }
 
 
-
     @Override
     public DatabaseFile storeFile(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -42,4 +41,5 @@ public class DatabaseFileServiceImpl implements DatabaseFileService {
         return dbFileRepository.findById(fileId)
                 .orElseThrow(() -> new FileNotFoundException("File not found with id " + fileId));
     }
+
 }
