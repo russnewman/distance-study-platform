@@ -1,8 +1,10 @@
 package com.netcracker.edu.distancestudyplatform.ui.service;
 
+import com.netcracker.edu.distancestudyplatform.model.DatabaseFile;
 import org.springframework.web.multipart.MultipartFile;
 
 
 public interface DatabaseFileUiService {
-    public void saveDatabaseFile(MultipartFile multipartFile);
+    void saveDatabaseFile(MultipartFile multipartFile);
+    DatabaseFile getFile(String id);
 }

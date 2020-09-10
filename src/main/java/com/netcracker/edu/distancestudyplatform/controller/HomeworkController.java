@@ -1,17 +1,12 @@
 package com.netcracker.edu.distancestudyplatform.controller;
+
+
 import com.netcracker.edu.distancestudyplatform.dto.EventDto;
-import com.netcracker.edu.distancestudyplatform.model.Event;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.GroupService;
-import com.netcracker.edu.distancestudyplatform.service.wrappers.EventList;
-import com.netcracker.edu.distancestudyplatform.service.wrappers.GroupList;
+import com.netcracker.edu.distancestudyplatform.ui.service.GroupList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-
-
 
 @RestController
 public class HomeworkController {
@@ -67,11 +62,8 @@ public class HomeworkController {
 
     @GetMapping("/findGroupsByTeacherAndSubject")
     public GroupList findGroupsByTeacherAndSubject(@RequestParam("teacherId") Long teacherId,
-                                                   @RequestParam("subjectName") String subjectName) throws UnsupportedEncodingException {
+                                                   @RequestParam("subjectName") String subjectName){
 
-
-
-        subjectName = java.net.URLDecoder.decode(subjectName, StandardCharsets.UTF_8);
         return new GroupList(groupService.findGroupsByTeacherAndSubject(teacherId, subjectName));
     }
 }

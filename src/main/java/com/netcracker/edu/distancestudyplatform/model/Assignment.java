@@ -19,7 +19,7 @@ public class Assignment {
     private Long id;
 
     @Column(name = "grade")
-    private int grade;
+    private Integer grade;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
@@ -29,7 +29,10 @@ public class Assignment {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne
+    @ManyToOne(cascade =  CascadeType.ALL)
     @JoinColumn(name = "file_id")
     DatabaseFile dbFile;
+
+    @Column(name = "commentary")
+    private String commentary;
 }

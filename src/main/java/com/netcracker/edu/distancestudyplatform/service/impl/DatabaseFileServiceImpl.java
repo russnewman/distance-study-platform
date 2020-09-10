@@ -11,6 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DatabaseFileServiceImpl implements DatabaseFileService {
@@ -22,9 +24,10 @@ public class DatabaseFileServiceImpl implements DatabaseFileService {
     }
 
 
+
     @Override
     public DatabaseFile storeFile(MultipartFile file) {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         try {
             if (fileName.contains("..")) {
                 throw new FileStorageException("Filename contains invalid path sequence " + fileName);
@@ -42,4 +45,8 @@ public class DatabaseFileServiceImpl implements DatabaseFileService {
                 .orElseThrow(() -> new FileNotFoundException("File not found with id " + fileId));
     }
 
+    @Override
+    public List<DatabaseFile> getFiles(){
+        return dbFileRepository.findAll();
+    }
 }

@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface ScheduleMapper {
     ScheduleMapper INSTANCE = Mappers.getMapper(ScheduleMapper.class);
@@ -17,4 +19,6 @@ public interface ScheduleMapper {
 
     @InheritInverseConfiguration
     ScheduleDto toDTO(Schedule schedule);
+
+    List<ScheduleDto> map(List<Schedule> schedules);
 }

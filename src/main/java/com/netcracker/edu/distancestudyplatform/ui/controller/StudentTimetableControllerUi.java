@@ -36,8 +36,6 @@ public class StudentTimetableControllerUi {
         model.addAttribute("subjects", subjectUiService.getAllSubjects().getSubjects());
         model.addAttribute("todaySchedules", scheduleUiService.getStudentTodaySchedule(studentId).getSchedules());
         model.addAttribute("tomorrowSchedules", scheduleUiService.getStudentTomorrowSchedule(studentId).getSchedules());
-        //model.addAttribute("currentSubject", scheduleUiService.getStudentCurrentSubject(studentId));
-        //model.addAttribute("nextSubject", scheduleUiService.getStudentNextSubject(studentId));
         return "student_schedule";
     }
 
@@ -47,13 +45,4 @@ public class StudentTimetableControllerUi {
         model.addAttribute("subjects", subjectUiService.getAllSubjects().getSubjects());
         return "student_schedule";
     }
-
-    @GetMapping("/test_page")
-    public String test(Model model,
-                       @RequestParam(name="name", required=false, defaultValue="World") String name){
-        model.addAttribute("name", name);
-        return "test_page";
-    }
-
-
 }
