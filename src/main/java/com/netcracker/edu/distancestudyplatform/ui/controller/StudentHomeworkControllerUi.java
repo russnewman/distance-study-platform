@@ -119,14 +119,4 @@ public class StudentHomeworkControllerUi {
 
         return "redirect:/{userEmail}/events/{eventId}/assignments";
     }
-
-    @GetMapping("/image/{id}")
-    public void showHomeworkImage(
-            @PathVariable String id,
-            HttpServletResponse response) throws IOException {
-        response.setContentType("image/jpeg");
-        DatabaseFile dbFile = dbFileUiService.getFile(id);
-        InputStream is = new ByteArrayInputStream(dbFile.getFile());
-        IOUtils.copy(is, response.getOutputStream());
-    }
 }
