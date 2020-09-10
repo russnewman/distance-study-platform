@@ -2,11 +2,15 @@ package com.netcracker.edu.distancestudyplatform.controller;
 
 
 import com.netcracker.edu.distancestudyplatform.dto.EventDto;
+import com.netcracker.edu.distancestudyplatform.model.Event;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.GroupService;
-import com.netcracker.edu.distancestudyplatform.ui.service.GroupList;
+import com.netcracker.edu.distancestudyplatform.service.wrappers.EventList;
+import com.netcracker.edu.distancestudyplatform.service.wrappers.GroupList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.nio.charset.StandardCharsets;
 
 @RestController
 public class HomeworkController {
@@ -51,8 +55,8 @@ public class HomeworkController {
 
     @GetMapping("/getEvents")
     public EventList getEvents(@RequestParam("teacherId") Long teacherId,
-                                @RequestParam("sortingType") String sortingType,
-                                @RequestParam("subjectName") String subjectName){
+                               @RequestParam("sortingType") String sortingType,
+                               @RequestParam("subjectName") String subjectName){
 
         sortingType = java.net.URLDecoder.decode(sortingType, StandardCharsets.UTF_8);
         subjectName = java.net.URLDecoder.decode(subjectName, StandardCharsets.UTF_8);

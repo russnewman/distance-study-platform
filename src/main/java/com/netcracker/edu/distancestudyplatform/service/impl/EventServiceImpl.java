@@ -2,17 +2,19 @@ package com.netcracker.edu.distancestudyplatform.service.impl;
 
 import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
 import com.netcracker.edu.distancestudyplatform.dto.EventDto;
+import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
+import com.netcracker.edu.distancestudyplatform.mappers.EventMapper;
 import com.netcracker.edu.distancestudyplatform.model.*;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
-import com.netcracker.edu.distancestudyplatform.service.EventService;
-import com.netcracker.edu.distancestudyplatform.service.GroupService;
-import com.netcracker.edu.distancestudyplatform.service.SubjectService;
-import com.netcracker.edu.distancestudyplatform.service.TeacherService;
+import com.netcracker.edu.distancestudyplatform.service.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -20,13 +22,15 @@ public class EventServiceImpl implements EventService {
     private final TeacherService teacherService;
     private final SubjectService subjectService;
     private final GroupService groupService;
+    private final StudentService studentService;
 
 
-    public EventServiceImpl(EventRepository eventRepository, TeacherService teacherService, SubjectService subjectService, GroupService groupService) {
+    public EventServiceImpl(EventRepository eventRepository, TeacherService teacherService, SubjectService subjectService, GroupService groupService, StudentService studentService) {
         this.eventRepository = eventRepository;
         this.teacherService = teacherService;
         this.subjectService = subjectService;
         this.groupService = groupService;
+        this.studentService = studentService;
     }
 
     @Override
@@ -174,7 +178,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventStudentDto getEventById(Long eventId) {
+    public EventStudentDto getEventDtoById(Long eventId) {
         return EventMapper.INSTANCE.toDTO(
                 eventRepository.findById(eventId).orElseGet(Event::new)
         );

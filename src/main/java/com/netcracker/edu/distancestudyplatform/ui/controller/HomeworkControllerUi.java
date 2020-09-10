@@ -1,6 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.ui.controller;
 
-import com.netcracker.edu.distancestudyplatform.ui.dto.DatabaseFileDto;
+import com.netcracker.edu.distancestudyplatform.model.Event;
+import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
 import com.netcracker.edu.distancestudyplatform.ui.dto.EventDto;
 
 import com.netcracker.edu.distancestudyplatform.ui.service.EventUiService;
@@ -12,11 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 

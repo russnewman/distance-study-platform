@@ -1,14 +1,17 @@
 package com.netcracker.edu.distancestudyplatform.ui.service.impl;
 
+import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.model.Event;
 import com.netcracker.edu.distancestudyplatform.ui.dto.EventDto;
 import com.netcracker.edu.distancestudyplatform.ui.service.EventUiService;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import com.netcracker.edu.distancestudyplatform.ui.service.wrappers.EventList;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @Service
 public class EventUiServiceImpl implements EventUiService {
@@ -16,13 +19,10 @@ public class EventUiServiceImpl implements EventUiService {
 
     private String baseURL = "http://localhost:8080";
 
-    final static private String baseUri = "http://localhost:8080/";
-
     @Override
     public void saveEventDto(EventDto eventDto) {
 
         String URL = baseURL + "/saveEvent";
-        String URL = baseUri + "/saveEvent";
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -98,35 +98,33 @@ public class EventUiServiceImpl implements EventUiService {
 
     }
 
-    }
-
     @Override
     public List<EventStudentDto> getAllStudentEvents(Long studentId) {
-        String URL = baseUri + "events/all";
+        String URL = baseURL + "events/all";
         return getEventStudentRestTemplate(URL, studentId);
     }
 
     @Override
     public List<EventStudentDto> getAllStudentSubjectEvents(Long studentId, Long subjectId) {
-        String URL = baseUri + "events/all";
+        String URL = baseURL + "events/all";
         return getEventStudentSubjectRestTemplate(URL, studentId, subjectId);
     }
 
     @Override
     public List<EventStudentDto> getActiveStudentEvents(Long studentId) {
-        String URL = baseUri + "events/active";
+        String URL = baseURL + "events/active";
         return getEventStudentRestTemplate(URL, studentId);
     }
 
     @Override
     public List<EventStudentDto> getActiveStudentSubjectEvents(Long studentId, Long subjectId) {
-        String URL = baseUri + "events/active";
+        String URL = baseURL + "events/active";
         return getEventStudentSubjectRestTemplate(URL, studentId, subjectId);
     }
 
     @Override
     public EventStudentDto getEvent(Long eventId) {
-        String URL = baseUri + "events";
+        String URL = baseURL + "events";
         return getEventRestTemplate(URL, eventId);
     }
 
