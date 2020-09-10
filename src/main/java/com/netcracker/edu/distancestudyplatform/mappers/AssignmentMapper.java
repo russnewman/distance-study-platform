@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper
 public interface AssignmentMapper {
     AssignmentMapper INSTANCE = Mappers.getMapper(AssignmentMapper.class);
+    Assignment toAssignment(AssignmentDto assignmentDto);
     AssignmentDto toDTO(Assignment assignment);
     List<AssignmentDto> map(List<Assignment> assignments);
 }

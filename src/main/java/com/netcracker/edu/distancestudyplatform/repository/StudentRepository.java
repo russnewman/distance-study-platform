@@ -7,5 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends UserRepository<Student> {
-
+    Optional<Student> findByEmail(String email);
 }

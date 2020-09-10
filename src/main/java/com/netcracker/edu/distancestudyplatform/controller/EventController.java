@@ -1,6 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
-import com.netcracker.edu.distancestudyplatform.dto.EventDto;
+import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +18,9 @@ public class EventController {
     public  EventController (EventService eventService){
         this.eventService = eventService;
     }
-    @GetMapping("/")
-    public List<EventDto> getAllStudentEvents(
+
+    @GetMapping("/all")
+    public List<EventStudentDto> getAllStudentEvents(
             @RequestParam Long studentId,
             @RequestParam(required = false) Optional<Long> subjectId) {
         if(subjectId.isPresent()){
@@ -28,13 +29,18 @@ public class EventController {
         return eventService.getAllStudentEvents(studentId);
     }
 
-    @GetMapping("/active/")
-    public List<EventDto> getAllActiveStudentEvents(
+    @GetMapping("/active")
+    public List<EventStudentDto> getAllActiveStudentEvents(
             @RequestParam Long studentId,
             @RequestParam(required = false) Optional<Long> subjectId) {
         if(subjectId.isPresent()){
             return eventService.getAllActiveStudentSubjectEvents(studentId, subjectId.get());
         }
         return eventService.getAllActiveStudentEvents(studentId);
+    }
+
+    @GetMapping
+    public EventStudentDto getEvent(@RequestParam Long eventId){
+        return eventService.getEventById(eventId);
     }
 }

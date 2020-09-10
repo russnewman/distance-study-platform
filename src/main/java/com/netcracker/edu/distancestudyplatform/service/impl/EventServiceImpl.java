@@ -1,11 +1,12 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
-import com.netcracker.edu.distancestudyplatform.dto.EventDto;
+import com.netcracker.edu.distancestudyplatform.ui.dto.DatabaseFileDtoUi;
+import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.mappers.EventMapper;
 import com.netcracker.edu.distancestudyplatform.model.*;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
 import com.netcracker.edu.distancestudyplatform.service.*;
+import com.netcracker.edu.distancestudyplatform.ui.dto.EventDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -54,7 +55,7 @@ public class EventServiceImpl implements EventService {
         event.setEndDate(endLdt);
 
 
-        DatabaseFileDto databaseFileDto = eventDto.getDatabaseFileDto();
+        DatabaseFileDtoUi databaseFileDto = eventDto.getDatabaseFileDto();
             DatabaseFile databaseFile = new DatabaseFile(databaseFileDto.getFileName(),
                     databaseFileDto.getFileType(),
                     databaseFileDto.getFile());
@@ -66,12 +67,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDto> getAllEvents() {
+    public List<EventStudentDto> getAllEvents() {
         return EventMapper.INSTANCE.map(eventRepository.findAll());
     }
 
     @Override
-    public List<EventDto> getAllStudentEvents(Long studentId) {
+    public List<EventStudentDto> getAllStudentEvents(Long studentId) {
         return EventMapper.INSTANCE.map(
                 eventRepository.findByGroup_Id(studentService.getStudentGroup(studentId).getId())
                         .orElseGet(ArrayList::new)
@@ -79,7 +80,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDto> getAllStudentSubjectEvents(Long studentId, Long subjectId) {
+    public List<EventStudentDto> getAllStudentSubjectEvents(Long studentId, Long subjectId) {
         return EventMapper.INSTANCE.map(
                 eventRepository.findBySubject_IdAndGroup_Id(
                         subjectId, studentService.getStudentGroup(studentId).getId()
@@ -88,7 +89,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDto> getAllActiveStudentEvents(Long studentId) {
+    public List<EventStudentDto> getAllActiveStudentEvents(Long studentId) {
         return EventMapper.INSTANCE.map(
                 eventRepository.findByGroup_IdAndEndDateGreaterThan(
                         studentService.getStudentGroup(studentId).getId(), LocalDateTime.now()
@@ -97,7 +98,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDto> getAllActiveStudentSubjectEvents(Long studentId, Long subjectId) {
+    public List<EventStudentDto> getAllActiveStudentSubjectEvents(Long studentId, Long subjectId) {
         return EventMapper.INSTANCE.map(
                 eventRepository.findByGroup_IdAndSubject_IdAndEndDateGreaterThan(
                         studentService.getStudentGroup(studentId).getId(), subjectId, LocalDateTime.now()
@@ -106,7 +107,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDto getEventById(Long eventId) {
+    public EventStudentDto getEventById(Long eventId) {
         return EventMapper.INSTANCE.toDTO(
                 eventRepository.findById(eventId).orElseGet(Event::new)
         );

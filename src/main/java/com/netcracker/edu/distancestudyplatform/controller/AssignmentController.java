@@ -1,7 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
 import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
-import com.netcracker.edu.distancestudyplatform.mappers.EventMapper;
+import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
 import com.netcracker.edu.distancestudyplatform.model.DatabaseFile;
 import com.netcracker.edu.distancestudyplatform.repository.AssignmentRepository;
@@ -61,25 +61,32 @@ public class AssignmentController {
         return assignmentService.getActiveAssignments(studentId);
     }
 
-    @PostMapping("/{studentId}/events/{eventId}/addAssignment")
-    public String addAssignment(
-            @PathVariable Long studentId,
-            @PathVariable Long eventId,
-            @RequestParam MultipartFile file,
-            @RequestParam(required = false) Optional<String> commentary
-    ) throws IOException {
-        DatabaseFile dbFile = new DatabaseFile(
-                file.getOriginalFilename(),
-                file.getContentType(),
-                file.getBytes()
-        );
-        Assignment assignment = new Assignment();
-        assignment.setStudent(studentService.findById(studentId));
-        assignment.setEvent(EventMapper.INSTANCE.fromDTO(eventService.getEventById(eventId)));
-        assignment.setDbFile(dbFile);
-        assignment.setCommentary(commentary.orElseGet(String::new));
-        assignmentRepository.save(assignment);
-        dbFileService.storeFile(file);
-        return "redirect:/studentAssignments?studentId={studentId}";
+    @GetMapping("/studentEventAssignments")
+    public List<AssignmentDto> getEventAssignments(
+            @RequestParam(name = "studentId") Long studentId,
+            @RequestParam(name = "eventId") Long eventId
+    ) {
+        return assignmentService.getEventAssignments(studentId, eventId);
+    }
+
+    @GetMapping("/studentEventAssessedAssignments")
+    public List<AssignmentDto> getEventAssesedAssignments(
+            @RequestParam(name = "studentId") Long studentId,
+            @RequestParam(name = "eventId") Long eventId
+    ) {
+        return assignmentService.getEventAssessedAssignments(studentId, eventId);
+    }
+
+    @GetMapping("/studentEventUnassessedAssignments")
+    public List<AssignmentDto> getEventUnassesedAssignments(
+            @RequestParam(name = "studentId") Long studentId,
+            @RequestParam(name = "eventId") Long eventId
+    ) {
+        return assignmentService.getEventUnassessedAssignments(studentId, eventId);
+    }
+
+    @PostMapping("/addAssignment")
+    public void add(@RequestBody AssignmentDto assignment){
+        assignmentRepository.save(AssignmentMapper.INSTANCE.toAssignment(assignment));
     }
 }

@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DatabaseFileDto {
-
+public class DatabaseFileDtoUi {
     private String fileName;
     private String fileType;
     private byte[] file;

@@ -19,4 +19,14 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     Optional<List<Assignment>> findAllByStudent_IdAndEvent_StartDateLessThanEqualAndEvent_EndDateGreaterThanEqual(
             Long studentId, LocalDateTime time1,LocalDateTime time2);
     Optional<List<Assignment>> findByStudent_IdAndEvent_Subject_Id(Long studentId, Long subjectId);
+    Optional<List<Assignment>> findByStudent_IdAndEvent_Id(Long studentId, Long eventId);
+    Optional<List<Assignment>> findByStudent_IdAndEvent_IdAndEvent_Subject_Id(
+            Long studentId, Long eventId, Long subjectId
+    );
+    Optional<List<Assignment>> findByStudent_IdAndEvent_IdAndGradeIsNull(
+            Long studentId, Long eventId
+    );
+    Optional<List<Assignment>> findByStudent_IdAndEvent_IdAndGradeIsNotNull(
+            Long studentId, Long eventId
+    );
 }

@@ -72,5 +72,38 @@ public class AssignmentServiceImpl implements AssignmentService {
         );
     }
 
+    @Override
+    public List<AssignmentDto> getEventAssignments(Long studentId, Long eventId) {
+        return AssignmentMapper.INSTANCE.map(
+                assignmentRepository.findByStudent_IdAndEvent_Id(
+                        studentId, eventId
+                ).orElseGet(ArrayList::new)
+        );
+    }
+
+    @Override
+    public List<AssignmentDto> getEventAssessedAssignments(Long studentId, Long eventId) {
+        return AssignmentMapper.INSTANCE.map(
+                assignmentRepository.findByStudent_IdAndEvent_IdAndGradeIsNotNull(
+                        studentId, eventId
+                ).orElseGet(ArrayList::new)
+        );
+    }
+
+    @Override
+    public List<AssignmentDto> getEventUnassessedAssignments(Long studentId, Long eventId) {
+        return AssignmentMapper.INSTANCE.map(
+                assignmentRepository.findByStudent_IdAndEvent_IdAndGradeIsNull(
+                        studentId, eventId
+                ).orElseGet(ArrayList::new)
+        );
+    }
+
+    @Override
+    public void saveAssignment(AssignmentDto assignmentDto) {
+        Assignment assignment = AssignmentMapper.INSTANCE.toAssignment(assignmentDto);
+        assignmentRepository.save(assignment);
+    }
+
 
 }

@@ -12,6 +12,5 @@ public class EventDto {
     private String description;
     private Date startTime;
     private Date endTime;
-    private DatabaseFileDto databaseFileDto;
-
+    private DatabaseFileDtoUi databaseFileDto;
 }

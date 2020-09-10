@@ -1,18 +1,19 @@
 package com.netcracker.edu.distancestudyplatform.service;
 
-import com.netcracker.edu.distancestudyplatform.dto.EventDto;
+import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.model.Event;
+import com.netcracker.edu.distancestudyplatform.ui.dto.EventDto;
 
 import java.util.List;
-import java.util.Optional;
 
 
 public interface EventService {
     void saveEvent(EventDto eventDto);
-    List<EventDto> getAllEvents();
-    List<EventDto> getAllStudentEvents(Long studentId);
-    List<EventDto> getAllStudentSubjectEvents(Long studentId, Long subjectId);
-    List<EventDto> getAllActiveStudentEvents(Long studentId);
-    List<EventDto> getAllActiveStudentSubjectEvents(Long studentId, Long subjectId);
-    EventDto getEventById(Long eventId);
+
+    List<EventStudentDto> getAllEvents();
+    List<EventStudentDto> getAllStudentEvents(Long studentId);
+    List<EventStudentDto> getAllStudentSubjectEvents(Long studentId, Long subjectId);
+    List<EventStudentDto> getAllActiveStudentEvents(Long studentId);
+    List<EventStudentDto> getAllActiveStudentSubjectEvents(Long studentId, Long subjectId);
+    EventStudentDto getEventById(Long eventId);
 }

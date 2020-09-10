@@ -15,4 +15,8 @@ public interface AssignmentService {
     List<AssignmentDto> getUnassessedAssignments(Long studentId);
     List<AssignmentDto> getActiveAssignments(Long studentId);
     List<AssignmentDto> getSubjectAssignments(Long studentId, Long subjectId);
+    List<AssignmentDto> getEventAssignments(Long studentId, Long eventId);
+    List<AssignmentDto> getEventAssessedAssignments(Long studentId, Long eventId);
+    List<AssignmentDto> getEventUnassessedAssignments(Long studentId, Long eventId);
+    void saveAssignment(AssignmentDto assignmentDto);
 }

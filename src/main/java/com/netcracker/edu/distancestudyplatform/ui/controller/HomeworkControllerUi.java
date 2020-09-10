@@ -1,12 +1,13 @@
 package com.netcracker.edu.distancestudyplatform.ui.controller;
 
-import com.netcracker.edu.distancestudyplatform.ui.dto.DatabaseFileDto;
+import com.netcracker.edu.distancestudyplatform.ui.dto.DatabaseFileDtoUi;
 import com.netcracker.edu.distancestudyplatform.ui.dto.EventDto;
 
 import com.netcracker.edu.distancestudyplatform.ui.service.EventUiService;
 import com.netcracker.edu.distancestudyplatform.ui.service.GroupUiService;
 import com.netcracker.edu.distancestudyplatform.ui.service.SubjectUiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -94,9 +95,9 @@ public class HomeworkControllerUi {
 
         if (fileOptional.isPresent()){
             String fileName = StringUtils.cleanPath(fileOptional.get().getOriginalFilename());
-            DatabaseFileDto databaseFileDto = new DatabaseFileDto(fileName, fileOptional.get().getContentType(),
+            DatabaseFileDtoUi databaseFileDtoUi = new DatabaseFileDtoUi(fileName, fileOptional.get().getContentType(),
                                                                             fileOptional.get().getBytes());
-            eventDto.setDatabaseFileDto(databaseFileDto);
+            eventDto.setDatabaseFileDto(databaseFileDtoUi);
         }
 
 

@@ -1,9 +1,10 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
 
-import com.netcracker.edu.distancestudyplatform.dto.EventDto;
+import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.GroupService;
+import com.netcracker.edu.distancestudyplatform.ui.dto.EventDto;
 import com.netcracker.edu.distancestudyplatform.ui.service.GroupList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
