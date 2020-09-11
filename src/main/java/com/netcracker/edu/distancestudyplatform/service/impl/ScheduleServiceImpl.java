@@ -114,46 +114,40 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
     @Override
-    public List<Schedule> getTeacherSchedule(Long teacherId) {
-        return scheduleRepository.findAllByTeacherId(teacherId).orElseGet(ArrayList::new);
+    public List<ScheduleDto> getTeacherSchedule(Long teacherId, Optional<Boolean> weekIsOddOptional) {
+        List<Schedule> schedules;
+        if (weekIsOddOptional.isPresent()) {
+            schedules = scheduleRepository.findAllByTeacherIdAndWeekIsOdd(teacherId, weekIsOddOptional.get()).orElseGet(ArrayList::new);
+        }
+        else schedules = scheduleRepository.findAllByTeacherId(teacherId).orElseGet(ArrayList::new);
+        return ScheduleUtils.castSchedulesToDTO(schedules);
     }
 
 
     @Override
-    public List<Schedule> getTomorrowTeacherSchedule(Long teacherId) {
+    public List<ScheduleDto> getTomorrowTeacherSchedule(Long teacherId, Optional<Boolean> weekIsOddOptional) {
 
-        String tomorrowDayName = ScheduleUtils.getTomorrowName();
-        return scheduleRepository.findAllByTeacherIdAndDayName(teacherId, DayOfWeek.valueOf(tomorrowDayName.toUpperCase())).orElseGet(ArrayList::new);
+        List<Schedule> schedules;
+        DayOfWeek dayOfWeek = DayOfWeek.valueOf(ScheduleUtils.getTomorrowName().toUpperCase());
+        if (weekIsOddOptional.isPresent()){
+            schedules = scheduleRepository.findAllByTeacherIdAndWeekIsOddAndDayName(teacherId, weekIsOddOptional.get(), dayOfWeek).orElseGet(ArrayList::new);
+        }
+        else schedules = scheduleRepository.findAllByTeacherIdAndDayName(teacherId, dayOfWeek).orElseGet(ArrayList::new);
+        return ScheduleUtils.castSchedulesToDTO(schedules);
     }
 
 
     @Override
-    public List<Schedule> getTeacherSchedule(Long teacherId, Boolean weekIsOdd) {
-        return scheduleRepository.findAllByTeacherIdAndWeekIsOdd(teacherId, weekIsOdd).orElseGet(ArrayList::new);
-    }
-
-
-    @Override
-    public List<Schedule> getTomorrowTeacherSchedule(Long teacherId, Boolean weekIsOdd) {
-
-        String tomorrowDayName = ScheduleUtils.getTomorrowName();
-        return  scheduleRepository.findAllByTeacherIdAndWeekIsOddAndDayName(teacherId, weekIsOdd, DayOfWeek.valueOf(tomorrowDayName.toUpperCase())).orElseGet(ArrayList::new);
-    }
-
-
-
-    @Override
-    public List<Schedule> getSubjectTeacherSchedule(List<Schedule> list, Long subjectId) {
+    public List<ScheduleDto> getSubjectTeacherSchedule(List<ScheduleDto> list, Long subjectId) {
         return  list
                 .stream()
-                .filter(x -> x.getSubject().getId().equals(subjectId))
+                .filter(x -> x.getSubjectDto().getId().equals(subjectId))
                 .collect(Collectors.toList());
     }
 
 
-
-    public List<Schedule> getSubjectTeacherSchedule(Long teacherId, String subjectName) {
-        return scheduleRepository.findAllByTeacherIdAndSubjectName(teacherId, subjectName).orElseGet(ArrayList::new);
+    public List<ScheduleDto> getSubjectTeacherSchedule(Long teacherId, String subjectName) {
+        return ScheduleUtils.castSchedulesToDTO(scheduleRepository.findAllByTeacherIdAndSubjectName(teacherId, subjectName).orElseGet(ArrayList::new));
     }
 
 }

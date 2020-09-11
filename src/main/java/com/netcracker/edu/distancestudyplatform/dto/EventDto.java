@@ -1,22 +1,26 @@
 package com.netcracker.edu.distancestudyplatform.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
-import java.util.Date;
-import java.util.Optional;
+import java.time.LocalDateTime;
+
 
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class EventDto {
-    private Long teacherId;
-    private String subjectName;
-    private String groupName;
-    private String description;
-    private Date startTime;
-    private Date endTime;
 
+    private Long id;
+    private TeacherDto teacher;
+    private SubjectDto subject;
+    private GroupDto group;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private String description;
     private DatabaseFileDto databaseFileDto;
 }

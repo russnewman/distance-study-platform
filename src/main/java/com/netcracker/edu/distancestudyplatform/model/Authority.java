@@ -27,7 +27,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Authority implements GrantedAuthority, Serializable {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "authority_id")
     private @Setter @Getter Long id;
     @Column(name = "name", unique = true)

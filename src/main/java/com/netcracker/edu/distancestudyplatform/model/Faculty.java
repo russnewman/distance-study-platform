@@ -14,10 +14,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = Faculty.class)
 
 public class Faculty {
     @Id

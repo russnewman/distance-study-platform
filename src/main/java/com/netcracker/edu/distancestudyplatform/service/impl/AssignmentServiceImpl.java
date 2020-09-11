@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,5 +43,11 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public List<Assignment> getUnassessedAssignments(Long studentId) {
         return assignmentRepository.findAllByStudent_IdAndGradeIsNull(studentId);
+    }
+
+
+    @Override
+    public List<Assignment> getAssignmentByEvent(Long eventId) {
+        return assignmentRepository.findAllByEvent_Id(eventId).orElseGet(ArrayList::new);
     }
 }

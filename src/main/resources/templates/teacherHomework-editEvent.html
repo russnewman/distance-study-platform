@@ -34,7 +34,6 @@
             <td width="35%">Предмет</td>
             <td><h3 th:text="${event.getSubject().getName()}"></h3></td>
         </tr>
-
         <tr>
             <td width="35%">Группа</td>
             <td width="65%"><select name="groupName" class="form-control" required>
@@ -69,6 +68,9 @@
                 <button class="btn" type="submit">Обновить</button></td>
         </tr>
     </table>
+
+        <input type="hidden" name="sortingType" th:value="${sortingType}">
+        <input type="hidden" name="subjectName" th:value="${subjectName}">
 </form>
 
 </body>

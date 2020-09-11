@@ -25,10 +25,7 @@
 <body>
 <th:block th:insert="fragments/navbar.html :: navbar" />
 
-
 <form  align="center" th:action="'/teacherHomework/getEvents/' + ${teacherId}"  method='GET'>
-
-
     <table align= "center" class="table">
         <tr>
             <td width="35%">Сортировать</td>
@@ -51,8 +48,6 @@
     </table>
 </form>
 
-
-
 <div class="container">
     <div class="row p-3">
         <div class="col-md-4 p-3" th:each="event: ${events}">
@@ -60,8 +55,7 @@
                 <div class="card-header" th:text="${event.getStartDate().format(dateTimeFormatter)} +' - '+ ${event.getEndDate().format(dateTimeFormatter)}">
                 </div>
                 <div class="card-body text-center">
-                        <div th:text="${event.getStartDate().getMinute()}">
-                        </div>
+
                     <h5 th:text="${event.getSubject().getName()}"></h5>
                     <h5 th:text="'Группа: '+ ${event.getGroup().getGroupName()}"></h5>
 
@@ -80,7 +74,13 @@
                 </div>
                 <div class="card-footer">
                     <div class="row justify-content-md-center">
-                        <a th:href="'/teacherHomework/editEvent/' + ${teacherId} +'/' + ${event.getId()}" class="btn btn-primary btn-sm">Редактировать</a>
+<!--                        <a th:href="'/teacherHomework/editEvent/' + ${teacherId} +'/' + ${event.getId()}" class="btn btn-primary btn-sm">Редактировать</a>-->
+                        <form th:action="'/teacherHomework/editEvent/' + ${teacherId} +'/' + ${event.getId()}" th:method="GET">
+                            <input type="hidden" name="sortingType" th:value="${sortingType}">
+                            <input type="hidden" name="subjectName" th:value="${subjectName}">
+                            <button class="btn btn-primary btn-sm" type="submit">Редактировать</button>
+                        </form>
+
                         <form th:action="'/teacherHomework/deleteEvent/' + ${teacherId} + '/' + ${event.getId()}" th:method="POST">
                             <input type="hidden" name="sortingType" th:value="${sortingType}">
                             <input type="hidden" name="subjectName" th:value="${subjectName}">

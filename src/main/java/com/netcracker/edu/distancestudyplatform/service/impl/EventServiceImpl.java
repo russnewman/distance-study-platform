@@ -2,18 +2,22 @@ package com.netcracker.edu.distancestudyplatform.service.impl;
 
 import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
 import com.netcracker.edu.distancestudyplatform.dto.EventDto;
+import com.netcracker.edu.distancestudyplatform.dto.EventFormDto;
+import com.netcracker.edu.distancestudyplatform.mappers.EventMapper;
 import com.netcracker.edu.distancestudyplatform.model.*;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.GroupService;
 import com.netcracker.edu.distancestudyplatform.service.SubjectService;
 import com.netcracker.edu.distancestudyplatform.service.TeacherService;
+import liquibase.pro.packaged.C;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletOutputStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -31,18 +35,18 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void saveEvent(EventDto eventDto) {
+    public void saveEvent(EventFormDto eventFormDto) {
 
         Event event = new Event();
 
-        Teacher teacher = teacherService.findById(eventDto.getTeacherId());
-        Subject subject = subjectService.findSubjectByName(eventDto.getSubjectName());
-        Group group = groupService.findGroupByGroupName(eventDto.getGroupName());
-        String description = eventDto.getDescription();
+        Teacher teacher = teacherService.findById(eventFormDto.getTeacherId());
+        Subject subject = subjectService.findSubjectByName(eventFormDto.getSubjectName());
+        Group group = groupService.findGroupByGroupName(eventFormDto.getGroupName());
+        String description = eventFormDto.getDescription();
 
-        LocalDateTime startLdt = LocalDateTime.ofInstant(eventDto.getStartTime().toInstant(),
+        LocalDateTime startLdt = LocalDateTime.ofInstant(eventFormDto.getStartTime().toInstant(),
                 ZoneId.systemDefault());
-        LocalDateTime endLdt = LocalDateTime.ofInstant(eventDto.getEndTime().toInstant(),
+        LocalDateTime endLdt = LocalDateTime.ofInstant(eventFormDto.getEndTime().toInstant(),
                 ZoneId.systemDefault());
 
 
@@ -54,22 +58,21 @@ public class EventServiceImpl implements EventService {
         event.setEndDate(endLdt);
 
 
-        DatabaseFileDto databaseFileDto = eventDto.getDatabaseFileDto();
+        DatabaseFileDto databaseFileDto = eventFormDto.getDatabaseFileDto();
             DatabaseFile databaseFile = new DatabaseFile(databaseFileDto.getFileName(),
                     databaseFileDto.getFileType(),
                     databaseFileDto.getFile());
 
-
         event.setDbFile(databaseFile);
-
         eventRepository.save(event);
     }
 
 
     @Override
-    public List<Event> getEvents(Long teacherId, String sortingType, String subjectName) {
+    public List<EventDto> getEvents(Long teacherId, String sortingType, String subjectName) {
         Teacher teacher = teacherService.findById(teacherId);
         List<Event> events;
+
 
         if (subjectName.equals("all"))
             events = eventRepository.findAllByTeacher(teacher).orElseGet(ArrayList::new);
@@ -79,11 +82,9 @@ public class EventServiceImpl implements EventService {
             events = eventRepository.findAllByTeacherAndSubject(teacher, subject).orElseGet(ArrayList::new);
         }
         if (sortingType.equals("addSort")){
-            System.out.println(sortingType);
             Collections.reverse(events);
         }
         else{
-            System.out.println("deadlineSort");
             events.sort(new Comparator<Event>() {
                 @Override
                 public int compare(Event o1, Event o2) {
@@ -91,7 +92,10 @@ public class EventServiceImpl implements EventService {
                 }
             });
         }
-        return events;
+
+        return events.stream()
+                        .map(EventMapper.INSTANCE::toDTO)
+                        .collect(Collectors.toList());
     }
 
 
@@ -101,12 +105,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event getEventById(Long eventId) {
-        return eventRepository.findById(eventId).orElseGet(Event::new);
+    public EventDto getEventById(Long eventId) {
+        return EventMapper.INSTANCE.toDTO(eventRepository.findById(eventId).orElseThrow());
     }
 
     @Override
-    public void editEvent(Long eventId, EventDto eventDto) {
+    public void editEvent(Long eventId, EventFormDto eventDto) {
         Event event = eventRepository.findById(eventId).orElseThrow();
 
         Group group = groupService.findGroupByGroupName(eventDto.getGroupName());

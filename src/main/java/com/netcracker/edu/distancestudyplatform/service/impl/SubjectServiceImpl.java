@@ -42,7 +42,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public Subject findById(Long subjectId) {
-        return subjectRepository.findById(subjectId).orElseGet(()->new Subject());
+        return subjectRepository.findById(subjectId).orElseGet(Subject::new);
     }
 
     @Override
@@ -52,7 +52,8 @@ public class SubjectServiceImpl implements SubjectService {
 
 
     @Override
-    public List<Subject> getSubjectsByTeacherId(Long teacherId) {
-        return teacherService.findById(teacherId).getSubjects();
+    public SubjectDtoList getSubjectsByTeacherId(Long teacherId) {
+        List<Subject> subjects = teacherService.findById(teacherId).getSubjects();
+        return new SubjectDtoList(castSubjectsToDTO(teacherService.findById(teacherId).getSubjects()));
     }
 }

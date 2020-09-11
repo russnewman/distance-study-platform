@@ -1,5 +1,8 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
+import com.netcracker.edu.distancestudyplatform.dto.GroupDto;
+import com.netcracker.edu.distancestudyplatform.dto.ScheduleDto;
+import com.netcracker.edu.distancestudyplatform.mappers.GroupMapper;
 import com.netcracker.edu.distancestudyplatform.model.Group;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;
 import com.netcracker.edu.distancestudyplatform.repository.GroupRepository;
@@ -7,8 +10,10 @@ import com.netcracker.edu.distancestudyplatform.service.GroupService;
 import com.netcracker.edu.distancestudyplatform.service.ScheduleService;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -35,13 +40,16 @@ public class GroupServiceImpl implements GroupService {
 
 
     @Override
-    public List<Group> findGroupsByTeacherAndSubject(Long teacherId, String subjectName) {
-        List<Schedule> schedules = scheduleService.getSubjectTeacherSchedule(teacherId, subjectName);
-        List<Group> groups = new ArrayList<>();
-        for (Schedule sch: schedules) {
-            if (!groups.contains(sch.getGroup()))
-                groups.add(sch.getGroup());
+    public List<GroupDto> findGroupsByTeacherAndSubject(Long teacherId, String subjectName) {
+        List<ScheduleDto> schedules = scheduleService.getSubjectTeacherSchedule(teacherId, subjectName);
+        List<GroupDto> groups = new ArrayList<>();
+        for (ScheduleDto sch: schedules) {
+            if (!groups.contains(sch.getGroupDto()))
+                groups.add(sch.getGroupDto());
         }
+
+
         return groups;
+
     }
 }

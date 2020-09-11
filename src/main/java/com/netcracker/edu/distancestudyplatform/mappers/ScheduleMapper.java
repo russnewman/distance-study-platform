@@ -13,6 +13,7 @@ public interface ScheduleMapper {
 
     @Mapping(source = "subjectDto", target = "subject")
     @Mapping(source = "classTimeDto", target = "classTime")
+    @Mapping(source = "groupDto", target = "group")
     Schedule toSchedule(ScheduleDto scheduleDto);
 
     @InheritInverseConfiguration

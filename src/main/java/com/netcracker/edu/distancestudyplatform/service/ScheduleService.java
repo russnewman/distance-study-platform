@@ -7,6 +7,7 @@ import com.netcracker.edu.distancestudyplatform.model.Schedule;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ScheduleService {
     List<ScheduleDto> getGroupSchedule(Group studentGroup);
@@ -25,11 +26,9 @@ public interface ScheduleService {
     //Methods need for teacherTT functionality//
 
 
-    List<Schedule> getTeacherSchedule(Long teacherId);
-    List<Schedule> getTomorrowTeacherSchedule(Long teacherId);
-    List<Schedule> getTeacherSchedule(Long teacherId, Boolean weekIsOdd);
-    List<Schedule> getTomorrowTeacherSchedule(Long teacherId, Boolean weekIsOdd);
-    List<Schedule> getSubjectTeacherSchedule(List<Schedule> list, Long subjectId);
-    List<Schedule> getSubjectTeacherSchedule(Long teacherId, String subjectName);
+    List<ScheduleDto> getTeacherSchedule(Long teacherId, Optional<Boolean> weekIsOddOptional);
+    List<ScheduleDto> getTomorrowTeacherSchedule(Long teacherId, Optional<Boolean> weekIsOddOptional);
+    List<ScheduleDto> getSubjectTeacherSchedule(List<ScheduleDto> list, Long subjectId);
+    List<ScheduleDto> getSubjectTeacherSchedule(Long teacherId, String subjectName);
 
 }

@@ -15,10 +15,7 @@ import java.util.List;
 @Table(name = "student_groups")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = Group.class)
+
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +28,7 @@ public class Group {
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<Student> students;
+
 
     @ManyToOne
     @JoinColumn(name = "faculty_id")

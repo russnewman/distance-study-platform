@@ -16,10 +16,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = Event.class)
 
 public class Event {
     @Id

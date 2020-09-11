@@ -19,10 +19,6 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = Schedule.class)
 
 public class Schedule {
     @Id
@@ -57,21 +53,5 @@ public class Schedule {
     @Column(name = "odd_week", columnDefinition = "BIT")
     private Boolean weekIsOdd;
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Schedule schedule = (Schedule) o;
-        return classTime.getStartTime().equals(schedule.classTime.getStartTime()) &&
-                dayName.equals(schedule.dayName) &&
-                weekIsOdd.equals(schedule.weekIsOdd);
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(classTime.getStartTime(), dayName, weekIsOdd);
-    }
 
 }

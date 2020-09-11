@@ -20,10 +20,12 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
+
     @GetMapping("/allSubjects")
     public SubjectDtoList getAllSubjects(){
         return subjectServiceImpl.getAll();
     }
+
 
     @GetMapping("/subject")
     public SubjectDtoList getAllSubjects(@RequestParam(value = "id") Long subjectId){
@@ -31,8 +33,9 @@ public class SubjectController {
     }
 
     @GetMapping("/subjectsByTeacher")
-    public SubjectList getSubjectsByTeacher(@RequestParam("teacherId") Long teacherId){
-        return new SubjectList(subjectService.getSubjectsByTeacherId(teacherId));
+    public SubjectDtoList getSubjectsByTeacher(@RequestParam("teacherId") Long teacherId){
+
+        return subjectService.getSubjectsByTeacherId(teacherId);
     }
 
 }

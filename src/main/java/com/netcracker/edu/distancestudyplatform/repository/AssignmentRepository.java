@@ -18,4 +18,7 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     List<Assignment> findAllByStudent_IdAndGradeIsNotNull(Long studentId);
     List<Assignment> findAllByStudent_IdAndEvent_StartDateLessThanEqualAndEvent_EndDateGreaterThanEqual(
             Long studentId, LocalDateTime time1,LocalDateTime time2);
+
+
+    Optional<List<Assignment>> findAllByEvent_Id(Long eventId);
 }

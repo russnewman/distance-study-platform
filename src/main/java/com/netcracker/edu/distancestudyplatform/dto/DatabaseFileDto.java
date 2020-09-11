@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DatabaseFileDto {
-
+    private String id;
     private String fileName;
     private String fileType;
     private byte[] file;

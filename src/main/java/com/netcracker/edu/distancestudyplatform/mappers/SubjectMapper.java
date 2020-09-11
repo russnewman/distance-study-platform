@@ -1,6 +1,5 @@
 package com.netcracker.edu.distancestudyplatform.mappers;
 
-import com.netcracker.edu.distancestudyplatform.dto.StudentDto;
 import com.netcracker.edu.distancestudyplatform.dto.SubjectDto;
 import com.netcracker.edu.distancestudyplatform.model.Subject;
 import org.mapstruct.Mapper;

@@ -1,6 +1,8 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
 
+import com.netcracker.edu.distancestudyplatform.dto.ScheduleDto;
+import com.netcracker.edu.distancestudyplatform.dto.ScheduleDtoList;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;
 import com.netcracker.edu.distancestudyplatform.service.wrappers.ScheduleList;
 import com.netcracker.edu.distancestudyplatform.service.ScheduleService;
@@ -8,6 +10,7 @@ import com.netcracker.edu.distancestudyplatform.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -23,39 +26,23 @@ public class TeacherTimetableController {
         this.subjectService = subjectService;
     }
 
-
-    @GetMapping("/teacherSchedule")
-    public ScheduleList getTeacherSchedule(@RequestParam("teacherId") Long teacherId){
-        return new ScheduleList(scheduleService.getTeacherSchedule(teacherId));
-    }
-
-
-
     @GetMapping("/teacherWeekSchedule")
-    public ScheduleList getTeacherSchedule(@RequestParam("teacherId") Long teacherId,
-                                              @RequestParam Boolean weekIsOdd){
-        return new ScheduleList(scheduleService.getTeacherSchedule(teacherId, weekIsOdd));
-    }
-
-
-    @GetMapping("/tomorrowTeacherSchedule")
-    public ScheduleList getTomorrowTeacherSchedule(@RequestParam("teacherId") Long teacherId){
-        return new ScheduleList(scheduleService.getTomorrowTeacherSchedule(teacherId));
+    public ScheduleDtoList getTeacherSchedule(@RequestParam("teacherId") Long teacherId,
+                                              @RequestParam Optional<Boolean> weekIsOddOptional){
+        return new ScheduleDtoList(scheduleService.getTeacherSchedule(teacherId, weekIsOddOptional));
     }
 
 
     @GetMapping("/tomorrowTeacherWeekSchedule")
-    public ScheduleList getTomorrowTeacherSchedule(@RequestParam Long teacherId, @RequestParam Boolean weekIsOdd){
-        return new ScheduleList(scheduleService.getTomorrowTeacherSchedule(teacherId, weekIsOdd));
+    public ScheduleDtoList getTomorrowTeacherSchedule(@RequestParam Long teacherId, @RequestParam Optional<Boolean> weekIsOddOptional){
+        return new ScheduleDtoList(scheduleService.getTomorrowTeacherSchedule(teacherId, weekIsOddOptional));
     }
 
 
-
-
-    @PostMapping(value = "/subjectTeacherSchedule")
-    public ScheduleList getTeacherScheduleBySubject(@RequestBody List<Schedule> schedules,
+    @PostMapping("/subjectTeacherSchedule")
+    public ScheduleDtoList getTeacherScheduleBySubject(@RequestBody List<ScheduleDto> schedules,
                                                     @RequestParam("subjectId") Long subjectId) {
-        return new ScheduleList(scheduleService.getSubjectTeacherSchedule(schedules, subjectId));
+        return new ScheduleDtoList(scheduleService.getSubjectTeacherSchedule(schedules, subjectId));
     }
 
 }

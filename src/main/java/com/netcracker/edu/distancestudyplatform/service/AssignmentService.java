@@ -1,6 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.service;
 
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
+import org.springframework.expression.spel.ast.Assign;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -12,4 +13,7 @@ public interface AssignmentService {
     List<Assignment> getAssignmentByStudent(Long studentId);
     List<Assignment> getAssessedAssignments(Long studentId);
     List<Assignment> getUnassessedAssignments(Long studentId);
+
+
+    List<Assignment> getAssignmentByEvent(Long eventId);
 }

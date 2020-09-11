@@ -15,10 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "students")
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = Student.class)
 public class Student extends AbstractUser {
     @ManyToOne
     @JoinColumn(name = "group_id")
