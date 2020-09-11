@@ -48,7 +48,7 @@ public class HomeworkController {
         eventService.deleteEvent(eventId);
     }
 
-    
+
 
     @GetMapping("/getAssignments")
     public AssignmentList getAssignments(@RequestParam Long eventId){

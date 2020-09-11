@@ -1,6 +1,8 @@
-package com.netcracker.edu.distancestudyplatform.dto;
+package com.netcracker.edu.distancestudyplatform.ui.dto;
+
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -9,6 +11,9 @@ import java.util.Date;
  * Class need for transfer event form request from ui
  * */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class EventDto {
 public class EventFormDto {
 
     private Long teacherId;

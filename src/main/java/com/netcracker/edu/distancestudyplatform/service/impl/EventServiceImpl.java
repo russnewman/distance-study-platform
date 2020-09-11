@@ -26,12 +26,15 @@ public class EventServiceImpl implements EventService {
     private final TeacherService teacherService;
     private final SubjectService subjectService;
     private final GroupService groupService;
+    private final StudentService studentService;
 
-    public EventServiceImpl(EventRepository eventRepository, TeacherService teacherService, SubjectService subjectService, GroupService groupService) {
+
+    public EventServiceImpl(EventRepository eventRepository, TeacherService teacherService, SubjectService subjectService, GroupService groupService, StudentService studentService) {
         this.eventRepository = eventRepository;
         this.teacherService = teacherService;
         this.subjectService = subjectService;
         this.groupService = groupService;
+        this.studentService = studentService;
     }
 
     @Override
@@ -136,5 +139,52 @@ public class EventServiceImpl implements EventService {
 
 
         eventRepository.save(event);
+    }
+
+    @Override
+    public List<EventStudentDto> getAllEvents() {
+        return EventMapper.INSTANCE.map(eventRepository.findAll());
+    }
+
+    @Override
+    public List<EventStudentDto> getAllStudentEvents(Long studentId) {
+        return EventMapper.INSTANCE.map(
+                eventRepository.findByGroup_Id(studentService.getStudentGroup(studentId).getId())
+                        .orElseGet(ArrayList::new)
+        );
+    }
+
+    @Override
+    public List<EventStudentDto> getAllStudentSubjectEvents(Long studentId, Long subjectId) {
+        return EventMapper.INSTANCE.map(
+                eventRepository.findBySubject_IdAndGroup_Id(
+                        subjectId, studentService.getStudentGroup(studentId).getId()
+                ).orElseGet(ArrayList::new)
+        );
+    }
+
+    @Override
+    public List<EventStudentDto> getAllActiveStudentEvents(Long studentId) {
+        return EventMapper.INSTANCE.map(
+                eventRepository.findByGroup_IdAndEndDateGreaterThan(
+                        studentService.getStudentGroup(studentId).getId(), LocalDateTime.now()
+                ).orElseGet(ArrayList::new)
+        );
+    }
+
+    @Override
+    public List<EventStudentDto> getAllActiveStudentSubjectEvents(Long studentId, Long subjectId) {
+        return EventMapper.INSTANCE.map(
+                eventRepository.findByGroup_IdAndSubject_IdAndEndDateGreaterThan(
+                        studentService.getStudentGroup(studentId).getId(), subjectId, LocalDateTime.now()
+                ).orElseGet(ArrayList::new)
+        );
+    }
+
+    @Override
+    public EventStudentDto getEventDtoById(Long eventId) {
+        return EventMapper.INSTANCE.toDTO(
+                eventRepository.findById(eventId).orElseGet(Event::new)
+        );
     }
 }
