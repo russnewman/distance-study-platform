@@ -1,22 +1,25 @@
 package com.netcracker.edu.distancestudyplatform.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "students")
 @NoArgsConstructor
-public class Student extends User {
+public class Student extends AbstractUser {
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
+
+    @OneToMany(mappedBy = "student")
+    private List<Assignment> assignments;
 }

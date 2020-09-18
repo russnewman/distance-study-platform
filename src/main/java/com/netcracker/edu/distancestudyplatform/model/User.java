@@ -1,31 +1,14 @@
 package com.netcracker.edu.distancestudyplatform.model;
 
-import lombok.Data;
+import java.util.Set;
 
-import javax.persistence.*;
-
-@Data
-@Entity
-@Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name  ="user_id")
-    private Long id;
-
-    @Column
-    private String email;
-
-    @Column
-    private String name;
-
-    @Column
-    private String surname;
-
-    @Column
-    private String login;
-
-    @Column
-    private String password;
+public interface User {
+    Set<Authority> getAuthorities();
+    String getEmail();
+    String getName();
+    String getSurname();
+    Long getId();
+    String getPassword();
+    Role getRole();
+    boolean isActive();
 }
