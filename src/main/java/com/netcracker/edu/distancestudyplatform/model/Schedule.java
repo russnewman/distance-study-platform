@@ -1,14 +1,25 @@
 package com.netcracker.edu.distancestudyplatform.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "schedule")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,18 +36,22 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "class_time_id")
-    private ClassTime class_time_id;
+    private ClassTime classTime;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
     @Column(name = "class_type")
-    private String classType;
+    @Enumerated(EnumType.STRING)
+    private ClassType classType;
 
     @Column(name = "day_name")
-    private String dayName;
+    @Enumerated(EnumType.STRING)
+    private DayOfWeek dayName;
 
-    @Column(name = "odd_week")
+    @Column(name = "odd_week", columnDefinition = "BIT")
     private Boolean weekIsOdd;
+
+
 }

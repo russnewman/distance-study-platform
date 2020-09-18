@@ -1,20 +1,24 @@
 package com.netcracker.edu.distancestudyplatform.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "teachers")
-@EqualsAndHashCode(callSuper = true)
-public class Teacher extends User {
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
+@AllArgsConstructor
+@NoArgsConstructor
+public class Teacher extends AbstractUser {
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     private List<Schedule> schedules;
+
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    private List<Event> events;
+
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
@@ -23,4 +27,6 @@ public class Teacher extends User {
             inverseJoinColumns = {@JoinColumn(name = "subject_id")}
     )
     private List<Subject> subjects;
+
+
 }
