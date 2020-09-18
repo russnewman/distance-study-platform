@@ -1,6 +1,7 @@
-package com.netcracker.edu.distancestudyplatform.dto;
+package com.netcracker.edu.distancestudyplatform.dto.wrappers;
 
 
+import com.netcracker.edu.distancestudyplatform.dto.ScheduleDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

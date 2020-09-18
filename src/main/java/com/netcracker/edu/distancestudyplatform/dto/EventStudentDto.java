@@ -17,6 +17,9 @@ public class EventStudentDto {
     private SubjectDto subjectDto;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private GroupDto groupDto;
     private String description;
-    private DatabaseFile dbFile;
+    private DatabaseFileDto dbFile;
+
+    
 }

@@ -1,6 +1,6 @@
-package com.netcracker.edu.distancestudyplatform.ui.dto;
+package com.netcracker.edu.distancestudyplatform.dto;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +13,6 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventDto {
 public class EventFormDto {
 
     private Long teacherId;

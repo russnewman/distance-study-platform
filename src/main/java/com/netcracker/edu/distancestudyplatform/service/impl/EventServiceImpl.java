@@ -1,19 +1,16 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
+import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
 import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
 import com.netcracker.edu.distancestudyplatform.dto.EventDto;
 import com.netcracker.edu.distancestudyplatform.dto.EventFormDto;
 import com.netcracker.edu.distancestudyplatform.mappers.EventMapper;
 import com.netcracker.edu.distancestudyplatform.model.*;
+import com.netcracker.edu.distancestudyplatform.repository.AssignmentRepository;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
-import com.netcracker.edu.distancestudyplatform.service.EventService;
-import com.netcracker.edu.distancestudyplatform.service.GroupService;
-import com.netcracker.edu.distancestudyplatform.service.SubjectService;
-import com.netcracker.edu.distancestudyplatform.service.TeacherService;
-import liquibase.pro.packaged.C;
+import com.netcracker.edu.distancestudyplatform.service.*;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletOutputStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -26,15 +23,18 @@ public class EventServiceImpl implements EventService {
     private final TeacherService teacherService;
     private final SubjectService subjectService;
     private final GroupService groupService;
-    private final StudentService studentService;
 
+    private final AssignmentService assignmentService;
 
-    public EventServiceImpl(EventRepository eventRepository, TeacherService teacherService, SubjectService subjectService, GroupService groupService, StudentService studentService) {
+    public EventServiceImpl(EventRepository eventRepository, TeacherService teacherService, SubjectService subjectService,
+                            GroupService groupService, AssignmentService assignmentService) {
+
         this.eventRepository = eventRepository;
         this.teacherService = teacherService;
         this.subjectService = subjectService;
         this.groupService = groupService;
-        this.studentService = studentService;
+        this.assignmentService = assignmentService;
+
     }
 
     @Override
@@ -60,14 +60,17 @@ public class EventServiceImpl implements EventService {
         event.setStartDate(startLdt);
         event.setEndDate(endLdt);
 
-
         DatabaseFileDto databaseFileDto = eventFormDto.getDatabaseFileDto();
-            DatabaseFile databaseFile = new DatabaseFile(databaseFileDto.getFileName(),
-                    databaseFileDto.getFileType(),
-                    databaseFileDto.getFile());
+        if (databaseFileDto != null){
 
-        event.setDbFile(databaseFile);
+            DatabaseFile databaseFile = new DatabaseFile();
+            databaseFile.setId(databaseFileDto.getId());
+            event.setDbFile(databaseFile);
+        }
+
+
         eventRepository.save(event);
+
     }
 
 
@@ -84,10 +87,9 @@ public class EventServiceImpl implements EventService {
             Subject subject = subjectService.findSubjectByName(subjectName);
             events = eventRepository.findAllByTeacherAndSubject(teacher, subject).orElseGet(ArrayList::new);
         }
-        if (sortingType.equals("addSort")){
+        if (sortingType.equals("addSort")) {
             Collections.reverse(events);
-        }
-        else{
+        } else {
             events.sort(new Comparator<Event>() {
                 @Override
                 public int compare(Event o1, Event o2) {
@@ -96,9 +98,11 @@ public class EventServiceImpl implements EventService {
             });
         }
 
+
+
         return events.stream()
-                        .map(EventMapper.INSTANCE::toDTO)
-                        .collect(Collectors.toList());
+                .map(EventMapper.INSTANCE::toDTO)
+                .collect(Collectors.toList());
     }
 
 
@@ -129,11 +133,10 @@ public class EventServiceImpl implements EventService {
 
 
         DatabaseFileDto databaseFileDto = eventDto.getDatabaseFileDto();
-        if(!databaseFileDto.getFileName().isEmpty()){
-            DatabaseFile databaseFile = new DatabaseFile(databaseFileDto.getFileName(),
-                    databaseFileDto.getFileType(),
-                    databaseFileDto.getFile());
+        if (databaseFileDto != null){
 
+            DatabaseFile databaseFile = new DatabaseFile();
+            databaseFile.setId(databaseFileDto.getId());
             event.setDbFile(databaseFile);
         }
 
@@ -142,49 +145,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventStudentDto> getAllEvents() {
-        return EventMapper.INSTANCE.map(eventRepository.findAll());
-    }
+    public Boolean canDeleteEvent(Long eventId) {
+        List<AssignmentDto> l = assignmentService.getAssignmentsByEvent(eventId);
 
-    @Override
-    public List<EventStudentDto> getAllStudentEvents(Long studentId) {
-        return EventMapper.INSTANCE.map(
-                eventRepository.findByGroup_Id(studentService.getStudentGroup(studentId).getId())
-                        .orElseGet(ArrayList::new)
-        );
-    }
-
-    @Override
-    public List<EventStudentDto> getAllStudentSubjectEvents(Long studentId, Long subjectId) {
-        return EventMapper.INSTANCE.map(
-                eventRepository.findBySubject_IdAndGroup_Id(
-                        subjectId, studentService.getStudentGroup(studentId).getId()
-                ).orElseGet(ArrayList::new)
-        );
-    }
-
-    @Override
-    public List<EventStudentDto> getAllActiveStudentEvents(Long studentId) {
-        return EventMapper.INSTANCE.map(
-                eventRepository.findByGroup_IdAndEndDateGreaterThan(
-                        studentService.getStudentGroup(studentId).getId(), LocalDateTime.now()
-                ).orElseGet(ArrayList::new)
-        );
-    }
-
-    @Override
-    public List<EventStudentDto> getAllActiveStudentSubjectEvents(Long studentId, Long subjectId) {
-        return EventMapper.INSTANCE.map(
-                eventRepository.findByGroup_IdAndSubject_IdAndEndDateGreaterThan(
-                        studentService.getStudentGroup(studentId).getId(), subjectId, LocalDateTime.now()
-                ).orElseGet(ArrayList::new)
-        );
-    }
-
-    @Override
-    public EventStudentDto getEventDtoById(Long eventId) {
-        return EventMapper.INSTANCE.toDTO(
-                eventRepository.findById(eventId).orElseGet(Event::new)
-        );
+        for (AssignmentDto assignment: l){
+            if (assignment.getDbFile() != null) return false;
+        }
+        return true;
     }
 }

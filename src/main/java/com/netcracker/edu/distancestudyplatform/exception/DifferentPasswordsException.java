@@ -1,6 +1,8 @@
 package com.netcracker.edu.distancestudyplatform.exception;
 
-public class DifferentPasswordsException extends Exception {
+
+
+public class  DifferentPasswordsException extends Exception {
     public DifferentPasswordsException() {
     }
 
@@ -19,4 +21,5 @@ public class DifferentPasswordsException extends Exception {
     public DifferentPasswordsException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
 }

@@ -1,6 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.SubjectDtoList;
+import com.netcracker.edu.distancestudyplatform.dto.wrappers.SubjectDtoList;
 import com.netcracker.edu.distancestudyplatform.model.Subject;
 import com.netcracker.edu.distancestudyplatform.repository.SubjectRepository;
 import com.netcracker.edu.distancestudyplatform.service.SubjectService;

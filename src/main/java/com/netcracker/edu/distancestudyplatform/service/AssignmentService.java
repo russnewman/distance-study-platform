@@ -1,8 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.service;
 
-import com.netcracker.edu.distancestudyplatform.model.Assignment;
-import org.springframework.web.multipart.MultipartFile;
-
+import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
 import java.util.List;
 
 
@@ -17,5 +15,8 @@ public interface AssignmentService {
     List<AssignmentDto> getEventAssignments(Long studentId, Long eventId);
     List<AssignmentDto> getEventAssessedAssignments(Long studentId, Long eventId);
     List<AssignmentDto> getEventUnassessedAssignments(Long studentId, Long eventId);
-    void saveAssignment(AssignmentDto assignmentDto);
+//    void saveAssignment(AssignmentDto assignmentDto);
+    void update(AssignmentDto assignment);
+
+    List<AssignmentDto> getAssignmentsByEvent(Long eventId);
 }

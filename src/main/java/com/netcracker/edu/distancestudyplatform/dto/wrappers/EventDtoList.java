@@ -1,16 +1,18 @@
-package com.netcracker.edu.distancestudyplatform.dto;
+package com.netcracker.edu.distancestudyplatform.dto.wrappers;
 
+
+import com.netcracker.edu.distancestudyplatform.dto.EventDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
+
 
 @AllArgsConstructor
 @Getter
 @Setter
 @NoArgsConstructor
-public class SubjectDtoList {
-    List<SubjectDto> subjects;
+public class EventDtoList {
+    private List<EventDto> events;
 }

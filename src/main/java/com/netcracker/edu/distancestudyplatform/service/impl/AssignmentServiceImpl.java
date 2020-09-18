@@ -1,5 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
+import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
 import com.netcracker.edu.distancestudyplatform.repository.AssignmentRepository;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
@@ -97,9 +99,17 @@ public class AssignmentServiceImpl implements AssignmentService {
         );
     }
 
+    @Override
+    public void update(AssignmentDto assignmentDto) {
+        Assignment assignment = assignmentRepository.findAssignmentById(assignmentDto.getId()).orElseThrow();
+        assignment.setCommentary(assignmentDto.getCommentary());
+        assignment.setGrade(assignmentDto.getGrade());
+        assignmentRepository.save(assignment);
+    }
 
     @Override
-    public List<Assignment> getAssignmentByEvent(Long eventId) {
-        return assignmentRepository.findAllByEvent_Id(eventId).orElseGet(ArrayList::new);
+    public List<AssignmentDto> getAssignmentsByEvent(Long eventId) {
+        return AssignmentMapper.INSTANCE.map(assignmentRepository.findAllByEvent_Id(eventId).orElseGet(ArrayList::new));
     }
+
 }

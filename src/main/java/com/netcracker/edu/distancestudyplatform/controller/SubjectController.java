@@ -1,7 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
-import com.netcracker.edu.distancestudyplatform.dto.SubjectDtoList;
-import com.netcracker.edu.distancestudyplatform.service.wrappers.SubjectList;
+import com.netcracker.edu.distancestudyplatform.dto.wrappers.SubjectDtoList;
 import com.netcracker.edu.distancestudyplatform.service.SubjectService;
 import com.netcracker.edu.distancestudyplatform.service.impl.SubjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,10 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
-
     @GetMapping("/allSubjects")
     public SubjectDtoList getAllSubjects(){
         return subjectServiceImpl.getAll();
     }
-
 
     @GetMapping("/subject")
     public SubjectDtoList getAllSubjects(@RequestParam(value = "id") Long subjectId){

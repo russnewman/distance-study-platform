@@ -23,4 +23,6 @@ public class EventDto {
     private LocalDateTime endDate;
     private String description;
     private DatabaseFileDto databaseFileDto;
+
+    private Boolean canDeleteEvent;
 }

@@ -1,9 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.service;
 
 import com.netcracker.edu.distancestudyplatform.dto.ScheduleDto;
-import com.netcracker.edu.distancestudyplatform.dto.ScheduleDtoList;
 import com.netcracker.edu.distancestudyplatform.model.Group;
-import com.netcracker.edu.distancestudyplatform.model.Schedule;
 
 import java.time.LocalTime;
 import java.util.List;

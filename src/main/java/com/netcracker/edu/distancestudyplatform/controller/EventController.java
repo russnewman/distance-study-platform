@@ -20,28 +20,28 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @GetMapping("/all")
-    public List<EventStudentDto> getAllStudentEvents(
-            @RequestParam Long studentId,
-            @RequestParam(required = false) Optional<Long> subjectId) {
-        if(subjectId.isPresent()){
-            return eventService.getAllStudentSubjectEvents(studentId, subjectId.get());
-        }
-        return eventService.getAllStudentEvents(studentId);
-    }
-
-    @GetMapping("/active")
-    public List<EventStudentDto> getAllActiveStudentEvents(
-            @RequestParam Long studentId,
-            @RequestParam(required = false) Optional<Long> subjectId) {
-        if(subjectId.isPresent()){
-            return eventService.getAllActiveStudentSubjectEvents(studentId, subjectId.get());
-        }
-        return eventService.getAllActiveStudentEvents(studentId);
-    }
-
-    @GetMapping
-    public EventStudentDto getEvent(@RequestParam Long eventId){
-        return EventMapper.INSTANCE.toDTO(eventService.getEventById(eventId));
-    }
+//    @GetMapping("/all")
+//    public List<EventStudentDto> getAllStudentEvents(
+//            @RequestParam Long studentId,
+//            @RequestParam(required = false) Optional<Long> subjectId) {
+//        if(subjectId.isPresent()){
+//            return eventService.getAllStudentSubjectEvents(studentId, subjectId.get());
+//        }
+//        return eventService.getAllStudentEvents(studentId);
+//    }
+//
+//    @GetMapping("/active")
+//    public List<EventStudentDto> getAllActiveStudentEvents(
+//            @RequestParam Long studentId,
+//            @RequestParam(required = false) Optional<Long> subjectId) {
+//        if(subjectId.isPresent()){
+//            return eventService.getAllActiveStudentSubjectEvents(studentId, subjectId.get());
+//        }
+//        return eventService.getAllActiveStudentEvents(studentId);
+//    }
+//
+//    @GetMapping
+//    public EventStudentDto getEvent(@RequestParam Long eventId){
+//        return EventMapper.INSTANCE.toDTO(eventService.getEventById(eventId));
+//    }
 }

@@ -1,6 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.dto;
 
-import com.netcracker.edu.distancestudyplatform.model.Schedule;
+
 import lombok.Data;
 
 import java.util.List;
@@ -12,5 +12,5 @@ public class StudentDto {
     private String name;
     private String surname;
     private String login;
-    private List<Schedule> schedules;
+    private List<ScheduleDto> schedules;
 }

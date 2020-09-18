@@ -12,9 +12,9 @@ create table assignments
     student_id    bigint       not null,
     grade         int          null,
     commentary    varchar(200) null,
-    file_id       varchar(45)  not null,
+    file_id       varchar(45)  null,
     constraint assignments_events_event_id_fk
-        foreign key (event_id) references events (event_id),
+        foreign key (event_id) references events (event_id) ON DELETE CASCADE,
     constraint assignments_files_id_fk
         foreign key (file_id) references files (id),
     constraint assignments_students_user_id_fk
