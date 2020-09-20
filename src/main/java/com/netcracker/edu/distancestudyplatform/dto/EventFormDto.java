@@ -1,5 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.dto;
 
+
+import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

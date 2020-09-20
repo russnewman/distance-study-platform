@@ -66,26 +66,26 @@ public class AssignmentController {
         return assignmentService.getActiveAssignments(studentId);
     }
 
-    @GetMapping("/studentEventAssignments")
+    @GetMapping("/{eventId}/assignments")
     public List<AssignmentDto> getEventAssignments(
             @RequestParam(name = "studentId") Long studentId,
-            @RequestParam(name = "eventId") Long eventId
+            @PathVariable Long eventId
     ) {
         return assignmentService.getEventAssignments(studentId, eventId);
     }
 
-    @GetMapping("/studentEventAssessedAssignments")
+    @GetMapping("/{eventId}/assignments/assessed")
     public List<AssignmentDto> getEventAssesedAssignments(
             @RequestParam(name = "studentId") Long studentId,
-            @RequestParam(name = "eventId") Long eventId
+            @PathVariable Long eventId
     ) {
         return assignmentService.getEventAssessedAssignments(studentId, eventId);
     }
 
-    @GetMapping("/studentEventUnassessedAssignments")
+    @GetMapping("/{eventId}/assignments/unassessed")
     public List<AssignmentDto> getEventUnassesedAssignments(
             @RequestParam(name = "studentId") Long studentId,
-            @RequestParam(name = "eventId") Long eventId
+            @PathVariable Long eventId
     ) {
         return assignmentService.getEventUnassessedAssignments(studentId, eventId);
     }

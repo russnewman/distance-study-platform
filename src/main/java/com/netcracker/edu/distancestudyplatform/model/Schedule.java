@@ -4,9 +4,17 @@ package com.netcracker.edu.distancestudyplatform.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.time.DayOfWeek;
 
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "schedule")
@@ -46,6 +54,4 @@ public class Schedule {
 
     @Column(name = "odd_week", columnDefinition = "BIT")
     private Boolean weekIsOdd;
-
-
 }

@@ -1,15 +1,20 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
 import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.dto.AssignmentPostFormDto;
 import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
+import com.netcracker.edu.distancestudyplatform.mappers.DatabaseFileMapper;
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
 import com.netcracker.edu.distancestudyplatform.repository.AssignmentRepository;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
+import com.netcracker.edu.distancestudyplatform.service.EventService;
+import com.netcracker.edu.distancestudyplatform.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +22,13 @@ import java.util.List;
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
+//    private final EventService eventService;
+    private final StudentService studentService;
 
     @Autowired
-    public AssignmentServiceImpl(AssignmentRepository assignmentRepository){
+    public AssignmentServiceImpl(AssignmentRepository assignmentRepository, StudentService studentService){
         this.assignmentRepository = assignmentRepository;
+        this.studentService = studentService;
     }
 
     @Override
@@ -112,4 +120,15 @@ public class AssignmentServiceImpl implements AssignmentService {
         return AssignmentMapper.INSTANCE.map(assignmentRepository.findAllByEvent_Id(eventId).orElseGet(ArrayList::new));
     }
 
+
+//    @Override
+//    public void saveAssignmentPostForm(AssignmentPostFormDto assignmentDto, Long eventId) throws IOException {
+//        Assignment assignment = new Assignment();
+//        assignment.setEvent(eventService.getFullEventById(eventId));
+//        assignment.setStudent(studentService.findById(assignmentDto.getStudentId()));
+//        assignment.setDbFile(DatabaseFileMapper.INSTANCE.toDbFile(assignmentDto.getDbFileDto()));
+//        assignment.setCommentary(assignmentDto.getCommentary());
+//        assignment.setGrade(null);
+//        assignmentRepository.save(assignment);
+//    }
 }

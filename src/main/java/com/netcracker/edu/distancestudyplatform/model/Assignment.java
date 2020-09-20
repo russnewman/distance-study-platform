@@ -31,7 +31,7 @@ public class Assignment {
 
     @ManyToOne(cascade =  CascadeType.ALL)
     @JoinColumn(name = "file_id")
-    DatabaseFile dbFile;
+    private DatabaseFile dbFile;
 
     @Column(name = "commentary")
     private String commentary;

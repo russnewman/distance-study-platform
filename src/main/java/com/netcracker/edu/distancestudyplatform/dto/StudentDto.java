@@ -1,6 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.dto;
 
 
+import com.netcracker.edu.distancestudyplatform.model.Schedule;
 import lombok.Data;
 
 import java.util.List;

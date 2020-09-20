@@ -1,12 +1,9 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
-import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
-import com.netcracker.edu.distancestudyplatform.dto.EventDto;
-import com.netcracker.edu.distancestudyplatform.dto.EventFormDto;
+import com.netcracker.edu.distancestudyplatform.dto.*;
 import com.netcracker.edu.distancestudyplatform.mappers.EventMapper;
+import com.netcracker.edu.distancestudyplatform.mappers.EventStudentDtoMapper;
 import com.netcracker.edu.distancestudyplatform.model.*;
-import com.netcracker.edu.distancestudyplatform.repository.AssignmentRepository;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
 import com.netcracker.edu.distancestudyplatform.service.*;
 import org.springframework.stereotype.Service;
@@ -23,18 +20,22 @@ public class EventServiceImpl implements EventService {
     private final TeacherService teacherService;
     private final SubjectService subjectService;
     private final GroupService groupService;
-
+    private final StudentService studentService;
     private final AssignmentService assignmentService;
 
-    public EventServiceImpl(EventRepository eventRepository, TeacherService teacherService, SubjectService subjectService,
-                            GroupService groupService, AssignmentService assignmentService) {
 
+    public EventServiceImpl(EventRepository eventRepository,
+                            TeacherService teacherService,
+                            SubjectService subjectService,
+                            GroupService groupService,
+                            AssignmentService assignmentService,
+                            StudentService studentService) {
         this.eventRepository = eventRepository;
         this.teacherService = teacherService;
         this.subjectService = subjectService;
         this.groupService = groupService;
         this.assignmentService = assignmentService;
-
+        this.studentService = studentService;
     }
 
     @Override
@@ -70,7 +71,6 @@ public class EventServiceImpl implements EventService {
 
 
         eventRepository.save(event);
-
     }
 
 
@@ -103,6 +103,7 @@ public class EventServiceImpl implements EventService {
         return events.stream()
                 .map(EventMapper.INSTANCE::toDTO)
                 .collect(Collectors.toList());
+
     }
 
 
@@ -114,6 +115,11 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventDto getEventById(Long eventId) {
         return EventMapper.INSTANCE.toDTO(eventRepository.findById(eventId).orElseThrow());
+    }
+
+    @Override
+    public EventStudentDto getEventStudentDtoById(Long eventId) {
+        return EventStudentDtoMapper.INSTANCE.toDTO(eventRepository.findById(eventId).orElseThrow());
     }
 
     @Override
@@ -152,5 +158,72 @@ public class EventServiceImpl implements EventService {
             if (assignment.getDbFile() != null) return false;
         }
         return true;
+
+    }
+
+
+    @Override
+    public Event getFullEventById(Long eventId) {
+        return eventRepository.findById(eventId).orElseGet(Event::new);
+    }
+
+    @Override
+    public List<EventStudentDto> getAllEvents() {
+        return EventStudentDtoMapper.INSTANCE.map(eventRepository.findAll());
+    }
+
+    @Override
+    public List<EventStudentDto> getAllStudentEvents(Long studentId) {
+        return castEventForStudent(
+                eventRepository.findByGroup_Id(studentService.getStudentGroup(studentId).getId())
+                        .orElseGet(ArrayList::new), studentId
+        );
+    }
+
+    @Override
+    public List<EventStudentDto> getAllStudentSubjectEvents(Long studentId, Long subjectId) {
+        return castEventForStudent(
+                eventRepository.findBySubject_IdAndGroup_Id(
+                        subjectId, studentService.getStudentGroup(studentId).getId()
+                ).orElseGet(ArrayList::new), studentId
+        );
+    }
+
+    @Override
+    public List<EventStudentDto> getAllActiveStudentEvents(Long studentId) {
+        return castEventForStudent(
+                eventRepository.findByGroup_IdAndEndDateGreaterThan(
+                        studentService.getStudentGroup(studentId).getId(), LocalDateTime.now()
+                ).orElseGet(ArrayList::new), studentId
+        );
+    }
+
+    @Override
+    public List<EventStudentDto> getAllActiveStudentSubjectEvents(Long studentId, Long subjectId) {
+        return castEventForStudent(
+                eventRepository.findByGroup_IdAndSubject_IdAndEndDateGreaterThan(
+                        studentService.getStudentGroup(studentId).getId(), subjectId, LocalDateTime.now()
+                ).orElseGet(ArrayList::new), studentId
+        );
+    }
+
+    @Override
+    public EventStudentDto getEventDtoById(Long eventId) {
+        return EventStudentDtoMapper.INSTANCE.toDTO(
+                eventRepository.findById(eventId).orElseGet(Event::new)
+        );
+    }
+
+    private List<EventStudentDto> castEventForStudent(List<Event> events, Long studentId){
+        return EventStudentDtoMapper.INSTANCE.map(
+                events
+                        .stream()
+                        .filter(event ->
+                                event.getAssignments()
+                                        .stream()
+                                        .allMatch(as ->
+                                                as.getStudent().getId().equals(studentId)))
+                        .collect(Collectors.toList())
+        );
     }
 }

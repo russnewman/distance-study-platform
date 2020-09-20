@@ -1,6 +1,11 @@
 package com.netcracker.edu.distancestudyplatform.service;
 
 import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.dto.AssignmentPostFormDto;
+import com.netcracker.edu.distancestudyplatform.model.Assignment;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 
 

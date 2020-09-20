@@ -14,9 +14,7 @@ public class DistanceStudyPlatformApplication {
     }
 
     @Bean
-    //Temporal
     public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
-
 }

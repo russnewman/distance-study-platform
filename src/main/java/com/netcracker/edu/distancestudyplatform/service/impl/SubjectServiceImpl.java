@@ -56,4 +56,9 @@ public class SubjectServiceImpl implements SubjectService {
         List<Subject> subjects = teacherService.findById(teacherId).getSubjects();
         return new SubjectDtoList(castSubjectsToDTO(teacherService.findById(teacherId).getSubjects()));
     }
+
+    @Override
+    public List<Subject> findAll() {
+        return subjectRepository.findAll();
+    }
 }
