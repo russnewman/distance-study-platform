@@ -90,16 +90,42 @@ public class AssignmentController {
         return assignmentService.getEventUnassessedAssignments(studentId, eventId);
     }
 
-    @PostMapping("/addAssignment")
-    public void add(@RequestBody AssignmentDto assignment){
-        assignmentRepository.save(AssignmentMapper.INSTANCE.toAssignment(assignment));
-    }
+//    @PostMapping("/addAssignment")
+//    public void add(@RequestBody AssignmentDto assignment){
+//        assignmentRepository.save(AssignmentMapper.INSTANCE.toAssignment(assignment));
+//    }
 
     @PostMapping("/updateAssignment")
     public void update(@RequestBody AssignmentDto assingmentDto){
         assignmentService.update(assingmentDto);
     }
 
+
+
+//    @GetMapping("/saveEmptyAssignment")
+//    public AssignmentDto saveEmptyAssignment(@RequestParam Long eventId,
+//                                    @RequestParam Long studentId){
+//
+//
+//        Assignment assignment = new Assignment();
+//        assignment.setEvent(eventRepository.findById(eventId).orElseThrow());
+//        assignment.setStudent(studentRepository.findById(studentId).orElseThrow());
+//
+//        Assignment assignment1 = assignmentRepository.save(assignment);
+//
+//        return AssignmentMapper.INSTANCE.toDTO(assignment1);
+//    }
+
+
+    @PostMapping("/addAssignment")
+    public void add(@RequestBody AssignmentDto assignment){
+        assignmentRepository.save(AssignmentMapper.INSTANCE.toAssignment(assignment));
+    }
+//
+//    @PostMapping("/updateAssignment")
+//    public void update(@RequestBody AssignmentDto assingmentDto){
+//        assignmentService.update(assingmentDto);
+//    }
 
 
     @GetMapping("/saveEmptyAssignment")
@@ -112,7 +138,6 @@ public class AssignmentController {
         assignment.setStudent(studentRepository.findById(studentId).orElseThrow());
 
         Assignment assignment1 = assignmentRepository.save(assignment);
-
         return AssignmentMapper.INSTANCE.toDTO(assignment1);
     }
 }

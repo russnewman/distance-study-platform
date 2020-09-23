@@ -44,7 +44,7 @@ public class TeacherHomeworkController {
     }
 
     @PostMapping("/deleteEvent")
-    public void deleteEvent(@RequestBody Long eventId){
+    public void deleteEvent(@RequestParam Long eventId){
         eventService.deleteEvent(eventId);
     }
 
