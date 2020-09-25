@@ -2,9 +2,7 @@ package com.netcracker.edu.distancestudyplatform.controller;
 
 
 import com.netcracker.edu.distancestudyplatform.dto.ScheduleDto;
-import com.netcracker.edu.distancestudyplatform.dto.ScheduleDtoList;
-import com.netcracker.edu.distancestudyplatform.model.Schedule;
-import com.netcracker.edu.distancestudyplatform.service.wrappers.ScheduleList;
+import com.netcracker.edu.distancestudyplatform.dto.wrappers.ScheduleDtoList;
 import com.netcracker.edu.distancestudyplatform.service.ScheduleService;
 import com.netcracker.edu.distancestudyplatform.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;

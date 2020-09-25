@@ -8,7 +8,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 
-
 @Mapper
 public interface EventMapper {
     EventMapper INSTANCE = Mappers.getMapper(EventMapper.class);

@@ -20,7 +20,8 @@ public interface AssignmentService {
     List<AssignmentDto> getEventAssignments(Long studentId, Long eventId);
     List<AssignmentDto> getEventAssessedAssignments(Long studentId, Long eventId);
     List<AssignmentDto> getEventUnassessedAssignments(Long studentId, Long eventId);
+//    void saveAssignment(AssignmentDto assignmentDto);
+    void update(AssignmentDto assignment);
 
-    List<Assignment> getAssignmentByEvent(Long eventId);
-    void saveAssignmentPostForm(AssignmentPostFormDto assignment, Long eventId) throws IOException;
+    List<AssignmentDto> getAssignmentsByEvent(Long eventId);
 }

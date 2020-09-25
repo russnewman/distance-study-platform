@@ -1,5 +1,8 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
+import com.netcracker.edu.distancestudyplatform.dto.*;
+import com.netcracker.edu.distancestudyplatform.dto.wrappers.StudentDtoList;
+import com.netcracker.edu.distancestudyplatform.mappers.StudentMapper;
 import com.netcracker.edu.distancestudyplatform.model.Group;
 import com.netcracker.edu.distancestudyplatform.model.Student;
 import com.netcracker.edu.distancestudyplatform.repository.StudentRepository;
@@ -7,6 +10,11 @@ import com.netcracker.edu.distancestudyplatform.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -36,4 +44,15 @@ public class StudentServiceImpl implements StudentService {
     public Student save(Student s) {
         return studentRepo.save(s);
     }
+
+
+
+    @Override
+    public List<StudentDto> getStudentsByGroup(Long groupId) {
+        return  studentRepo.findAllByGroup_Id(groupId).orElseGet(ArrayList::new)
+                .stream()
+                .map(StudentMapper.INSTANCE::toDTO)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -19,14 +19,14 @@ public interface AssignmentMapper {
 
     Assignment toAssignment(AssignmentDto assignmentDto);
 
-    @Mapping(target = "fileId", ignore = true)
+
     AssignmentDto toDTO(Assignment assignment);
 
     List<AssignmentDto> map(List<Assignment> assignments);
 
-    @AfterMapping
-    default void setFileId(@MappingTarget AssignmentDto assignmentDto, Assignment assignment){
-        DatabaseFile file = assignment.getDbFile();
-        assignmentDto.setFileId(file.getId());
-    }
+//    @AfterMapping
+//    default void setFileId(@MappingTarget AssignmentDto assignmentDto, Assignment assignment){
+//        DatabaseFile file = assignment.getDbFile();
+//        assignmentDto.setFileId(file.getId());
+//    }
 }

@@ -1,34 +1,37 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
 import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentPostFormDto;
 import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
+
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
-import com.netcracker.edu.distancestudyplatform.model.DatabaseFile;
 import com.netcracker.edu.distancestudyplatform.repository.AssignmentRepository;
+import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
+import com.netcracker.edu.distancestudyplatform.repository.StudentRepository;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
 import com.netcracker.edu.distancestudyplatform.service.DatabaseFileService;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.StudentService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/events")
 public class AssignmentController {
     private final AssignmentService assignmentService;
     private final AssignmentRepository assignmentRepository;
+    private final EventRepository eventRepository;
+    private final StudentRepository studentRepository;
+
     private final DatabaseFileService dbFileService;
     private final StudentService studentService;
     private final EventService eventService;
 
-    public AssignmentController(AssignmentService assignmentService, AssignmentRepository assignmentRepository, DatabaseFileService dbFileService, StudentService studentService, EventService eventService) {
+    public AssignmentController(AssignmentService assignmentService, AssignmentRepository assignmentRepository, EventRepository eventRepository, StudentRepository studentRepository, DatabaseFileService dbFileService, StudentService studentService, EventService eventService) {
         this.assignmentService = assignmentService;
         this.assignmentRepository = assignmentRepository;
+        this.eventRepository = eventRepository;
+        this.studentRepository = studentRepository;
         this.dbFileService = dbFileService;
         this.studentService = studentService;
         this.eventService = eventService;
@@ -87,10 +90,31 @@ public class AssignmentController {
         return assignmentService.getEventUnassessedAssignments(studentId, eventId);
     }
 
-    @PostMapping("/{eventId}/assignments")
-    public void add(
-            @PathVariable Long eventId,
-            @RequestBody AssignmentPostFormDto assignment) throws IOException {
-        assignmentService.saveAssignmentPostForm(assignment, eventId);
+
+    @PostMapping("/updateAssignment")
+    public void update(@RequestBody AssignmentDto assingmentDto){
+        assignmentService.update(assingmentDto);
+    }
+
+
+
+
+    @PostMapping("/addAssignment")
+    public void add(@RequestBody AssignmentDto assignment){
+        assignmentRepository.save(AssignmentMapper.INSTANCE.toAssignment(assignment));
+    }
+
+
+    @GetMapping("/saveEmptyAssignment")
+    public AssignmentDto saveEmptyAssignment(@RequestParam Long eventId,
+                                    @RequestParam Long studentId){
+
+
+        Assignment assignment = new Assignment();
+        assignment.setEvent(eventRepository.findById(eventId).orElseThrow());
+        assignment.setStudent(studentRepository.findById(studentId).orElseThrow());
+
+        Assignment assignment1 = assignmentRepository.save(assignment);
+        return AssignmentMapper.INSTANCE.toDTO(assignment1);
     }
 }

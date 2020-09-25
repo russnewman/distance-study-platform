@@ -1,14 +1,11 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
-import com.netcracker.edu.distancestudyplatform.dto.EventDto;
-import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
-import com.netcracker.edu.distancestudyplatform.mappers.EventStudentDtoMapper;
-import com.netcracker.edu.distancestudyplatform.service.*;
-import com.netcracker.edu.distancestudyplatform.dto.EventFormDto;
+import com.netcracker.edu.distancestudyplatform.dto.*;
 import com.netcracker.edu.distancestudyplatform.mappers.EventMapper;
+import com.netcracker.edu.distancestudyplatform.mappers.EventStudentDtoMapper;
 import com.netcracker.edu.distancestudyplatform.model.*;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
+import com.netcracker.edu.distancestudyplatform.service.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,13 +21,20 @@ public class EventServiceImpl implements EventService {
     private final SubjectService subjectService;
     private final GroupService groupService;
     private final StudentService studentService;
+    private final AssignmentService assignmentService;
 
 
-    public EventServiceImpl(EventRepository eventRepository, TeacherService teacherService, SubjectService subjectService, GroupService groupService, StudentService studentService) {
+    public EventServiceImpl(EventRepository eventRepository,
+                            TeacherService teacherService,
+                            SubjectService subjectService,
+                            GroupService groupService,
+                            AssignmentService assignmentService,
+                            StudentService studentService) {
         this.eventRepository = eventRepository;
         this.teacherService = teacherService;
         this.subjectService = subjectService;
         this.groupService = groupService;
+        this.assignmentService = assignmentService;
         this.studentService = studentService;
     }
 
@@ -57,13 +61,15 @@ public class EventServiceImpl implements EventService {
         event.setStartDate(startLdt);
         event.setEndDate(endLdt);
 
-
         DatabaseFileDto databaseFileDto = eventFormDto.getDatabaseFileDto();
-            DatabaseFile databaseFile = new DatabaseFile(databaseFileDto.getFileName(),
-                    databaseFileDto.getFileType(),
-                    databaseFileDto.getFile());
+        if (databaseFileDto != null){
 
-        event.setDbFile(databaseFile);
+            DatabaseFile databaseFile = new DatabaseFile();
+            databaseFile.setId(databaseFileDto.getId());
+            event.setDbFile(databaseFile);
+        }
+
+
         eventRepository.save(event);
     }
 
@@ -81,10 +87,9 @@ public class EventServiceImpl implements EventService {
             Subject subject = subjectService.findSubjectByName(subjectName);
             events = eventRepository.findAllByTeacherAndSubject(teacher, subject).orElseGet(ArrayList::new);
         }
-        if (sortingType.equals("addSort")){
+        if (sortingType.equals("addSort")) {
             Collections.reverse(events);
-        }
-        else{
+        } else {
             events.sort(new Comparator<Event>() {
                 @Override
                 public int compare(Event o1, Event o2) {
@@ -93,9 +98,12 @@ public class EventServiceImpl implements EventService {
             });
         }
 
+
+
         return events.stream()
-                        .map(EventMapper.INSTANCE::toDTO)
-                        .collect(Collectors.toList());
+                .map(EventMapper.INSTANCE::toDTO)
+                .collect(Collectors.toList());
+
     }
 
 
@@ -131,17 +139,28 @@ public class EventServiceImpl implements EventService {
 
 
         DatabaseFileDto databaseFileDto = eventDto.getDatabaseFileDto();
-        if(!databaseFileDto.getFileName().isEmpty()){
-            DatabaseFile databaseFile = new DatabaseFile(databaseFileDto.getFileName(),
-                    databaseFileDto.getFileType(),
-                    databaseFileDto.getFile());
+        if (databaseFileDto != null){
 
+            DatabaseFile databaseFile = new DatabaseFile();
+            databaseFile.setId(databaseFileDto.getId());
             event.setDbFile(databaseFile);
         }
 
 
         eventRepository.save(event);
     }
+
+    @Override
+    public Boolean canDeleteEvent(Long eventId) {
+        List<AssignmentDto> l = assignmentService.getAssignmentsByEvent(eventId);
+
+        for (AssignmentDto assignment: l){
+            if (assignment.getDbFile() != null) return false;
+        }
+        return true;
+
+    }
+
 
     @Override
     public Event getFullEventById(Long eventId) {

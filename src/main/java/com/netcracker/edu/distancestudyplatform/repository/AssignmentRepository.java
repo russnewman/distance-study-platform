@@ -13,6 +13,7 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     List<Assignment> findAll();
     Optional<List<Assignment>> findAllByStudent_Id(Long studentId);
     Optional<List<Assignment>> findByEvent_Id(Long eventId);
+    Optional<Assignment> findByEventId(Long eventId);
     Optional<Assignment> findById(Long eventId);
     Optional<List<Assignment>> findAllByStudent_IdAndGradeIsNull(Long studentId);
     Optional<List<Assignment>> findAllByStudent_IdAndGradeIsNotNull(Long studentId);
@@ -29,4 +30,9 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     Optional<List<Assignment>> findByStudent_IdAndEvent_IdAndGradeIsNotNull(
             Long studentId, Long eventId
     );
+
+    Optional<Assignment> findAssignmentById(Long id);
+
+
+    Optional<List<Assignment>> findAllByEvent_Id(Long eventId);
 }

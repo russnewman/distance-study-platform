@@ -1,29 +1,29 @@
 package com.netcracker.edu.distancestudyplatform.controller;
-import com.netcracker.edu.distancestudyplatform.dto.EventDto;
-import com.netcracker.edu.distancestudyplatform.dto.EventDtoList;
-import com.netcracker.edu.distancestudyplatform.dto.EventFormDto;
-import com.netcracker.edu.distancestudyplatform.dto.GroupDtoList;
+import com.netcracker.edu.distancestudyplatform.dto.*;
+import com.netcracker.edu.distancestudyplatform.dto.wrappers.AssignmentDtoList;
+import com.netcracker.edu.distancestudyplatform.dto.wrappers.EventDtoList;
+import com.netcracker.edu.distancestudyplatform.dto.wrappers.GroupDtoList;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.GroupService;
-import com.netcracker.edu.distancestudyplatform.service.wrappers.AssignmentList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
-
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RestController
-public class HomeworkController {
+public class TeacherHomeworkController {
 
     private final EventService eventService;
     private final GroupService groupService;
     private final AssignmentService assignmentService;
 
     @Autowired
-    public HomeworkController(EventService eventService, GroupService groupService, AssignmentService assignmentService) {
+    public TeacherHomeworkController(EventService eventService, GroupService groupService, AssignmentService assignmentService) {
         this.eventService = eventService;
         this.groupService = groupService;
         this.assignmentService = assignmentService;
@@ -44,15 +44,15 @@ public class HomeworkController {
     }
 
     @PostMapping("/deleteEvent")
-    public void deleteEvent(@RequestBody Long eventId){
+    public void deleteEvent(@RequestParam Long eventId){
         eventService.deleteEvent(eventId);
     }
 
 
 
-    @GetMapping("/getAssignments")
-    public AssignmentList getAssignments(@RequestParam Long eventId){
-        return new AssignmentList(assignmentService.getAssignmentByEvent(eventId));
+    @GetMapping("/getAssignmentsByEvent")
+    public AssignmentDtoList getAssignments(@RequestParam Long eventId){
+        return new AssignmentDtoList(assignmentService.getAssignmentsByEvent(eventId));
     }
 
 
@@ -66,22 +66,30 @@ public class HomeworkController {
 
     @GetMapping("/getEvents")
     public EventDtoList getEvents(@RequestParam("teacherId") Long teacherId,
-                                  @RequestParam("sortingType") String sortingType,
-                                  @RequestParam("subjectName") String subjectName){
+                                                        @RequestParam("sortingType") String sortingType,
+                                                        @RequestParam("subjectName") String subjectName){
 
         sortingType = java.net.URLDecoder.decode(sortingType, StandardCharsets.UTF_8);
         subjectName = java.net.URLDecoder.decode(subjectName, StandardCharsets.UTF_8);
-        return new EventDtoList(eventService.getEvents(teacherId, sortingType, subjectName));
-    }
 
+
+        List<EventDto> events = eventService.getEvents(teacherId, sortingType, subjectName);
+
+        for(EventDto event: events)
+           event.setCanDeleteEvent(eventService.canDeleteEvent(event.getId()));
+
+        return new EventDtoList(events);
+    }
 
 
     @GetMapping("/findGroupsByTeacherAndSubject")
     public GroupDtoList findGroupsByTeacherAndSubject(@RequestParam("teacherId") Long teacherId,
-                                                   @RequestParam("subjectName") String subjectName){
+                                                      @RequestParam("subjectName") String subjectName){
 
 
         subjectName = java.net.URLDecoder.decode(subjectName, StandardCharsets.UTF_8);
         return new GroupDtoList(groupService.findGroupsByTeacherAndSubject(teacherId, subjectName));
     }
+
+
 }

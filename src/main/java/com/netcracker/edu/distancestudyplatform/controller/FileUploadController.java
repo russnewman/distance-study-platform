@@ -8,7 +8,10 @@ import com.netcracker.edu.distancestudyplatform.model.DatabaseFile;
 import com.netcracker.edu.distancestudyplatform.payload.Response;
 import com.netcracker.edu.distancestudyplatform.service.DatabaseFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,8 +22,9 @@ public class FileUploadController {
     @Autowired
     private DatabaseFileService dbFileService;
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response uploadFile(@RequestParam("file") MultipartFile file) {
+
         DatabaseFile dbFile = dbFileService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -28,7 +32,7 @@ public class FileUploadController {
                 .path(dbFile.getId())
                 .toUriString();
 
-        return new Response(dbFile.getFileName(), fileDownloadUri,
+        return new Response(dbFile.getId(), dbFile.getFileName(), fileDownloadUri,
                 file.getContentType(), file.getSize());
     }
 

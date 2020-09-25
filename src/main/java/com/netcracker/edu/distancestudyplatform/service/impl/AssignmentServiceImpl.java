@@ -5,31 +5,29 @@ import com.netcracker.edu.distancestudyplatform.dto.AssignmentPostFormDto;
 import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
 import com.netcracker.edu.distancestudyplatform.mappers.DatabaseFileMapper;
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
-import com.netcracker.edu.distancestudyplatform.model.DatabaseFile;
 import com.netcracker.edu.distancestudyplatform.repository.AssignmentRepository;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
-    private final EventService eventService;
+//    private final EventService eventService;
     private final StudentService studentService;
 
     @Autowired
-    public AssignmentServiceImpl(AssignmentRepository assignmentRepository, EventService eventService, StudentService studentService){
+    public AssignmentServiceImpl(AssignmentRepository assignmentRepository, StudentService studentService){
         this.assignmentRepository = assignmentRepository;
-        this.eventService = eventService;
         this.studentService = studentService;
     }
 
@@ -110,18 +108,27 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public List<Assignment> getAssignmentByEvent(Long eventId) {
-        return assignmentRepository.findByEvent_Id(eventId).orElseGet(ArrayList::new);
+    public void update(AssignmentDto assignmentDto) {
+        Assignment assignment = assignmentRepository.findAssignmentById(assignmentDto.getId()).orElseThrow();
+        assignment.setCommentary(assignmentDto.getCommentary());
+        assignment.setGrade(assignmentDto.getGrade());
+        assignmentRepository.save(assignment);
     }
 
     @Override
-    public void saveAssignmentPostForm(AssignmentPostFormDto assignmentDto, Long eventId) throws IOException {
-        Assignment assignment = new Assignment();
-        assignment.setEvent(eventService.getFullEventById(eventId));
-        assignment.setStudent(studentService.findById(assignmentDto.getStudentId()));
-        assignment.setDbFile(DatabaseFileMapper.INSTANCE.toDbFile(assignmentDto.getDbFileDto()));
-        assignment.setCommentary(assignmentDto.getCommentary());
-        assignment.setGrade(null);
-        assignmentRepository.save(assignment);
+    public List<AssignmentDto> getAssignmentsByEvent(Long eventId) {
+        return AssignmentMapper.INSTANCE.map(assignmentRepository.findAllByEvent_Id(eventId).orElseGet(ArrayList::new));
     }
+
+
+//    @Override
+//    public void saveAssignmentPostForm(AssignmentPostFormDto assignmentDto, Long eventId) throws IOException {
+//        Assignment assignment = new Assignment();
+//        assignment.setEvent(eventService.getFullEventById(eventId));
+//        assignment.setStudent(studentService.findById(assignmentDto.getStudentId()));
+//        assignment.setDbFile(DatabaseFileMapper.INSTANCE.toDbFile(assignmentDto.getDbFileDto()));
+//        assignment.setCommentary(assignmentDto.getCommentary());
+//        assignment.setGrade(null);
+//        assignmentRepository.save(assignment);
+//    }
 }

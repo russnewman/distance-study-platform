@@ -22,4 +22,6 @@ public interface EventService {
     EventStudentDto getEventStudentDtoById(Long eventId);
     void editEvent(Long eventId, EventFormDto eventFormDto);
     Event getFullEventById(Long eventId);
+
+    Boolean canDeleteEvent(Long eventId);
 }
