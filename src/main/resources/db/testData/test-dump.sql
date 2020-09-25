@@ -225,7 +225,7 @@ SET @karenTeacher = (select user_id from distance_study_platform.users where ema
 
 -- EVENTS
 insert into distance_study_platform.events(teacher_id, subject_id, description, start_date, end_date, group_id, file_id)
-values(@lariskaTeacher, @compArch, 'Ваш вариант в задании сответсвуте вашему номеру в списке группы.', '2020-09-06 13:00:00', '2020-09-11 23:59:59', @mGroupId, '1c15ad99-fbf2-466d-87e9-c14b92e0cced');
+values(@lariskaTeacher, @compArch, 'Ваш вариант в задании сответсвуте вашему номеру в списке группы.', '2020-09-06 13:00:00', '2020-09-11 23:59:59', @mGroupId, '898b9fd8-1396-4419-b714-2fb8bf390400');
 insert into distance_study_platform.events(teacher_id, subject_id, description, start_date, end_date, group_id, file_id)
 values(@karenTeacher, @trafficLaws, 'Задание с неограниченным сроком сдачи, не влияет на итоговую оценку', '2020-09-01 11:12:00', '2021-05-27 23:59:59', @mGroupId, '62205acd-0a52-44c4-a054-a190c1295319');
 insert into distance_study_platform.events(teacher_id, subject_id, description, start_date, end_date, group_id, file_id)
