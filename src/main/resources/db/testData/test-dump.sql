@@ -222,7 +222,6 @@ SET @shapoklyakTeacher = (select user_id from distance_study_platform.users wher
 SET @lariskaTeacher = (select user_id from distance_study_platform.users where email = 'RatLariska@gmail.com');
 SET @puffTeacher = (select user_id from distance_study_platform.users where email = 'RacerPuff@gmail.com');
 SET @karenTeacher = (select user_id from distance_study_platform.users where email = 'Thinker@gmail.com');
-
 -- EVENTS
 insert into distance_study_platform.events(teacher_id, subject_id, description, start_date, end_date, group_id, file_id)
 values(@lariskaTeacher, @compArch, 'Ваш вариант в задании сответсвуте вашему номеру в списке группы.', '2020-09-06 13:00:00', '2020-09-11 23:59:59', @mGroupId, '898b9fd8-1396-4419-b714-2fb8bf390400');
