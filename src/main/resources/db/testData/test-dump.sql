@@ -227,19 +227,19 @@ SET @karenTeacher = (select user_id from distance_study_platform.users where ema
 insert into distance_study_platform.events(teacher_id, subject_id, description, start_date, end_date, group_id, file_id)
 values(@lariskaTeacher, @compArch, 'Ваш вариант в задании сответсвуте вашему номеру в списке группы.', '2020-09-06 13:00:00', '2020-09-11 23:59:59', @mGroupId, '898b9fd8-1396-4419-b714-2fb8bf390400');
 insert into distance_study_platform.events(teacher_id, subject_id, description, start_date, end_date, group_id, file_id)
-values(@karenTeacher, @trafficLaws, 'Задание с неограниченным сроком сдачи, не влияет на итоговую оценку', '2020-09-01 11:12:00', '2021-05-27 23:59:59', @mGroupId, '62205acd-0a52-44c4-a054-a190c1295319');
+values(@karenTeacher, @trafficLaws, 'Задание с неограниченным сроком сдачи, не влияет на итоговую оценку', '2020-09-01 11:12:00', '2021-05-27 23:59:59', @mGroupId, '898b9fd8-1396-4419-b714-2fb8bf390400');
 insert into distance_study_platform.events(teacher_id, subject_id, description, start_date, end_date, group_id, file_id)
-values(@lariskaTeacher, @compArch, 'Для оценки "отлично" достаточно сделать 2 задачи', '2020-09-06 13:00:00', '2020-09-22 12:10:00', @mGroupId, '9580d4f3-ed97-4f26-a613-dcc064089592');
+values(@lariskaTeacher, @compArch, 'Для оценки "отлично" достаточно сделать 2 задачи', '2020-09-06 13:00:00', '2020-09-22 12:10:00', @mGroupId, '898b9fd8-1396-4419-b714-2fb8bf390400');
 
 
 -- ASSIGNMENTS
 insert into distance_study_platform.assignments(event_id, student_id, grade, commentary, file_id)
-values(1, 6, 4, 'Вариант 6', 'bedfddea-0aa6-4f0c-88de-2e3d80e94c11');
+values(1, 6, 4, 'Вариант 6', '898b9fd8-1396-4419-b714-2fb8bf390400');
 insert into distance_study_platform.assignments(event_id, student_id, grade, commentary, file_id)
-values(5, 6, null, null, 'f3cd0413-c799-4f93-860f-2cc61f182f4d');
+values(2, 6, null, null, '898b9fd8-1396-4419-b714-2fb8bf390400');
 insert into distance_study_platform.assignments(event_id, student_id, grade, commentary, file_id)
-values(5, 5, 2, null, 'f3cd0413-c799-4f93-860f-2cc61f182f4d');
+values(2, 5, 2, null, '898b9fd8-1396-4419-b714-2fb8bf390400');
 insert into distance_study_platform.assignments(event_id, student_id, grade, commentary, file_id)
-values(6, 6, null, 'В задаче #3 опечатка', '1c15ad99-fbf2-466d-87e9-c14b92e0cced');
+values(3, 6, null, 'В задаче #3 опечатка', '898b9fd8-1396-4419-b714-2fb8bf390400');
 insert into distance_study_platform.assignments(event_id, student_id, grade, commentary, file_id)
-values(6, 5, 2, '...', '1c15ad99-fbf2-466d-87e9-c14b92e0cced');
+values(3, 5, 2, '...', '898b9fd8-1396-4419-b714-2fb8bf390400');
