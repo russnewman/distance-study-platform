@@ -1,7 +1,9 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
 import com.netcracker.edu.distancestudyplatform.dto.ScheduleDto;
+import com.netcracker.edu.distancestudyplatform.dto.ScheduleVDto;
 import com.netcracker.edu.distancestudyplatform.mappers.ScheduleMapper;
+import com.netcracker.edu.distancestudyplatform.mappers.ScheduleVMapper;
 import com.netcracker.edu.distancestudyplatform.model.Group;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;
 import com.netcracker.edu.distancestudyplatform.repository.ScheduleRepository;
@@ -29,21 +31,23 @@ public class ScheduleServiceImpl implements ScheduleService {
         this.studentService = studentService;
     }
 
-    public List<ScheduleDto> getGroupSchedule(Group studentGroup) {
-        return ScheduleUtils.castSchedulesToDTO(
+    @Override
+    public List<ScheduleVDto> getGroupSchedule(Group studentGroup) {
+        return ScheduleVMapper.INSTANCE.map(
                 scheduleRepository.findByGroupId(studentGroup.getId())
-                .orElseGet(ArrayList::new)
-        );
+                .orElseGet(ArrayList::new));
     }
 
-    public List<ScheduleDto> getStudentSchedule(Long studentId) {
+    @Override
+    public List<ScheduleVDto> getStudentSchedule(Long studentId) {
         return getGroupSchedule(
                 studentService.getStudentGroup(studentId)
         );
     }
 
-    public List<ScheduleDto> getAnyDaySchedule(Long studentId, String weekDay, Boolean weekIsOdd){
-        return ScheduleUtils.castSchedulesToDTO(
+    @Override
+    public List<ScheduleVDto> getAnyDaySchedule(Long studentId, String weekDay, Boolean weekIsOdd){
+        return ScheduleVMapper.INSTANCE.map(
                 scheduleRepository.findByDayNameAndGroupIdAndWeekIsOdd(
                     DayOfWeek.valueOf(weekDay.toUpperCase()),
                     studentService.getStudentGroup(studentId).getId(),
@@ -53,8 +57,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         );
     }
 
-    public List<ScheduleDto> getAnyDaySchedule(Long studentId, String weekDay){
-        return ScheduleUtils.castSchedulesToDTO(
+    @Override
+    public List<ScheduleVDto> getAnyDaySchedule(Long studentId, String weekDay){
+        return ScheduleVMapper.INSTANCE.map(
                 scheduleRepository.findByDayNameAndGroupId(
                     DayOfWeek.valueOf(weekDay.toUpperCase()),
                     studentService.getStudentGroup(studentId).getId()
@@ -63,19 +68,23 @@ public class ScheduleServiceImpl implements ScheduleService {
         );
     }
 
-    public List<ScheduleDto> getNextDaySchedule(Long studentId){
+    @Override
+    public List<ScheduleVDto> getNextDaySchedule(Long studentId){
         return getAnyDaySchedule(studentId, ScheduleUtils.getNextDayName(), ScheduleUtils.getWeekIsOdd());
     }
-    public List<ScheduleDto> getTodaySchedule(Long studentId){
+
+    @Override
+    public List<ScheduleVDto> getTodaySchedule(Long studentId){
         return getAnyDaySchedule(studentId, ScheduleUtils.getTodayName(), ScheduleUtils.getWeekIsOdd());
     }
 
-    public ScheduleDto getCurrentEvent(Long studentId){
+    @Override
+    public ScheduleVDto getCurrentEvent(Long studentId){
         return getDayTimeEvent(studentId, ScheduleUtils.getTodayName(), ScheduleUtils.getWeekIsOdd(), LocalTime.now());
     }
-
-    public List<ScheduleDto> getSubjectStudentSchedule(Long studentId, Long subjectId){
-        return ScheduleUtils.castSchedulesToDTO(
+    @Override
+    public List<ScheduleVDto> getSubjectStudentSchedule(Long studentId, Long subjectId){
+        return ScheduleVMapper.INSTANCE.map(
                 scheduleRepository.findBySubject_IdAndGroup_Id(
                         subjectId, studentService.getStudentGroup(studentId).getId()
                 )
@@ -83,8 +92,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         );
     }
 
-    public ScheduleDto getDayTimeEvent(Long studentId, String weekDay, Boolean weekIsOdd, LocalTime time){
-        return ScheduleMapper.INSTANCE.toDTO(
+    @Override
+    public ScheduleVDto getDayTimeEvent(Long studentId, String weekDay, Boolean weekIsOdd, LocalTime time){
+        return ScheduleVMapper.INSTANCE.toDTO(
                 scheduleRepository
                         .findFirstByClassTime_StartTimeLessThanEqualAndClassTime_EndTimeGreaterThanEqualAndDayNameAndGroupIdAndWeekIsOdd(
                             time,
@@ -96,8 +106,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         );
     }
 
-    public ScheduleDto getNextEvent(Long studentId){
-        return ScheduleMapper.INSTANCE.toDTO(
+    @Override
+    public ScheduleVDto getNextEvent(Long studentId){
+        return ScheduleVMapper.INSTANCE.toDTO(
                 scheduleRepository.findFirstByClassTime_StartTimeGreaterThanAndDayNameAndGroupIdAndWeekIsOdd(
                         LocalTime.now(),
                         DayOfWeek.valueOf(ScheduleUtils.getTodayName().toUpperCase()),

@@ -1,6 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.wrappers.SubjectDtoList;
+import com.netcracker.edu.distancestudyplatform.dto.SubjectDto;
+import com.netcracker.edu.distancestudyplatform.mappers.SubjectMapper;
 import com.netcracker.edu.distancestudyplatform.model.Subject;
 import com.netcracker.edu.distancestudyplatform.repository.SubjectRepository;
 import com.netcracker.edu.distancestudyplatform.service.SubjectService;
@@ -9,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.netcracker.edu.distancestudyplatform.utils.SubjectUtils.castSubjectsToDTO;
 
 
 @Service
@@ -27,17 +26,15 @@ public class SubjectServiceImpl implements SubjectService {
 
 
     @Override
-    public SubjectDtoList getAll() {
-        return new SubjectDtoList(castSubjectsToDTO(
-               subjectRepository.findAll()
-        ));
+    public List<SubjectDto> getAll() {
+        return SubjectMapper.INSTANCE.map(subjectRepository.findAll());
     }
 
     @Override
-    public SubjectDtoList getAllById(Long subjectId) {
-        return new SubjectDtoList(castSubjectsToDTO(
+    public List<SubjectDto> getAllById(Long subjectId) {
+        return SubjectMapper.INSTANCE.map(
                 subjectRepository.findAllById(subjectId)
-        ));
+        );
     }
 
     @Override
@@ -52,9 +49,8 @@ public class SubjectServiceImpl implements SubjectService {
 
 
     @Override
-    public SubjectDtoList getSubjectsByTeacherId(Long teacherId) {
-        List<Subject> subjects = teacherService.findById(teacherId).getSubjects();
-        return new SubjectDtoList(castSubjectsToDTO(teacherService.findById(teacherId).getSubjects()));
+    public List<SubjectDto> getSubjectsByTeacherId(Long teacherId) {
+        return SubjectMapper.INSTANCE.map(teacherService.findById(teacherId).getSubjects());
     }
 
     @Override
