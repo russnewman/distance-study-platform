@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
-    Optional<List<Event>> findBySubject_IdAndGroup_Id(Long subjectId, Long groupId);
-    Optional<List<Event>> findByGroup_Id(Long groupId);
-    Optional<List<Event>> findByGroup_IdAndEndDateGreaterThan(Long groupId, LocalDateTime endTime);
-    Optional<List<Event>> findByGroup_IdAndSubject_IdAndEndDateGreaterThan(Long groupId, Long subjectId, LocalDateTime endTime);
-    Optional<List<Event>> findAllByTeacher(Teacher teacher);
-    Optional<List<Event>> findAllByTeacherAndSubject(Teacher teacher, Subject subject);
+    Optional<List<Event>> findBySubject_IdAndGroup_IdOrderByStartDate(Long subjectId, Long groupId);
+    Optional<List<Event>> findByGroup_IdOrderByStartDate(Long groupId);
+    Optional<List<Event>> findByGroup_IdAndEndDateGreaterThanOrderByStartDate(Long groupId, LocalDateTime endTime);
+    Optional<List<Event>> findByGroup_IdAndSubject_IdAndEndDateGreaterThanOrderByStartDate(Long groupId, Long subjectId, LocalDateTime endTime);
+    Optional<List<Event>> findAllByTeacherOrderByStartDate(Teacher teacher);
+    Optional<List<Event>> findAllByTeacherAndSubjectOrderByStartDate(Teacher teacher, Subject subject);
 }

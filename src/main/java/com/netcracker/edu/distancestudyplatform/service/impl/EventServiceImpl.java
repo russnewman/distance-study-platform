@@ -81,11 +81,11 @@ public class EventServiceImpl implements EventService {
 
 
         if (subjectName.equals("all"))
-            events = eventRepository.findAllByTeacher(teacher).orElseGet(ArrayList::new);
+            events = eventRepository.findAllByTeacherOrderByStartDate(teacher).orElseGet(ArrayList::new);
 
         else {
             Subject subject = subjectService.findSubjectByName(subjectName);
-            events = eventRepository.findAllByTeacherAndSubject(teacher, subject).orElseGet(ArrayList::new);
+            events = eventRepository.findAllByTeacherAndSubjectOrderByStartDate(teacher, subject).orElseGet(ArrayList::new);
         }
         if (sortingType.equals("addSort")) {
             Collections.reverse(events);
@@ -175,7 +175,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventStudentDto> getAllStudentEvents(Long studentId) {
         return castEventForStudent(
-                eventRepository.findByGroup_Id(studentService.getStudentGroup(studentId).getId())
+                eventRepository.findByGroup_IdOrderByStartDate(studentService.getStudentGroup(studentId).getId())
                         .orElseGet(ArrayList::new), studentId
         );
     }
@@ -183,7 +183,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventStudentDto> getAllStudentSubjectEvents(Long studentId, Long subjectId) {
         return castEventForStudent(
-                eventRepository.findBySubject_IdAndGroup_Id(
+                eventRepository.findBySubject_IdAndGroup_IdOrderByStartDate(
                         subjectId, studentService.getStudentGroup(studentId).getId()
                 ).orElseGet(ArrayList::new), studentId
         );
@@ -192,7 +192,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventStudentDto> getAllActiveStudentEvents(Long studentId) {
         return castEventForStudent(
-                eventRepository.findByGroup_IdAndEndDateGreaterThan(
+                eventRepository.findByGroup_IdAndEndDateGreaterThanOrderByStartDate(
                         studentService.getStudentGroup(studentId).getId(), LocalDateTime.now()
                 ).orElseGet(ArrayList::new), studentId
         );
@@ -201,7 +201,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventStudentDto> getAllActiveStudentSubjectEvents(Long studentId, Long subjectId) {
         return castEventForStudent(
-                eventRepository.findByGroup_IdAndSubject_IdAndEndDateGreaterThan(
+                eventRepository.findByGroup_IdAndSubject_IdAndEndDateGreaterThanOrderByStartDate(
                         studentService.getStudentGroup(studentId).getId(), subjectId, LocalDateTime.now()
                 ).orElseGet(ArrayList::new), studentId
         );
@@ -215,15 +215,16 @@ public class EventServiceImpl implements EventService {
     }
 
     private List<EventStudentDto> castEventForStudent(List<Event> events, Long studentId){
-        return EventStudentDtoMapper.INSTANCE.map(
-                events
-                        .stream()
-                        .filter(event ->
-                                event.getAssignments()
-                                        .stream()
-                                        .allMatch(as ->
-                                                as.getStudent().getId().equals(studentId)))
-                        .collect(Collectors.toList())
-        );
+        for(Event event : events){
+            event.setAssignments(
+                        event.getAssignments()
+                                .stream()
+                                .filter(
+                                    x -> x.getStudent().getId().equals(studentId)
+                                )
+                                .collect(Collectors.toList())
+            );
+        }
+        return EventStudentDtoMapper.INSTANCE.map(events);
     }
 }
