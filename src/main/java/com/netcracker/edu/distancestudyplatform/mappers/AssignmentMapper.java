@@ -24,9 +24,8 @@ public interface AssignmentMapper {
 
     List<AssignmentDto> map(List<Assignment> assignments);
 
-//    @AfterMapping
-//    default void setFileId(@MappingTarget AssignmentDto assignmentDto, Assignment assignment){
-//        DatabaseFile file = assignment.getDbFile();
-//        assignmentDto.setFileId(file.getId());
-//    }
+    @AfterMapping
+    default void setFileId(@MappingTarget Assignment assignment, AssignmentDto assignmentDto){
+        assignment.setDbFile(DatabaseFileMapper.INSTANCE.toDbFile(assignmentDto.getDbFile()));
+    }
 }

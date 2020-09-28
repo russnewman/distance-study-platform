@@ -38,7 +38,9 @@ public interface EventStudentDtoMapper {
     @AfterMapping
     default void setFileId(@MappingTarget EventStudentDto eventStudentDto, Event event){
         DatabaseFile file = event.getDbFile();
-        eventStudentDto.setFileId(file.getId());
+        if (file != null) {
+            eventStudentDto.setFileId(file.getId());
+        }
     }
 
     @AfterMapping

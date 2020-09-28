@@ -24,4 +24,6 @@ public interface AssignmentService {
     void update(AssignmentDto assignment);
 
     List<AssignmentDto> getAssignmentsByEvent(Long eventId);
+
+    void saveAssignmentPostForm(AssignmentPostFormDto assignmentDto, Long eventId) throws IOException;
 }
