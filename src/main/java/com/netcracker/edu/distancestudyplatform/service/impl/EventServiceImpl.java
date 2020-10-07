@@ -1,11 +1,14 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
 import com.netcracker.edu.distancestudyplatform.dto.*;
+import com.netcracker.edu.distancestudyplatform.dto.wrappers.EventPage;
 import com.netcracker.edu.distancestudyplatform.mappers.EventMapper;
 import com.netcracker.edu.distancestudyplatform.mappers.EventStudentDtoMapper;
 import com.netcracker.edu.distancestudyplatform.model.*;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
 import com.netcracker.edu.distancestudyplatform.service.*;
+import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -75,36 +78,45 @@ public class EventServiceImpl implements EventService {
 
 
     @Override
-    public List<EventDto> getEvents(Long teacherId, String sortingType, String subjectName) {
+    public EventPage getEvents(Long teacherId, String sortingType, String subjectName, Integer pageNumber) {
         Teacher teacher = teacherService.findById(teacherId);
         List<Event> events;
+        int totalElements = 0;
 
-
-        if (subjectName.equals("all"))
-            events = eventRepository.findAllByTeacherOrderByStartDate(teacher).orElseGet(ArrayList::new);
-
+        Pageable pageable;
+        if (sortingType.equals("addSort")) {
+            pageable = PageRequest.of(pageNumber, 3, Sort.Direction.DESC,"id");
+        }
+        else {
+            pageable = PageRequest.of(pageNumber, 3, Sort.by("endDate").ascending());
+        }
+        if (subjectName.equals("all")){
+            events = eventRepository.findAllByTeacher(teacher, pageable).orElseGet(ArrayList::new);
+            totalElements = eventRepository.findAllByTeacher(teacher).orElseGet(ArrayList::new).size();
+        }
         else {
             Subject subject = subjectService.findSubjectByName(subjectName);
-            events = eventRepository.findAllByTeacherAndSubjectOrderByStartDate(teacher, subject).orElseGet(ArrayList::new);
-        }
-        if (sortingType.equals("addSort")) {
-            Collections.reverse(events);
-        } else {
-            events.sort(new Comparator<Event>() {
-                @Override
-                public int compare(Event o1, Event o2) {
-                    return o1.getEndDate().compareTo(o2.getEndDate());
-                }
-            });
+            events = eventRepository.findAllByTeacherAndSubject(teacher, subject, pageable).orElseGet(ArrayList::new);
+            totalElements = eventRepository.findAllByTeacherAndSubject(teacher,subject).orElseGet(ArrayList::new).size();
         }
 
+        int totalPages = (int) Math.ceil(totalElements/3.);
 
-
-        return events.stream()
+        List<EventDto> eventDtos =  events.stream()
                 .map(EventMapper.INSTANCE::toDTO)
                 .collect(Collectors.toList());
 
+
+        for(EventDto event: eventDtos)
+            event.setCanDeleteEvent(canDeleteEvent(event.getId()));
+
+        EventPage eventPage = new EventPage();
+        eventPage.setPage(eventDtos);
+        eventPage.setTotalPages(totalPages);
+
+        return eventPage;
     }
+
 
 
     @Override
@@ -227,4 +239,7 @@ public class EventServiceImpl implements EventService {
         }
         return EventStudentDtoMapper.INSTANCE.map(events);
     }
+
+
+
 }

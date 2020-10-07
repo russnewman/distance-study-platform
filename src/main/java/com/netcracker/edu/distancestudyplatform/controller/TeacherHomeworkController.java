@@ -2,12 +2,17 @@ package com.netcracker.edu.distancestudyplatform.controller;
 import com.netcracker.edu.distancestudyplatform.dto.*;
 import com.netcracker.edu.distancestudyplatform.dto.wrappers.AssignmentDtoList;
 import com.netcracker.edu.distancestudyplatform.dto.wrappers.EventDtoList;
+import com.netcracker.edu.distancestudyplatform.dto.wrappers.EventPage;
 import com.netcracker.edu.distancestudyplatform.dto.wrappers.GroupDtoList;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
@@ -65,20 +70,17 @@ public class TeacherHomeworkController {
 
 
     @GetMapping("/getEvents")
-    public EventDtoList getEvents(@RequestParam("teacherId") Long teacherId,
-                                                        @RequestParam("sortingType") String sortingType,
-                                                        @RequestParam("subjectName") String subjectName){
+    public EventPage getEvents(@RequestParam("teacherId") Long teacherId,
+                               @RequestParam("sortingType") String sortingType,
+                               @RequestParam("subjectName") String subjectName,
+                               @RequestParam Integer pageNumber)
+    {
 
         sortingType = java.net.URLDecoder.decode(sortingType, StandardCharsets.UTF_8);
         subjectName = java.net.URLDecoder.decode(subjectName, StandardCharsets.UTF_8);
 
+        return  eventService.getEvents(teacherId, sortingType, subjectName, pageNumber);
 
-        List<EventDto> events = eventService.getEvents(teacherId, sortingType, subjectName);
-
-        for(EventDto event: events)
-           event.setCanDeleteEvent(eventService.canDeleteEvent(event.getId()));
-
-        return new EventDtoList(events);
     }
 
 
