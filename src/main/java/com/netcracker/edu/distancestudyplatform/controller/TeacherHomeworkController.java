@@ -1,24 +1,16 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 import com.netcracker.edu.distancestudyplatform.dto.*;
 import com.netcracker.edu.distancestudyplatform.dto.wrappers.AssignmentDtoList;
-import com.netcracker.edu.distancestudyplatform.dto.wrappers.EventDtoList;
-import com.netcracker.edu.distancestudyplatform.dto.wrappers.EventPage;
 import com.netcracker.edu.distancestudyplatform.dto.wrappers.GroupDtoList;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 public class TeacherHomeworkController {
@@ -61,7 +53,6 @@ public class TeacherHomeworkController {
     }
 
 
-
     @GetMapping("/getEventById")
     public EventDto getEventById(@RequestParam Long eventId){
         return eventService.getEventById(eventId);
@@ -70,10 +61,10 @@ public class TeacherHomeworkController {
 
 
     @GetMapping("/getEvents")
-    public EventPage getEvents(@RequestParam("teacherId") Long teacherId,
-                               @RequestParam("sortingType") String sortingType,
-                               @RequestParam("subjectName") String subjectName,
-                               @RequestParam Integer pageNumber)
+    public Page<EventDto> getEvents(@RequestParam("teacherId") Long teacherId,
+                          @RequestParam("sortingType") String sortingType,
+                          @RequestParam("subjectName") String subjectName,
+                          @RequestParam Integer pageNumber)
     {
 
         sortingType = java.net.URLDecoder.decode(sortingType, StandardCharsets.UTF_8);
