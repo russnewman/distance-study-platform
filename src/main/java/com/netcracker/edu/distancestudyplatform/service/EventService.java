@@ -1,10 +1,11 @@
 package com.netcracker.edu.distancestudyplatform.service;
 
-import com.netcracker.edu.distancestudyplatform.dto.EventDto;
-import com.netcracker.edu.distancestudyplatform.dto.EventFormDto;
-import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
+import com.netcracker.edu.distancestudyplatform.dto.event.EventDto;
+import com.netcracker.edu.distancestudyplatform.dto.event.EventFormDto;
+import com.netcracker.edu.distancestudyplatform.dto.event.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.model.Event;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ import java.util.List;
 public interface EventService {
     void saveEvent(EventFormDto eventFormDto);
     List<EventStudentDto> getAllEvents();
-    List<EventStudentDto> getAllStudentEvents(Long studentId);
-    List<EventStudentDto> getAllStudentSubjectEvents(Long studentId, Long subjectId);
+    Page<Event> getAllGroupEvents(Long groupId, Pageable pageable);
+    Page<Event> getAllGroupSubjectEvents(Long groupId, Long subjectId, Pageable pageable);
     List<EventStudentDto> getAllActiveStudentEvents(Long studentId);
     List<EventStudentDto> getAllActiveStudentSubjectEvents(Long studentId, Long subjectId);
     EventStudentDto getEventDtoById(Long eventId);

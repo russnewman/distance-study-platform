@@ -1,5 +1,6 @@
-package com.netcracker.edu.distancestudyplatform.dto;
+package com.netcracker.edu.distancestudyplatform.dto.assignment;
 
+import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
 import com.netcracker.edu.distancestudyplatform.model.DatabaseFile;
 import lombok.Data;
 

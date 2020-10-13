@@ -1,6 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentDto;
 import com.netcracker.edu.distancestudyplatform.ui.service.AssignmentUiService;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;

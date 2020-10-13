@@ -1,6 +1,6 @@
-package com.netcracker.edu.distancestudyplatform.dto;
+package com.netcracker.edu.distancestudyplatform.dto.event;
 
-import com.netcracker.edu.distancestudyplatform.model.DatabaseFile;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentEventDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

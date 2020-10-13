@@ -1,18 +1,37 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.*;
+import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
+import com.netcracker.edu.distancestudyplatform.dto.StudentDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.dto.event.EventDto;
+import com.netcracker.edu.distancestudyplatform.dto.event.EventFormDto;
+import com.netcracker.edu.distancestudyplatform.dto.event.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
 import com.netcracker.edu.distancestudyplatform.mappers.EventMapper;
 import com.netcracker.edu.distancestudyplatform.mappers.EventStudentDtoMapper;
-import com.netcracker.edu.distancestudyplatform.model.*;
+import com.netcracker.edu.distancestudyplatform.model.DatabaseFile;
+import com.netcracker.edu.distancestudyplatform.model.Event;
+import com.netcracker.edu.distancestudyplatform.model.Group;
+import com.netcracker.edu.distancestudyplatform.model.Subject;
+import com.netcracker.edu.distancestudyplatform.model.Teacher;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
-import com.netcracker.edu.distancestudyplatform.service.*;
-import org.springframework.data.domain.*;
+import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
+import com.netcracker.edu.distancestudyplatform.service.EventService;
+import com.netcracker.edu.distancestudyplatform.service.GroupService;
+import com.netcracker.edu.distancestudyplatform.service.RestPageImpl;
+import com.netcracker.edu.distancestudyplatform.service.StudentService;
+import com.netcracker.edu.distancestudyplatform.service.SubjectService;
+import com.netcracker.edu.distancestudyplatform.service.TeacherService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -160,21 +179,15 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventStudentDto> getAllStudentEvents(Long studentId) {
-        return castEventForStudent(
-                eventRepository.findByGroup_IdOrderByStartDate(studentService.getStudentGroup(studentId).getId())
-                        .orElseGet(ArrayList::new), studentId
-        );
+    public Page<Event> getAllGroupEvents(Long groupId,  Pageable pageable) {
+        return eventRepository.findByGroup_Id(groupId, pageable).orElseGet(Page::empty);
     }
 
     @Override
-    public List<EventStudentDto> getAllStudentSubjectEvents(Long studentId, Long subjectId) {
-        return castEventForStudent(
-                eventRepository.findBySubject_IdAndGroup_IdOrderByStartDate(
-                        subjectId, studentService.getStudentGroup(studentId).getId()
-                ).orElseGet(ArrayList::new), studentId
-        );
+    public Page<Event> getAllGroupSubjectEvents(Long groupId, Long subjectId,  Pageable pageable) {
+        return eventRepository.findBySubject_IdAndGroup_Id(subjectId,groupId, pageable).orElseGet(Page::empty);
     }
+
 
     @Override
     public List<EventStudentDto> getAllActiveStudentEvents(Long studentId) {

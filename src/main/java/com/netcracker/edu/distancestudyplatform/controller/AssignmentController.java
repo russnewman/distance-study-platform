@@ -1,7 +1,9 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentPostFormDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentEventDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentPostFormDto;
+import com.netcracker.edu.distancestudyplatform.mappers.AssignmentEventMapper;
 import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
 
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AssignmentController {
@@ -128,5 +131,13 @@ public class AssignmentController {
             @PathVariable Long eventId,
             @RequestBody AssignmentPostFormDto assignment) throws IOException {
         assignmentService.saveAssignmentPostForm(assignment, eventId);
+    }
+
+    @GetMapping("/events/{eventId}/assignments")
+    public List<AssignmentEventDto> getEventAssignmentByStudent(
+            @PathVariable Long eventId,
+            @RequestParam Long studentId) {
+        return assignmentService.getEventAssignmentsByStudent(eventId, studentId).stream()
+                .map(AssignmentEventMapper.INSTANCE::toDTO).collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.dto.wrappers;
 
-import com.netcracker.edu.distancestudyplatform.dto.EventDto;
+
+import com.netcracker.edu.distancestudyplatform.dto.event.EventDto;
 
 import java.util.List;
 

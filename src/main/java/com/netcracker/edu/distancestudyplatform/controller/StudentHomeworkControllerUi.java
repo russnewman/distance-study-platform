@@ -1,7 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.controller;
 
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
-import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentDto;
 import com.netcracker.edu.distancestudyplatform.ui.service.AssignmentUiService;
 import com.netcracker.edu.distancestudyplatform.ui.service.DatabaseFileUiService;
 import com.netcracker.edu.distancestudyplatform.ui.service.EventUiService;
