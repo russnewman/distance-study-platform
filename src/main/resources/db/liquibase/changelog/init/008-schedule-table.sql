@@ -12,6 +12,7 @@ CREATE TABLE distance_study_platform.schedule (
                                                   class_type    VARCHAR(45) NOT NULL,
                                                   day_name      VARCHAR(45) NOT NULL,
                                                   teacher_id       BIGINT         NOT NULL,
+                                                  lesson_link              VARCHAR(200) NULL,
                                                   PRIMARY KEY (schedule_id),
                                                   INDEX group_id_idx (group_id ASC) VISIBLE,
                                                   INDEX class_time_id_idx (class_time_id ASC) VISIBLE,

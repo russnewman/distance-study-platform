@@ -21,6 +21,17 @@ spring:
   profiles:
     active: ${SPRING_PROFILES:default}
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: DistanceStudyPlatform@gmail.com
+    password: distanceStudyPlatformPassword
+    protocol: smtp
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
+
 jwt:
   token:
     expired: 43200000

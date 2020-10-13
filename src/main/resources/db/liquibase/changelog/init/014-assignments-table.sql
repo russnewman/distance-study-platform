@@ -11,7 +11,8 @@ create table assignments
     event_id      bigint       not null,
     student_id    bigint       not null,
     grade         int          null,
-    commentary    varchar(200) null,
+    teacher_commentary    varchar(5000) null,
+    student_commentary    varchar(5000) null,
     file_id       varchar(45)  null,
     constraint assignments_events_event_id_fk
         foreign key (event_id) references events (event_id) ON DELETE CASCADE,

@@ -30,4 +30,6 @@ public interface ScheduleService {
     List<ScheduleDto> getSubjectTeacherSchedule(List<ScheduleDto> list, Long subjectId);
     List<ScheduleDto> getSubjectTeacherSchedule(Long teacherId, String subjectName);
 
+    void updateLessonLink(Long scheduleId, String link);
+
 }

@@ -1,8 +1,8 @@
 package com.netcracker.edu.distancestudyplatform.service;
 
-import com.netcracker.edu.distancestudyplatform.dto.event.EventDto;
-import com.netcracker.edu.distancestudyplatform.dto.event.EventFormDto;
-import com.netcracker.edu.distancestudyplatform.dto.event.EventStudentDto;
+import com.netcracker.edu.distancestudyplatform.dto.EventDto;
+import com.netcracker.edu.distancestudyplatform.dto.EventFormDto;
+import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.model.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

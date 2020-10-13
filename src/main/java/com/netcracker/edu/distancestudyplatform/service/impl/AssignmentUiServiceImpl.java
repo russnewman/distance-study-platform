@@ -91,7 +91,7 @@ public class AssignmentUiServiceImpl implements AssignmentUiService {
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
         //form.add("file", assignment.getDbFile().getFile());
         //form.add("eventId", assignment.getEvent().getId());
-        form.add("commentary", assignment.getCommentary());
+        form.add("commentary", assignment.getStudentCommentary());
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(form, headers);
         restTemplate.postForEntity(URL, request, AssignmentDto.class);

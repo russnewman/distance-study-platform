@@ -3,7 +3,6 @@ package com.netcracker.edu.distancestudyplatform.repository;
 import com.netcracker.edu.distancestudyplatform.model.Event;
 import com.netcracker.edu.distancestudyplatform.model.Subject;
 import com.netcracker.edu.distancestudyplatform.model.Teacher;
-import org.springframework.data.domain.Page;
 import com.netcracker.edu.distancestudyplatform.service.RestPageImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

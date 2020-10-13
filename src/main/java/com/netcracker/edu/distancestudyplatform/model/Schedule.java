@@ -54,4 +54,7 @@ public class Schedule {
 
     @Column(name = "odd_week", columnDefinition = "BIT")
     private Boolean weekIsOdd;
+
+    @Column(name = "lesson_link")
+    private String lessonLink;
 }

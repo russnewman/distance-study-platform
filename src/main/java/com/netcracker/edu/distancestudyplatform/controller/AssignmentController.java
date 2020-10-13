@@ -118,7 +118,7 @@ public class AssignmentController {
         Assignment assignment = new Assignment();
         assignment.setEvent(eventRepository.findById(eventId).orElseThrow());
         assignment.setStudent(studentRepository.findById(studentId).orElseThrow());
-        assignment.setCommentary("The homework wasn't submitted on time");
+        assignment.setTeacherCommentary("The homework wasn't submitted on time");
         assignment.setGrade(2);
 
         Assignment assignment1 = assignmentRepository.save(assignment);

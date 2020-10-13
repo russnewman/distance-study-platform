@@ -161,4 +161,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         return ScheduleUtils.castSchedulesToDTO(scheduleRepository.findAllByTeacherIdAndSubjectName(teacherId, subjectName).orElseGet(ArrayList::new));
     }
 
+
+
+    @Override
+    public void updateLessonLink(Long scheduleId, String link) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow();
+        schedule.setLessonLink(link);
+        scheduleRepository.save(schedule);
+    }
+
 }

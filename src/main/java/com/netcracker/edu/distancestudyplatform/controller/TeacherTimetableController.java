@@ -43,4 +43,10 @@ public class TeacherTimetableController {
         return new ScheduleDtoList(scheduleService.getSubjectTeacherSchedule(schedules, subjectId));
     }
 
+    @PostMapping("/updateLessonLink")
+    public void updateLessonLink(@RequestParam Long scheduleId,
+                               @RequestBody String link){
+        scheduleService.updateLessonLink(scheduleId, link);
+    }
+
 }
