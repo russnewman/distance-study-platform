@@ -1,7 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.mappers;
 
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentEventDto;
-import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
+import com.netcracker.edu.distancestudyplatform.dto.event.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.model.*;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;

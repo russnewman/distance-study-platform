@@ -1,8 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.mappers;
 
-import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.dto.ScheduleVDto;
-import com.netcracker.edu.distancestudyplatform.model.Event;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;
 import com.netcracker.edu.distancestudyplatform.model.Subject;
 import com.netcracker.edu.distancestudyplatform.model.Teacher;

@@ -1,7 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.ui.service;
 
-import com.netcracker.edu.distancestudyplatform.dto.EventDto;
-import com.netcracker.edu.distancestudyplatform.dto.EventStudentDto;
+import com.netcracker.edu.distancestudyplatform.dto.event.EventDto;
+import com.netcracker.edu.distancestudyplatform.dto.event.EventStudentDto;
 import com.netcracker.edu.distancestudyplatform.model.Event;
 
 import java.util.List;

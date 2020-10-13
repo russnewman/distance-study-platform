@@ -1,9 +1,9 @@
 package com.netcracker.edu.distancestudyplatform.service;
 
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentPostFormDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentPostFormDto;
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,4 +26,5 @@ public interface AssignmentService {
     List<AssignmentDto> getAssignmentsByEvent(Long eventId);
 
     void saveAssignmentPostForm(AssignmentPostFormDto assignmentDto, Long eventId) throws IOException;
+    List<Assignment> getEventAssignmentsByStudent(Long eventId, Long studentId);
 }

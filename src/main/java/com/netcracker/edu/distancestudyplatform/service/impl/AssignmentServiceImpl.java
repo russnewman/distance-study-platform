@@ -1,7 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentPostFormDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentPostFormDto;
 import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
 import com.netcracker.edu.distancestudyplatform.mappers.DatabaseFileMapper;
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
@@ -9,9 +9,9 @@ import com.netcracker.edu.distancestudyplatform.model.Event;
 import com.netcracker.edu.distancestudyplatform.repository.AssignmentRepository;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
-import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -132,5 +132,10 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignment.setCommentary(assignmentDto.getCommentary());
         assignment.setGrade(null);
         assignmentRepository.save(assignment);
+    }
+
+    @Override
+    public List<Assignment> getEventAssignmentsByStudent(Long eventId, Long studentId) {
+        return assignmentRepository.findByStudent_IdAndEvent_Id(studentId, eventId).orElseGet(ArrayList::new);
     }
 }

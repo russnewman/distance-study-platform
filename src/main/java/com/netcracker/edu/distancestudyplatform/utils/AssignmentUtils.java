@@ -1,6 +1,6 @@
 package com.netcracker.edu.distancestudyplatform.utils;
 
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentDto;
 import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
 

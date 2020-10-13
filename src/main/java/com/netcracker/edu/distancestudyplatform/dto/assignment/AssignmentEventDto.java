@@ -1,4 +1,4 @@
-package com.netcracker.edu.distancestudyplatform.dto;
+package com.netcracker.edu.distancestudyplatform.dto.assignment;
 
 import lombok.Data;
 

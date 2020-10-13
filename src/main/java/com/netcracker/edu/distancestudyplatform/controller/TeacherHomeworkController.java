@@ -1,14 +1,19 @@
 package com.netcracker.edu.distancestudyplatform.controller;
-import com.netcracker.edu.distancestudyplatform.dto.*;
+
+import com.netcracker.edu.distancestudyplatform.dto.event.EventDto;
+import com.netcracker.edu.distancestudyplatform.dto.event.EventFormDto;
 import com.netcracker.edu.distancestudyplatform.dto.wrappers.AssignmentDtoList;
 import com.netcracker.edu.distancestudyplatform.dto.wrappers.GroupDtoList;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.GroupService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.StandardCharsets;
 

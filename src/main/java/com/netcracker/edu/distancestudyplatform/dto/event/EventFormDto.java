@@ -1,4 +1,4 @@
-package com.netcracker.edu.distancestudyplatform.dto;
+package com.netcracker.edu.distancestudyplatform.dto.event;
 
 
 import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
