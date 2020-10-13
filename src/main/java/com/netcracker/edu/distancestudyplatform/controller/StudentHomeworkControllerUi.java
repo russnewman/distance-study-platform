@@ -105,7 +105,7 @@ public class StudentHomeworkControllerUi {
         //assignment.setStudent(studentUiService.getStudentByEmail(userEmail));
         //assignment.setEvent(eventUiService.getEvent(eventId));
        // assignment.setDbFile(dbFile);
-        assignment.setCommentary(commentary.orElseGet(String::new));
+        assignment.setStudentCommentary(commentary.orElseGet(String::new));
 
         assignmentUiService.save(assignment);
         dbFileUiService.saveDatabaseFile(file);

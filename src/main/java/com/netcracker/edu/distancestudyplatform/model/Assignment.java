@@ -33,6 +33,10 @@ public class Assignment {
     @JoinColumn(name = "file_id")
     private DatabaseFile dbFile;
 
-    @Column(name = "commentary")
-    private String commentary;
+    @Column(name = "student_commentary")
+    private String studentCommentary;
+
+
+    @Column(name = "teacher_commentary")
+    private String teacherCommentary;
 }

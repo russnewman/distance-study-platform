@@ -1,5 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
+import com.netcracker.edu.distancestudyplatform.dto.*;
+import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
 import com.netcracker.edu.distancestudyplatform.dto.DatabaseFileDto;
 import com.netcracker.edu.distancestudyplatform.dto.StudentDto;
 import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentDto;
@@ -15,6 +17,8 @@ import com.netcracker.edu.distancestudyplatform.model.Group;
 import com.netcracker.edu.distancestudyplatform.model.Subject;
 import com.netcracker.edu.distancestudyplatform.model.Teacher;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
+import com.netcracker.edu.distancestudyplatform.service.*;
+import org.springframework.data.domain.*;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
 import com.netcracker.edu.distancestudyplatform.service.EventService;
 import com.netcracker.edu.distancestudyplatform.service.GroupService;
@@ -47,7 +51,6 @@ public class EventServiceImpl implements EventService {
                             TeacherService teacherService,
                             SubjectService subjectService,
                             GroupService groupService,
-                            AssignmentService assignmentService,
                             StudentService studentService) {
         this.eventRepository = eventRepository;
         this.teacherService = teacherService;
@@ -163,7 +166,6 @@ public class EventServiceImpl implements EventService {
             databaseFile.setId(databaseFileDto.getId());
             event.setDbFile(databaseFile);
         }
-
 
         eventRepository.save(event);
     }

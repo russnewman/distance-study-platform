@@ -12,4 +12,5 @@ public class ScheduleDto {
     private String dayName;
     private ClassTimeDto classTimeDto;
     private boolean weekIsOdd;
+    private String lessonLink;
 }

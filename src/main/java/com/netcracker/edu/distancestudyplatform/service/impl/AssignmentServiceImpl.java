@@ -1,21 +1,28 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentDto;
-import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentPostFormDto;
+import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.dto.AssignmentPostFormDto;
+import com.netcracker.edu.distancestudyplatform.dto.StudentDto;
 import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
 import com.netcracker.edu.distancestudyplatform.mappers.DatabaseFileMapper;
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
 import com.netcracker.edu.distancestudyplatform.model.Event;
+import com.netcracker.edu.distancestudyplatform.model.Student;
 import com.netcracker.edu.distancestudyplatform.repository.AssignmentRepository;
 import com.netcracker.edu.distancestudyplatform.repository.EventRepository;
 import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
+import com.netcracker.edu.distancestudyplatform.service.EmailService;
 import com.netcracker.edu.distancestudyplatform.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +31,14 @@ public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
     private final StudentService studentService;
     private final EventRepository eventRepository;
+    private final EmailService emailService;
 
     @Autowired
-    public AssignmentServiceImpl(AssignmentRepository assignmentRepository, StudentService studentService, EventRepository eventRepository){
+    public AssignmentServiceImpl(AssignmentRepository assignmentRepository, StudentService studentService, EventRepository eventRepository, EmailService emailService){
         this.assignmentRepository = assignmentRepository;
         this.studentService = studentService;
         this.eventRepository = eventRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -111,9 +120,30 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public void update(AssignmentDto assignmentDto) {
         Assignment assignment = assignmentRepository.findAssignmentById(assignmentDto.getId()).orElseThrow();
-        assignment.setCommentary(assignmentDto.getCommentary());
+        assignment.setTeacherCommentary(assignmentDto.getTeacherCommentary());
         assignment.setGrade(assignmentDto.getGrade());
         assignmentRepository.save(assignment);
+
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String subject = assignment.getEvent().getSubject().getName();
+                String startDate = assignment.getEvent().getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                String teacherName = assignment.getEvent().getTeacher().getName();
+                String teacheSurname = assignment.getEvent().getTeacher().getSurname();
+                Student student = assignment.getStudent();
+                //String studentEmail = assignment.getStudent().getEmail();
+                //We must to create new account, this one is tmp!!!
+                String studentEmail = "alekseenko.md@phystech.edu";
+                String theme = "Your work has been rated";
+                String message = "Hello, " + student.getName() + "!" + '\n'
+                        + "Your work in " + subject + " started on " +startDate+ " has been rated by " + teacherName +" "+teacheSurname;
+
+                emailService.sendSimpleMessage(studentEmail, theme, message);
+            }
+        });
+        thread.start();
     }
 
     @Override
@@ -129,7 +159,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignment.setEvent(eventRepository.findById(eventId).orElseGet(Event::new));
         assignment.setStudent(studentService.findById(assignmentDto.getStudentId()));
         assignment.setDbFile(DatabaseFileMapper.INSTANCE.toDbFile(assignmentDto.getDbFileDto()));
-        assignment.setCommentary(assignmentDto.getCommentary());
+        assignment.setStudentCommentary(assignmentDto.getCommentary());
         assignment.setGrade(null);
         assignmentRepository.save(assignment);
     }
