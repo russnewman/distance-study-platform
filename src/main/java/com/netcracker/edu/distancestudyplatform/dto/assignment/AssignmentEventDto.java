@@ -7,5 +7,6 @@ public class AssignmentEventDto {
     private Long id;
     private Integer grade;
     private String fileId;
-    private String commentary;
+    private String teacherCommentary;
+    private String studentCommentary;
 }
