@@ -1,8 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.service.impl;
 
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentDto;
-import com.netcracker.edu.distancestudyplatform.dto.AssignmentPostFormDto;
-import com.netcracker.edu.distancestudyplatform.dto.StudentDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentDto;
+import com.netcracker.edu.distancestudyplatform.dto.assignment.AssignmentPostFormDto;
 import com.netcracker.edu.distancestudyplatform.mappers.AssignmentMapper;
 import com.netcracker.edu.distancestudyplatform.mappers.DatabaseFileMapper;
 import com.netcracker.edu.distancestudyplatform.model.Assignment;
@@ -14,13 +13,9 @@ import com.netcracker.edu.distancestudyplatform.service.AssignmentService;
 import com.netcracker.edu.distancestudyplatform.service.EmailService;
 import com.netcracker.edu.distancestudyplatform.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

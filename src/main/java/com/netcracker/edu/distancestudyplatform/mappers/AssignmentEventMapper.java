@@ -25,6 +25,8 @@ public interface AssignmentEventMapper {
     @AfterMapping
     default void setFileId(@MappingTarget AssignmentEventDto assignmentDto, Assignment assignment) {
         DatabaseFile file = assignment.getDbFile();
-        if (file != null) assignmentDto.setFileId(file.getId());
+        if (file != null) {
+            assignmentDto.setFileId(file.getId());
+        }
     }
 }
