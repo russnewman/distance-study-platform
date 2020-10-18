@@ -162,12 +162,20 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
 
-
     @Override
     public void updateLessonLink(Long scheduleId, String link) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow();
-        schedule.setLessonLink(link);
-        scheduleRepository.save(schedule);
+
+        List<Schedule> schedules = scheduleRepository.findAllByTeacherIdAndWeekIsOddAndDayNameAndClassTime(schedule.getTeacher().getId(), schedule.getWeekIsOdd(), schedule.getDayName(), schedule.getClassTime()).orElseGet(ArrayList::new);
+        for(Schedule s: schedules){
+            if(link.equals("null")){
+                s.setLessonLink("");
+            }
+            else{
+                s.setLessonLink(link);
+            }
+            scheduleRepository.save(s);
+        }
     }
 
 }

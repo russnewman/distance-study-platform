@@ -130,7 +130,7 @@ public class AssignmentServiceImpl implements AssignmentService {
                 Student student = assignment.getStudent();
                 //String studentEmail = assignment.getStudent().getEmail();
                 //We must to create new account, this one is tmp!!!
-                String studentEmail = "alekseenko.md@phystech.edu";
+                String studentEmail = "newm.russ@gmail.com";
                 String theme = "Your work has been rated";
                 String message = "Hello, " + student.getName() + "!" + '\n'
                         + "Your work in " + subject + " started on " +startDate+ " has been rated by " + teacherName +" "+teacheSurname;

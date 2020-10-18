@@ -7,8 +7,8 @@
 create table files
 (
     id varchar(45) not null,
-    filename varchar(45) not null,
-    filetype varchar(45) null,
+    filename varchar(150) not null,
+    filetype varchar(150) null,
     file longblob not null,
     constraint files_pk
         primary key (id)

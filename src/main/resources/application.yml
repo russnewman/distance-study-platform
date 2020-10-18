@@ -18,6 +18,11 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
   profiles:
     active: ${SPRING_PROFILES:default}
 

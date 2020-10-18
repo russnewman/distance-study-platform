@@ -102,7 +102,7 @@ public class EventServiceImpl implements EventService {
         Page<Event> page;
 
         Pageable pageable;
-        int numberElementsOnPage = 3;
+        int numberElementsOnPage = 6;
 
         if (sortingType.equals("addSort")) {
             pageable = PageRequest.of(pageNumber, numberElementsOnPage, Sort.Direction.DESC,"id");
@@ -135,7 +135,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventDto getEventById(Long eventId) {
-        return EventMapper.INSTANCE.toDTO(eventRepository.findById(eventId).orElseThrow());
+        EventDto eventDto = EventMapper.INSTANCE.toDTO(eventRepository.findById(eventId).orElseThrow());
+        eventDto.setStatus(getEventStatus(eventId));
+        return eventDto;
     }
 
     @Override
