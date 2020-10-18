@@ -1,6 +1,7 @@
 package com.netcracker.edu.distancestudyplatform.mappers;
 
 import com.netcracker.edu.distancestudyplatform.dto.ScheduleVDto;
+import com.netcracker.edu.distancestudyplatform.model.ClassType;
 import com.netcracker.edu.distancestudyplatform.model.Schedule;
 import com.netcracker.edu.distancestudyplatform.model.Subject;
 import com.netcracker.edu.distancestudyplatform.model.Teacher;
@@ -17,7 +18,7 @@ public interface ScheduleVMapper {
     ScheduleVMapper INSTANCE = Mappers.getMapper(ScheduleVMapper.class);
 
     @Mapping(target = "teacher", ignore = true)
-    @Mapping(target = "subject", ignore = true)
+    @Mapping(target = "classType", ignore = true)
     @Mapping(source = "classTime", target = "classTimeDto")
     ScheduleVDto toDTO(Schedule schedule);
 
@@ -30,8 +31,7 @@ public interface ScheduleVMapper {
     }
 
     @AfterMapping
-    default void setSubjectName(@MappingTarget ScheduleVDto scheduleVDto, Schedule schedule){
-        Subject s = schedule.getSubject();
-        scheduleVDto.setSubject(s.getName());
+    default void setClassType(@MappingTarget ScheduleVDto scheduleVDto, Schedule schedule){
+        scheduleVDto.setClassType(schedule.getClassType().name());
     }
 }

@@ -53,12 +53,12 @@ public class StudentTimetableController {
     @GetMapping("/currentStudentSubject")
     public String getCurrentSubject(
             @RequestParam(value = "studentId") Long studentId) {
-        return scheduleServiceImpl.getCurrentEvent(studentId).getSubject();
+        return scheduleServiceImpl.getCurrentEvent(studentId).getSubject().getName();
     }
 
     @GetMapping("/nextStudentSubject")
     public String getNextSubject(@RequestParam(value = "studentId") Long studentId){
-        return scheduleServiceImpl.getNextEvent(studentId).getSubject();
+        return scheduleServiceImpl.getNextEvent(studentId).getSubject().getName();
     }
 
     @GetMapping("/getSubjectStudentSchedule")
